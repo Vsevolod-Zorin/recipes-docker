@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  api:
+    build: ./api
+    container_name: recipes-docker-api
+    command: npm run start
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - MONGO_URL=mongodb://api_db:27017/testDB
+    depends_on:
+      - api_db
+  
+  api_db:
+    image: mongo:latest
+    container_name: recipes-docker-api-db
+    volumes:
+      - mongodb_api:/data/db
+      
+volumes:
+  mongodb_api:

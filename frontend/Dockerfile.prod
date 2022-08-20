@@ -3,12 +3,13 @@ FROM node:16.17.0-alpine
 WORKDIR /usr/src/app
 
 COPY package*.json ./
+COPY yarn.lock ./
 
-RUN npm install
+RUN yarn
 
 COPY . .
 
-RUN npm run build
+RUN yarn build
 
 RUN npm install -g serve
 

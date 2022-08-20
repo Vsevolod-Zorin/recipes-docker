@@ -5,7 +5,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./frontend
-    command: npm run start
+    command: yarn start
     stdin_open: true
     tty: true
     volumes:

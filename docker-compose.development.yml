@@ -1,10 +1,22 @@
 version: '3'
 
 services:
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
+    command: yarn start
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+
   api:
     command: npm run dev
     volumes:
       - ./api/src:/usr/src/app/src
       - ./api/nodemon.json:/usr/src/app/nodemon.json
     
- 
+  nginx:
+    volumes:
+      - ./nginx/nginx.conf.dev:/etc/nginx/conf.d/nginx.conf

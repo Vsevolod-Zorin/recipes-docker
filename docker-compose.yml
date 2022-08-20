@@ -1,6 +1,19 @@
 version: '3'
 
 services:
+  frontend:
+    build:
+      dockerfile: Dockerfile.prod
+      context: ./frontend
+    container_name: recipes-docker-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+    restart: unless-stopped
+    command: serve -s build -l 3000
+
   api:
     build: ./api
     container_name: recipes-docker-api
@@ -13,12 +26,17 @@ services:
       - MONGO_URL=mongodb://api_db:27017/testDB
     depends_on:
       - api_db
+
   
   api_db:
     image: mongo:latest
     container_name: recipes-docker-api-db
     volumes:
       - mongodb_api:/data/db
-      
+   
+
+ 
+
 volumes:
   mongodb_api:
+

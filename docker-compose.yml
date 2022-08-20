@@ -13,6 +13,9 @@ services:
 
     restart: unless-stopped
     command: serve -s build -l 3000
+    
+    networks:
+      - testnetwort
 
   api:
     build: ./api
@@ -26,6 +29,8 @@ services:
       - MONGO_URL=mongodb://api_db:27017/testDB
     depends_on:
       - api_db
+    networks:
+      - testnetwort
 
   
   api_db:
@@ -33,10 +38,25 @@ services:
     container_name: recipes-docker-api-db
     volumes:
       - mongodb_api:/data/db
+    networks:
+      - testnetwort
    
-
- 
+  nginx:
+    image: nginx:stable-alpine
+    container_name: recipes-docker-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    depends_on:
+      - frontend
+      - api
+    networks:
+      - testnetwort
 
 volumes:
   mongodb_api:
 
+networks:
+  testnetwort:
+    driver: bridge

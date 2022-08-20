@@ -17,4 +17,6 @@ services:
       - ./api/src:/usr/src/app/src
       - ./api/nodemon.json:/usr/src/app/nodemon.json
     
- 
+  nginx:
+    volumes:
+      - ./nginx/nginx.conf.dev:/etc/nginx/conf.d/nginx.conf

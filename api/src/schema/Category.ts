@@ -1,8 +1,8 @@
-import { getModelForClass, Prop } from '@typegoose/typegoose';
+import { getModelForClass, Prop, ReturnModelType } from '@typegoose/typegoose';
 import { TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 
 // todo add index
-class CategorySchema extends TimeStamps {
+export class CategorySchema extends TimeStamps {
   @Prop({ required: true, trim: true })
   public name: string;
 
@@ -10,4 +10,4 @@ class CategorySchema extends TimeStamps {
   public parentId: string | null;
 }
 
-export const Category = getModelForClass(CategorySchema);
+export const Category: ReturnModelType<typeof CategorySchema> = getModelForClass(CategorySchema);

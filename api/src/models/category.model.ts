@@ -1,30 +1,36 @@
+import { Document } from 'mongoose';
 import { Category } from 'src/schema/Category';
 import { CreateCategoryDto } from 'src/types/category/create-category.dto';
 import { QueryCategoryType } from 'src/types/category/query-category.type';
 import { UpdateCategoryDto } from 'src/types/category/update-category.dto';
 
-export class CategoryModel {
-  async find(query: QueryCategoryType = {}) {
-    return await Category.find(query).lean().exec();
+class CategoryModel {
+  find(query: QueryCategoryType = {}) {
+    return Category.find(query);
   }
 
-  // async getById(id: string): Promise<typeof Category> {
-  //   return Category.findById(id);
-  // }
-
-  async create(createCategoryDto: CreateCategoryDto) {
-    return await new Category(createCategoryDto).save();
+  findOne(query: QueryCategoryType = {}) {
+    return Category.findOne(query);
   }
 
-  // async update(updateCategoryDto: UpdateCategoryDto) {
-  //   const { id } = updateCategoryDto;
-  //   const data = { ...updateCategoryDto };
-  //   delete data.id;
+  getById(id: string): Promise<Document<typeof Category>> {
+    return Category.findById(id).toJSON().exec();
+  }
 
-  //   return await Category.findByIdAndUpdate(id, data);
-  // }
+  create(createCategoryDto: CreateCategoryDto): Promise<Document<typeof Category>> {
+    return new Category(createCategoryDto).save();
+  }
+
+  async update(
+    category: Document<typeof Category>,
+    dto: UpdateCategoryDto
+  ): Promise<Document<typeof Category>> {
+    return Category.findByIdAndUpdate(dto.id, category);
+  }
 
   // async delete(id: string) {
   //   return await Category.findByIdAndDelete(id);
   // }
 }
+
+export const categoryModel = new CategoryModel();

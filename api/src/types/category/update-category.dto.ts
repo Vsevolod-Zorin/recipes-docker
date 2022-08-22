@@ -5,11 +5,11 @@ export class UpdateCategoryDto {
   @IsString()
   readonly id: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  readonly name: string;
+  readonly name?: string;
 
   @IsOptional()
   @IsString()
-  readonly parentId: string | null;
+  readonly parentId?: string | null;
 }

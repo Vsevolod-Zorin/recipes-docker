@@ -1,17 +1,17 @@
-import e, { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { CategoryService } from 'src/services/category.service';
-import { CreateCategoryDto } from 'src/types/category/create-category.dto';
 
 export class CategoryController {
   constructor(readonly categoryService: CategoryService) {}
 
   find = async (req: Request, res: Response) => {
     try {
+      // todo query
       const categories = await this.categoryService.find();
       res.json({ categories: categories });
     } catch (e) {
-      res.json({
-        message: e.message,
+      res.status(e.statusCode).json({
+        ...e,
       });
     }
   };
@@ -25,8 +25,8 @@ export class CategoryController {
       const createdCategory = await this.categoryService.create(req.body);
       res.json({ createdCategory });
     } catch (e) {
-      res.json({
-        message: e.message,
+      res.status(e.statusCode).json({
+        ...e,
       });
     }
   };

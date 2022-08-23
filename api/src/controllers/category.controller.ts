@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 import { categoryService } from 'src/services/category.service';
 import { validateCategoryById } from 'src/shared/validation/category/get-by-id.validarion';
 
+// todo: make category request interface
 class CategoryController {
   async find(req: Request, res: Response) {
     // todo: check query interface
@@ -21,12 +22,14 @@ class CategoryController {
     res.status(StatusCodes.CREATED).json({ category: createdCategory });
   }
 
+  // todo: change child refs (if category moved)
   async update(req: Request, res: Response) {
     const category = await validateCategoryById(req.body.id);
     await categoryService.update(category, req.body);
     res.status(StatusCodes.OK).json({ updated: 'ok' });
   }
 
+  // todo: change child refs
   async delete(req: Request, res: Response) {
     const id = req.params.id;
     await validateCategoryById(id);

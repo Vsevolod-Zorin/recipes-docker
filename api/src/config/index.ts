@@ -8,5 +8,3 @@ export const config: IConfig = {
     mongoUrl: process.env.MONGO_URL as string,
   },
 };
-
-const a = 12341212;

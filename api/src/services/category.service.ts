@@ -1,31 +1,33 @@
-import { StatusCodes } from 'http-status-codes';import { Document } from 'mongoose';
+import { Document } from 'mongoose';
 import { categoryModel } from 'src/models/category.model';
 import { Category } from 'src/schema/Category';
-import { BackendError } from 'src/shared/backend.error';
-import { BackendMessage } from 'src/shared/backend.messages';
 import { CreateCategoryDto } from 'src/types/category/create-category.dto';
 import { QueryCategoryType } from 'src/types/category/query-category.type';
 import { UpdateCategoryDto } from 'src/types/category/update-category.dto';
 
 export class CategoryService {
-  async find(query: QueryCategoryType = {}) {
-    return await categoryModel.find(query);
+  find(query: QueryCategoryType = {}): Promise<Document<typeof Category>[]> {
+    return categoryModel.find(query);
   }
 
-  async create(dto: CreateCategoryDto) {
-    const category = await categoryModel.findOne({ name: dto.name });
-
-    if (category) {
-      // todo check status
-      throw new BackendError(StatusCodes.UNPROCESSABLE_ENTITY, BackendMessage.NAME_EXIST);
-    }
-
-    return await categoryModel.create(dto);
+  findOne(query: QueryCategoryType = {}): Promise<Document<typeof Category>> {
+    return categoryModel.findOne(query);
   }
 
-  async update(category: Document<typeof Category>, dto: UpdateCategoryDto) {
+  create(dto: CreateCategoryDto): Promise<Document<typeof Category>> {
+    return categoryModel.create(dto);
+  }
+
+  update(
+    category: Document<typeof Category>,
+    dto: UpdateCategoryDto
+  ): Promise<Document<typeof Category>> {
     Object.assign(category, dto);
-    return await categoryModel.update(category, dto);
+    return categoryModel.update(category, dto);
+  }
+
+  delete(id: string): Promise<Document<typeof Category>> {
+    return categoryModel.delete(id);
   }
 }
 

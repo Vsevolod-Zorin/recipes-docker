@@ -5,32 +5,28 @@ import { QueryCategoryType } from 'src/types/category/query-category.type';
 import { UpdateCategoryDto } from 'src/types/category/update-category.dto';
 
 class CategoryModel {
-  find(query: QueryCategoryType = {}) {
-    return Category.find(query);
+  find(query: QueryCategoryType = {}): Promise<Document<typeof Category>[]> {
+    return Category.find(query).exec();
   }
 
-  findOne(query: QueryCategoryType = {}) {
-    return Category.findOne(query);
-  }
-
-  getById(id: string): Promise<Document<typeof Category>> {
-    return Category.findById(id).toJSON().exec();
+  findOne(query: QueryCategoryType = {}): Promise<Document<typeof Category>> {
+    return Category.findOne(query).exec();
   }
 
   create(createCategoryDto: CreateCategoryDto): Promise<Document<typeof Category>> {
     return new Category(createCategoryDto).save();
   }
 
-  async update(
+  update(
     category: Document<typeof Category>,
     dto: UpdateCategoryDto
   ): Promise<Document<typeof Category>> {
-    return Category.findByIdAndUpdate(dto.id, category);
+    return Category.findByIdAndUpdate(dto.id, category).exec();
   }
 
-  // async delete(id: string) {
-  //   return await Category.findByIdAndDelete(id);
-  // }
+  delete(id: string): Promise<Document<typeof Category>> {
+    return Category.findByIdAndDelete(id).exec();
+  }
 }
 
 export const categoryModel = new CategoryModel();

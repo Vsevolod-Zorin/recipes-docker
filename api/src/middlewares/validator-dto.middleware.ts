@@ -7,7 +7,7 @@ import { UpdateCategoryDto } from 'src/types/category/update-category.dto';
 import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
 
-export function validator(DataTransferObject: CreateCategoryDto | UpdateCategoryDto) {
+export function validatorDto(DataTransferObject: CreateCategoryDto | UpdateCategoryDto) {
   return async function (
     req: Request,
     res: Response,

@@ -1,4 +1,5 @@
-import express, { Request, Response } from 'express';import cors from 'cors';
+import express, { Request, Response } from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import { config } from './config';
 import { connectDb } from './helpers/db';

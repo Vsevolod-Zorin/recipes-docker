@@ -1,19 +1,18 @@
-import express, { Request, Response } from 'express';import cors from 'cors';
+import express, { Request, Response } from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
-import { config } from './config';
-import { connectDb } from './helpers/db';
+import { config } from 'src/config';
+import { connectDb } from 'src/helpers/db';
+import categoryRouter from 'src/routes/category.route';
 
-const app = express();
+export const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use('/category', categoryRouter);
 app.use('/', (req: Request, res: Response) => {
   res.send('from api');
-});
-
-app.use('/category', (req: Request, res: Response) => {
-  res.send('category from api');
 });
 
 const startServer = () => {

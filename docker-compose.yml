@@ -51,8 +51,11 @@ services:
       - api
     networks:
       - testnetwort
+    links:
+      - frontend
+      - api
 
-volumes:
+volumes:  
   mongodb_api:
 
 networks:

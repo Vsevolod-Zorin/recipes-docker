@@ -1,12 +1,11 @@
-{
-  "name": "api",
+{  "name": "api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/index.js",
     "dev": "nodemon -L",
-    "build": "tsc --build",
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "prettier": "prettier --config .prettierrc --write \"src/**/*.{json,ts,tsx,js,jsx}\"",
     "typecheck": "tsc --project tsconfig.json --noEmit"
   },
@@ -21,7 +20,6 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "http-status-codes": "^2.2.0",
-    "module-alias": "^2.2.2",
     "mongoose": "^6.5.2",
     "nodemon": "^2.0.19",
     "reflect-metadata": "^0.1.13"
@@ -31,18 +29,15 @@
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jest": "^28.1.7",
-    "@types/module-alias": "^2.0.1",
     "@types/node": "^18.7.2",
     "@types/nodemon": "^1.19.2",
     "jest": "^28.1.3",
     "prettier": "^2.7.1",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.7.0",
     "tsconfig-paths": "^4.1.0",
     "typescript": "^4.7.4"
   },
-  "module": "node",
-  "_moduleAliases": {
-    "src": "dist/src"
-  }
+  "module": "node"
 }

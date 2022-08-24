@@ -1,4 +1,5 @@
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */ module.exports = {  preset: 'ts-jest',
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */ module.exports = {
+  preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/**/*.test.ts'],
   verbose: true,
@@ -6,9 +7,9 @@
   // clearMocks: true,
   // resetMocks: true,
   // restoreMocks: true,
-  modulePaths: ['src'],
+  modulePaths: ['.'],
   moduleDirectories: ['node_modules'],
   moduleNameMapper: {
-    src: '<rootDir>/src/',
+    '^src/(.*)': '<rootDir>/src/$1',
   },
 };

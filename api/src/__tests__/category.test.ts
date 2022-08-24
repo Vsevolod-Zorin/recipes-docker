@@ -1,22 +1,22 @@
 import supertest from 'supertest';
 import http from 'http';
-import app from '..';
-
+import appManager from 'src/helpers/app-manager';
 
 describe('category', () => {
-  let server;
-  beforeAll(done => {
-    server = http.createServer(app)
-    server.listen(done);
+  let server: http.Server = appManager.httpServer;
+  beforeAll(() => {
+    appManager.startServerForTests();
   });
 
-  afterAll(done => {
-      server.close(done);
+  afterAll(() => {
+    appManager.closeServerForTests();
   });
+
   it('--- test', async () => {
     expect(true).toBe(true);
   });
-  describe('get category route', () => {
+
+  describe('category route: ', () => {
     describe('/category', () => {
       it('should return a 200 and arr', async () => {
         const { statusCode, body } = await supertest(server).get(`/category`);

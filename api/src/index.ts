@@ -19,4 +19,4 @@ const run = async () => {
 
 run();
 
-// test husky and lint-staged
+// test husky and lint-staged v2

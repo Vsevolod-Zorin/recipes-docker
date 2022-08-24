@@ -1,8 +1,9 @@
 import { config } from './config';
+
 import appManager from './helpers/app-manager';
 
-const startServer = () => {
-  appManager.app.listen(config.app.httpPort, () => {
+const            startServer = () => {
+            appManager.app.listen(config.app.httpPort, () => {
     console.log(`Started api service on port ${config.app.httpPort}`);
   });
 };
@@ -17,3 +18,5 @@ const run = async () => {
 };
 
 run();
+
+// test husky and lint-staged

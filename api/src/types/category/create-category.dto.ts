@@ -1,11 +1,1 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
-
-export class CreateCategoryDto {
-  @IsNotEmpty()
-  @IsString()
-  readonly name: string;
-
-  @IsOptional()
-  @IsString()
-  readonly parentId: string | null;
-}
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';export class CreateCategoryDto {  @IsNotEmpty()  @IsString()  readonly name: string;  @IsOptional()  @IsString()  readonly parentId: string | null;}

@@ -1,19 +1,19 @@
 version: '3'
 
 services:
-  frontend:
-    build:
-      dockerfile: Dockerfile.prod
-      context: ./frontend
-    container_name: recipes-docker-frontend
-    ports:
-      - "3000:3000"
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    restart: unless-stopped
-    command: serve -s build -l 3000
-    networks:
-      - testnetwort
+  # frontend:
+  #   build:
+  #     dockerfile: Dockerfile.prod
+  #     context: ./frontend
+  #   container_name: recipes-docker-frontend
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #   restart: unless-stopped
+  #   command: serve -s build -l 3000
+  #   networks:
+  #     - testnetwort
 
   api:
     build: ./api
@@ -39,21 +39,21 @@ services:
     networks:
       - testnetwort
    
-  nginx:
-    image: nginx:stable-alpine
-    container_name: recipes-docker-nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
-    depends_on:
-      - frontend
-      - api
-    networks:
-      - testnetwort
-    links:
-      - frontend
-      - api
+  # nginx:
+  #   image: nginx:stable-alpine
+  #   container_name: recipes-docker-nginx
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+  #   depends_on:
+  #     - frontend
+  #     - api
+  #   networks:
+  #     - testnetwort
+  #   links:
+  #     - frontend
+  #     - api
 
 volumes:  
   mongodb_api:

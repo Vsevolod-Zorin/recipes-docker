@@ -34,6 +34,8 @@ services:
   api_db:
     image: mongo:latest
     container_name: recipes-docker-api-db
+    logging:
+      driver: none
     volumes:
       - mongodb_api:/data/db
     networks:

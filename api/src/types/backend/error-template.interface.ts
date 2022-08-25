@@ -1,1 +1,3 @@
-export interface IErrorTemplate {  [key: string]: string[];}
+export interface IErrorTemplate {
+  [key: string]: string[];
+}

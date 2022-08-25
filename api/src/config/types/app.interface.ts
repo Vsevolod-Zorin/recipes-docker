@@ -1,1 +1,4 @@
-export interface IAppConfig {  httpPort: number;  httpsPort: number;}
+export interface IAppConfig {
+  httpPort: number;
+  httpsPort: number;
+}

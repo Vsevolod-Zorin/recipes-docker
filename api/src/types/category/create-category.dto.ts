@@ -1,11 +1,13 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
+import { ICategoryCreate } from 'src/types/category/category.interface';
 
-export class CreateCategoryDto {
+class CreateCategoryDto implements ICategoryCreate {
   @IsNotEmpty()
   @IsString()
   readonly name: string;
 
-  @IsOptional()
   @IsString()
   readonly parentId: string | null;
 }
+
+export const createCategoryDto = new CreateCategoryDto();

@@ -1,17 +1,18 @@
 import { categoryController } from '../controllers/category.controller';
-import * as express from 'express';
+import { Router } from 'express';
 import { validatorDto } from 'src/middlewares/validator-dto.middleware';
-import { CreateCategoryDto } from 'src/types/category/create-category.dto';
+import { createCategoryDto } from 'src/types/category/create-category.dto';
 import { errorHandler } from 'src/shared/error-handler';
+import { updateCategoryDto } from 'src/types/category/update-category.dto';
 
-const categoryRouter = express.Router();
+const categoryRouter = Router();
 
 // todo: validation
 categoryRouter
   .get('/', errorHandler(categoryController.find))
   .get('/:id', errorHandler(categoryController.getById))
-  .post('/', validatorDto(new CreateCategoryDto()), errorHandler(categoryController.create))
-  .put('/', validatorDto(new CreateCategoryDto()), errorHandler(categoryController.update))
+  .post('/', validatorDto(createCategoryDto), errorHandler(categoryController.create))
+  .put('/', validatorDto(updateCategoryDto), errorHandler(categoryController.update))
   .delete('/:id', categoryController.delete);
 
 export default categoryRouter;

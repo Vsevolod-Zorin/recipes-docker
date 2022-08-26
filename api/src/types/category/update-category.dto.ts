@@ -1,6 +1,7 @@
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { ICategoryUpdate } from './category.interface';
 
-export class UpdateCategoryDto {
+class UpdateCategoryDto implements ICategoryUpdate {
   @IsNotEmpty()
   @IsString()
   readonly id: string;
@@ -13,3 +14,5 @@ export class UpdateCategoryDto {
   @IsString()
   readonly parentId?: string | null;
 }
+
+export const updateCategoryDto = new UpdateCategoryDto();

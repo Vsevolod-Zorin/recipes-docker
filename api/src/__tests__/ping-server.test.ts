@@ -1,15 +1,15 @@
 import supertest from 'supertest';
 import http from 'http';
-import appManager from 'src/helpers/app-manager';
+import testsManager from 'src/helpers/tests-manager';
 
 describe('server', () => {
-  let server: http.Server = appManager.httpServer;
+  let server: http.Server = testsManager.httpServer;
   beforeAll(() => {
-    appManager.startServerForTests();
+    testsManager.startServerForTests();
   });
 
   afterAll(() => {
-    appManager.closeServerForTests();
+    testsManager.closeServerForTests();
   });
 
   describe('/', () => {

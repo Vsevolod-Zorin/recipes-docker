@@ -1,37 +1,62 @@
 import { ICategory } from 'src/types/category/category.interface';
-import appManager from './app-manager';
+import { createServer } from 'src/helpers/create-server';
+import http from 'http';
+import { Express } from 'express';
+import mongoose from 'mongoose';
+import { connectDb } from 'src/helpers/db';
 
 class TestsManager {
-  private _category: ICategory;
-  private _subCategory: ICategory;
-  private readonly _defaultRootParentId: string;
+  private _app: Express;
+  private _httpServer: http.Server;
+  private _connection: mongoose.Connection;
 
-  constructor(private readonly _appManager: typeof appManager) {
-    this._defaultRootParentId = '6308af066754b3d191459c7f';
-    // todo: appManager
+  constructor() {
+    this.app = createServer();
+    this.httpServer = http.createServer(this.app);
+  }
+  public get app(): Express {
+    return this._app;
+  }
+  private set app(value: Express) {
+    this._app = value;
   }
 
-  // createCategry
-
-  public get category(): ICategory {
-    return this._category;
+  public get httpServer(): http.Server {
+    return this._httpServer;
   }
-  public set category(value: ICategory) {
-    this._category = value;
+  private set httpServer(value: http.Server) {
+    this._httpServer = value;
   }
 
-  public get subCategory(): ICategory {
-    return this._subCategory;
+  public get connection(): mongoose.Connection {
+    return this._connection;
   }
-  public set subCategory(value: ICategory) {
-    this._subCategory = value;
+  private set connection(value: mongoose.Connection) {
+    this._connection = value;
   }
 
-  public get defaultRootParentId(): string | null {
-    return this._defaultRootParentId;
+  async connectToDb(): Promise<mongoose.Connection> {
+    this.connection = await connectDb;
+    return this.connection;
+  }
+  async disconnectDb() {
+    await this.connection.close();
+  }
+
+  startServerForTests(): void {
+    this.connectToDb().then(() => {
+      if (!this.httpServer.listening) {
+        this.httpServer.listen();
+      }
+    });
+  }
+
+  closeServerForTests(): void {
+    // todo: testEnv => remove created enti
+    this.disconnectDb().then(() => this.httpServer.close());
   }
 }
 
-const testsManager = new TestsManager(appManager);
+const testsManager = new TestsManager();
 
 export default testsManager;

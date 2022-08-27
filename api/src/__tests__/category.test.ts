@@ -1,21 +1,20 @@
 import supertest from 'supertest';
 import http from 'http';
-import appManager from 'src/helpers/app-manager';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
 import testsManager from 'src/helpers/tests-manager';
 import { BackendError } from 'src/shared/backend.error';
 
 describe('category', () => {
-  let server: http.Server = appManager.httpServer;
-  // todo add interface
+  let server: http.Server = testsManager.httpServer;
   let categoryForTest: ICategory;
+
   beforeAll(() => {
-    appManager.startServerForTests();
+    testsManager.startServerForTests();
   });
 
   afterAll(() => {
     // remove in testsManager
-    appManager.closeServerForTests();
+    testsManager.closeServerForTests();
   });
   // todo let category
 
@@ -177,7 +176,7 @@ describe('category', () => {
 
         expect(statusCode).toBe(200);
         expect(body).toEqual(data);
-        testsManager.category = body;
+        categoryForTest = body;
       });
     });
     // describe('negative: uncorrect params', () => {

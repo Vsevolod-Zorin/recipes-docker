@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { categoryService } from 'src/services/category.service';
 import { validateCategoryById } from 'src/shared/validation/category/get-by-id.validarion';
+import { ICategory } from 'src/types/category/category.interface';
 import { IIdRequest } from 'src/types/express/id-request.interface';
 
 // todo: make category request interface
@@ -13,8 +14,7 @@ class CategoryController {
   }
 
   async getById(req: Request, res: Response) {
-    const { id } = req.query as IIdRequest;
-
+    const { id } = req.params as IIdRequest;
     const category = await validateCategoryById(id);
     res.status(StatusCodes.OK).json(category);
   }
@@ -24,20 +24,20 @@ class CategoryController {
     res.status(StatusCodes.CREATED).json(createdCategory);
   }
 
-  // todo:  refs!
+  // todo: child refs!
   async update(req: Request, res: Response) {
     const category = await validateCategoryById(req.body.id);
-    await categoryService.update(category, req.body);
-    // todo: check response data type
-    res.status(StatusCodes.OK).json({ updated: 'ok' });
+    const updatedCategory = await categoryService.update(category, req.body);
+    res.status(StatusCodes.OK).json(updatedCategory);
   }
 
   // todo: change child refs
   async delete(req: Request, res: Response) {
     const id = req.params.id;
-    await validateCategoryById(id);
-    await categoryService.delete(id);
-    res.status(StatusCodes.OK).json({ deleted: 'ok' });
+    const category: ICategory = await validateCategoryById(id);
+    await categoryService.delete(id, category);
+
+    res.status(StatusCodes.OK).send();
   }
 }
 

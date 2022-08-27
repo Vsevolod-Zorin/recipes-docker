@@ -1,22 +1,134 @@
 import supertest from 'supertest';
 import http from 'http';
 import appManager from 'src/helpers/app-manager';
-import { ICategory } from 'src/types/category/category.interface';
+import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
+import testsManager from 'src/helpers/tests-manager';
+import { BackendError } from 'src/shared/backend.error';
 
 describe('category', () => {
   let server: http.Server = appManager.httpServer;
+  // todo add interface
+  let categoryForTest: ICategory;
   beforeAll(() => {
     appManager.startServerForTests();
   });
 
   afterAll(() => {
+    // remove in testsManager
     appManager.closeServerForTests();
+  });
+  // todo let category
+
+  describe('Create. post( /category ) ', () => {
+    describe('positive: valid params', () => {
+      it('should return a 201 and category', async () => {
+        const payload: ICategoryCreate = {
+          name: 'tests category',
+          parentId: null,
+        };
+        const { statusCode, body } = await supertest(server).post(`/category`).send(payload);
+        const data: ICategory = {
+          _id: expect.any(String),
+          name: 'tests category',
+          parentId: null,
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+        };
+        console.log('create success body', { body });
+        expect(statusCode).toBe(201);
+        expect(body).toEqual(data);
+
+        categoryForTest = body;
+      });
+      // it('create child', async () => {
+      //   const payload: ICategoryCreate = {
+      //     name: 'tests category',
+      //     parentId: testsManager.category._id.toString(),
+      //   };
+      // });
+    });
+    describe('negative: uncorrect params', () => {
+      it('empty body. should return a 400 ', async () => {
+        const payload = {};
+        const { statusCode, body } = await supertest(server).post(`/category`).send(payload);
+
+        const data: BackendError = {
+          statusCode: 400,
+          message: 'Bad Request',
+          error: {
+            name: ['name must be a string', 'name should not be empty'],
+            parentId: ['parentId must be a string'],
+          },
+        };
+        console.log('--- body ', { body });
+
+        expect(statusCode).toBe(400);
+        expect(body).toEqual(data);
+      });
+
+      // it('body without name. should return a 400 ', async () => {
+      //   const payload = { parentId: null };
+      //   const { statusCode, body } = await supertest(server).post(`/category`).send(payload);
+
+      //   const data: BackendError = {
+      //     statusCode: 400,
+      //     message: 'Bad Request',
+      //     error: {
+      //       name: ['name must be a string', 'name should not be empty'],
+      //     },
+      //   };
+      //   expect(statusCode).toBe(400);
+      //   expect(body).toEqual(data);
+      // });
+
+      // it('body without parrentId. should return a 400 ', async () => {
+      //   const payload = { name: 'test' };
+      //   const { statusCode, body } = await supertest(server).post(`/category`).send(payload);
+
+      //   const data: BackendError = {
+      //     statusCode: 400,
+      //     message: 'Bad Request',
+      //     error: {
+      //       parentId: ['parentId must be a string'],
+      //     },
+      //   };
+      //   expect(statusCode).toBe(400);
+      //   expect(body).toEqual(data);
+      // });
+      // it('body with uncorrect name. name = true. should return a 400 ', async () => {
+      //   const payload = { name: true, parrentId: null };
+      //   const { statusCode, body } = await supertest(server).post(`/category`).send(payload);
+
+      //   const data: BackendError = {
+      //     statusCode: 400,
+      //     message: 'Bad Request',
+      //     error: {
+      //       name: ['name must be a string'],
+      //     },
+      //   };
+
+      //   expect(statusCode).toBe(400);
+      //   expect(body).toEqual(data);
+      // });
+      // it('body with uncorrect parentId. parentId = false. should return a 400 ', async () => {
+      //   const payload = { name: 'test', parentId: false };
+      //   const { statusCode, body } = await supertest(server).post(`/category`).send(payload);
+      //   const data: BackendError = {
+      //     statusCode: 400,
+      //     message: 'Bad Request',
+      //     error: {
+      //       parentId: ['parentId must be a string'],
+      //     },
+      //   };
+      //   expect(statusCode).toBe(400);
+      //   expect(body).toEqual(data);
+      // });
+    });
   });
 
   describe('GetCategories. get( /category ): ', () => {
-    describe('/category', () => {
+    describe('positive', () => {
       it('should return a 200 and arr', async () => {
-        // todo
         const { statusCode, body } = await supertest(server).get(`/category`);
         expect(statusCode).toBe(200);
         const data: ICategory[] = body;
@@ -28,7 +140,8 @@ describe('category', () => {
   describe('GetById. get( /category/:id ) ', () => {
     describe('positive. correct params id', () => {
       it('should return a 200 and category', async () => {
-        const { statusCode, body } = await supertest(server).get(`/category`);
+        const id: string = categoryForTest._id;
+        const { statusCode, body } = await supertest(server).get(`/category/${id}`);
         expect(statusCode).toBe(200);
         const data: ICategory[] = body;
         expect(body).toEqual(data);
@@ -44,59 +157,54 @@ describe('category', () => {
     });
   });
 
-  // describe('Create. post( /category ) ', () => {
-  //   describe('positive: valid params', () => {
-  //     it('should return a 200 and category', async () => {
-  //       const { statusCode, body } = await supertest(server).post(`/category`);
-  //       const data: ICategory = body;
-  //       expect(statusCode).toBe(200);
-  //       expect(body).toEqual(data);
-  //     });
-  //   });
-  //   describe('negative: empty body params', () => {
-  //     it('empty body. should return a 400 ', async () => {});
-  //   });
-  //   describe('negative: body without name', () => {
-  //     it('should return a 400 ', async () => {});
-  //   });
-  //   describe('negative: body with uncorrect name', () => {
-  //     it('name = true. should return a 400 ', async () => {});
-  //   });
-  //   describe('negative: body without parrentId', () => {
-  //     it('empty body. should return a 400 ', async () => {});
-  //   });
-  //   describe('negative: body with uncorrect parrentId', () => {
-  //     it('parrentId = false. should return a 400 ', async () => {});
-  //   });
-  // });
+  describe('Update. put( /category ) ', () => {
+    describe('positive: valid params', () => {
+      it('should return a 200 and updated category', async () => {
+        const payload: ICategoryUpdate = {
+          id: categoryForTest._id,
+          name: 'updated category',
+          parentId: null,
+        };
+        const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
 
-  // describe('Update. put( /category ) ', () => {
-  //   describe('positive: valid params', () => {
-  //     it('should return a 200 and updated category', async () => {});
-  //   });
-  //   describe('negative: empty body params', () => {
-  //     it('empty body. should return a 400 ', async () => {});
-  //   });
-  //   describe('negative: body without id', () => {
-  //     it('should return a 400 ', async () => {});
-  //   });
-  //   describe('negative: body with uncorrect id', () => {
-  //     it('id = true. should return a 404 ', async () => {});
-  //   });
-  //   describe('negative: body with uncorrect name', () => {
-  //     it('name = true. should return a 400 ', async () => {});
-  //   });
-  //   describe('negative: body with uncorrect parrentId', () => {
-  //     it('parrentId = false. should return a 400 ', async () => {});
-  //   });
-  // });
+        const data: ICategory = {
+          _id: expect.any(String),
+          name: 'updated category',
+          parentId: null,
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+        };
 
-  // describe('Delete. delete( /category/:id ) ', () => {
-  //   describe('negative: uncorrect id', () => {
-  //     it('id = true. should return a 404 ', async () => {});
-  //   });
-  //   describe('positive: valid id', () => {
-  //     it('should return a 200', async () => {});
-  //   });
-  // });
+        expect(statusCode).toBe(200);
+        expect(body).toEqual(data);
+        testsManager.category = body;
+      });
+    });
+    // describe('negative: uncorrect params', () => {
+    //   it('empty body. should return a 400 ', async () => {});
+    //   it('body without id. should return a 400 ', async () => {});
+    //   it('body with uncorrect id. id = true. should return a 404 ', async () => {});
+    //   it('body with uncorrect name. name = true. should return a 400 ', async () => {});
+    //   it('body with uncorrect parrentId. parrentId = false. should return a 400 ', async () => {});
+    // });
+  });
+
+  describe('Delete. delete( /category/:id ) ', () => {
+    describe('positive: valid id', () => {
+      it('should return a 200', async () => {
+        const id: string = categoryForTest._id;
+        // todo: move refs
+        const { statusCode, body } = await supertest(server).delete(`/category/${id}`);
+
+        expect(statusCode).toBe(200);
+      });
+    });
+    describe('negative: uncorrect id', () => {
+      it('id = true. should return a 404 ', async () => {
+        const id: string = categoryForTest._id;
+        const { statusCode, body } = await supertest(server).delete(`/category/${id}`);
+        expect(statusCode).toBe(404);
+      });
+    });
+  });
 });

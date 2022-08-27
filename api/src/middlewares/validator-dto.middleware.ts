@@ -2,14 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { validate, ValidationError } from 'class-validator';
 import { StatusCodes } from 'http-status-codes';
 import { OutgoingMessage } from 'http';
-import { createCategoryDto } from 'src/types/category/create-category.dto';
-import { updateCategoryDto } from 'src/types/category/update-category.dto';
 import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
 
-export function validatorDto(
-  DataTransferObject: typeof createCategoryDto | typeof updateCategoryDto
-) {
+export function validatorDto(DataTransferObject) {
   return async function (
     req: Request,
     res: Response,

@@ -259,6 +259,20 @@ describe('category', () => {
         expect(statusCode).toBe(400);
         expect(body).toEqual(data);
       });
+      it('body with uncorrect id. id = fakeid. should return a 404 ', async () => {
+        const payload = {
+          id: '6308af066754b3d1914597f',
+          name: 'updated category',
+          parentId: null,
+        };
+        const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
+        const data = {
+          message: 'Incorrect id',
+        };
+
+        expect(statusCode).toBe(400);
+        expect(body).toEqual(data);
+      });
       it('body with uncorrect name. name = true. should return a 400 ', async () => {
         const payload = {
           id: categoryForTest._id,

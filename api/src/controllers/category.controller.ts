@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { categoryService } from 'src/services/category.service';
 import { validateCategoryById } from 'src/shared/validation/category/get-by-id.validarion';
+import { validateMongoId } from 'src/shared/validation/is-valid-object-id';
 import { ICategory } from 'src/types/category/category.interface';
 import { IIdRequest } from 'src/types/express/id-request.interface';
 
@@ -15,7 +16,8 @@ class CategoryController {
 
   async getById(req: Request, res: Response) {
     const { id } = req.params as IIdRequest;
-    const category = await validateCategoryById(id);
+    const virifiedId = validateMongoId(id);
+    const category = await validateCategoryById(virifiedId);
     res.status(StatusCodes.OK).json(category);
   }
 
@@ -26,7 +28,8 @@ class CategoryController {
 
   // todo: child refs!
   async update(req: Request, res: Response) {
-    const category = await validateCategoryById(req.body.id);
+    const virifiedId = validateMongoId(req.body.id);
+    const category = await validateCategoryById(virifiedId);
     const updatedCategory = await categoryService.update(category, req.body);
     res.status(StatusCodes.OK).json(updatedCategory);
   }
@@ -34,7 +37,8 @@ class CategoryController {
   // todo: change child refs
   async delete(req: Request, res: Response) {
     const id = req.params.id;
-    const category: ICategory = await validateCategoryById(id);
+    const virifiedId = validateMongoId(id);
+    const category: ICategory = await validateCategoryById(virifiedId);
     await categoryService.delete(id, category);
 
     res.status(StatusCodes.OK).send();

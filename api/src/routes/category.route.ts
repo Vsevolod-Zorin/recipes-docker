@@ -11,8 +11,8 @@ const categoryRouter = Router();
 categoryRouter
   .get('/', errorHandler(categoryController.find))
   .get('/:id', errorHandler(categoryController.getById))
-  .post('/', validatorDto(new CreateCategoryDto()), errorHandler(categoryController.create))
-  .put('/', validatorDto(new UpdateCategoryDto()), errorHandler(categoryController.update))
+  .post('/', validatorDto(CreateCategoryDto), errorHandler(categoryController.create))
+  .put('/', validatorDto(UpdateCategoryDto), errorHandler(categoryController.update))
   .delete('/:id', errorHandler(categoryController.delete));
 
 export default categoryRouter;

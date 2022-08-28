@@ -1,4 +1,3 @@
-import { ICategory } from 'src/types/category/category.interface';
 import { createServer } from 'src/helpers/create-server';
 import http from 'http';
 import { Express } from 'express';

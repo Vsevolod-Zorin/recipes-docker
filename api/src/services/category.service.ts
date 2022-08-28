@@ -1,6 +1,4 @@
-import { Document } from 'mongoose';
 import { categoryModel } from 'src/models/category.model';
-import { Category } from 'src/schema/Category';
 import { QueryCategoryType } from 'src/types/category/query-category.type';
 import { CreateCategoryDto } from 'src/types/category/create-category.dto';
 import { UpdateCategoryDto } from 'src/types/category/update-category.dto';
@@ -16,8 +14,6 @@ export class CategoryService {
   }
 
   create(dto: CreateCategoryDto): Promise<ICategory> {
-    console.log('--- dto', dto);
-
     return categoryModel.create(dto);
   }
 
@@ -29,20 +25,13 @@ export class CategoryService {
 
   async delete(id: string, category: ICategory): Promise<ICategory> {
     // todo deltete refs
-    console.log('--- delte service', { category });
-    // const jsonCategory = await category.toJSON();
-    // console.log({ jsonCategory });
-
-    console.log('id to sting', category._id.toString());
 
     const query: QueryCategoryType = {
-      parentId: category._id.toString(),
+      parentId: category._id,
     };
     const categories: ICategory[] = await this.find(query);
 
     categories.forEach(async el => {});
-
-    console.log('--- delte service searched categories', categories);
 
     return categoryModel.delete(id);
   }

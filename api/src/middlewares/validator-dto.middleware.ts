@@ -4,15 +4,21 @@ import { StatusCodes } from 'http-status-codes';
 import { OutgoingMessage } from 'http';
 import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
+import { CreateCategoryDto } from 'src/types/category/create-category.dto';
+import { UpdateCategoryDto } from 'src/types/category/update-category.dto';
 
-export function validatorDto(DataTransferObject) {
+type InputDtoType = typeof CreateCategoryDto | typeof UpdateCategoryDto;
+
+export function validatorDto(DataTransferObject: InputDtoType) {
   return async function (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<OutgoingMessage> {
     try {
-      const errors: ValidationError[] = await validate(Object.assign(DataTransferObject, req.body));
+      const errors: ValidationError[] = await validate(
+        Object.assign(new DataTransferObject(), req.body)
+      );
       const errorMessage = errors.reduce((acc, error) => {
         acc[error.property] = Object.values(error.constraints);
         return acc;

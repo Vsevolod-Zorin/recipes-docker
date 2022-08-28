@@ -39,7 +39,9 @@ class CategoryController {
     const id = req.params.id;
     const virifiedId = validateMongoId(id);
     const category: ICategory = await validateCategoryById(virifiedId);
-    await categoryService.delete(id, category);
+
+    await categoryService.moveChildsCategoryUp(category);
+    await categoryService.delete(id);
 
     res.status(StatusCodes.OK).send();
   }

@@ -17,26 +17,29 @@ export class CategoryService {
     return categoryModel.create(dto);
   }
 
+  // todo category? or id
   update(category: ICategory, dto: UpdateCategoryDto): Promise<ICategory> {
     Object.assign(category, dto);
-    // todo update here or
     return categoryModel.update(category, dto);
   }
 
-  async delete(id: string, category: ICategory): Promise<ICategory> {
-    // todo deltete refs
-
-    const query: QueryCategoryType = {
-      parentId: category._id,
-    };
-    const categories: ICategory[] = await this.find(query);
-
-    categories.forEach(async el => {});
-
+  async delete(id: string): Promise<ICategory> {
     return categoryModel.delete(id);
   }
 
-  async moveChildsCategory() {}
+  async moveChildsCategoryUp(category: ICategory) {
+    const query: QueryCategoryType = {
+      parentId: category._id,
+    };
+
+    const categories: ICategory[] = await this.find(query);
+    const ids = categories.map(el => el._id);
+
+    return await categoryModel.updateMany(ids, { parentId: category.parentId });
+  }
+  async removeChildsCategory() {
+    // todo: recursive method
+  }
 }
 
 export const categoryService = new CategoryService();

@@ -8,18 +8,18 @@ import { BackendMessage } from 'src/shared/backend.messages';
 describe('category', () => {
   let server: http.Server = testsManager.httpServer;
   let categoryForTest: ICategory;
+  let subCategoryForTest1: ICategory;
+  let subCategoryForTest2: ICategory;
 
   beforeAll(() => {
     testsManager.startServerForTests();
   });
 
   afterAll(() => {
-    // remove in testsManager
     testsManager.closeServerForTests();
   });
-  // todo let category
 
-  describe('Create. post( /category ) ', () => {
+  describe('--- Create. post( /category ) ', () => {
     describe('positive: valid params', () => {
       it('should return a 201 and category', async () => {
         const payload: ICategoryCreate = {
@@ -39,12 +39,42 @@ describe('category', () => {
         expect(body).toEqual(data);
         categoryForTest = body;
       });
-      // it('create child', async () => {
-      //   const payload: ICategoryCreate = {
-      //     name: 'tests category',
-      //     parentId: categoryForTest._id,
-      //   };
-      // });
+      it('create first child', async () => {
+        const payload: ICategoryCreate = {
+          name: 'subCategory1',
+          parentId: categoryForTest._id,
+        };
+        const { statusCode, body } = await supertest(server).post(`/category`).send(payload);
+        const data: ICategory = {
+          _id: expect.any(String),
+          name: 'subCategory1',
+          parentId: categoryForTest._id,
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+        };
+
+        expect(statusCode).toBe(201);
+        expect(body).toEqual(data);
+        subCategoryForTest1 = body;
+      });
+      it('create second child', async () => {
+        const payload: ICategoryCreate = {
+          name: 'subCategory2',
+          parentId: categoryForTest._id,
+        };
+        const { statusCode, body } = await supertest(server).post(`/category`).send(payload);
+        const data: ICategory = {
+          _id: expect.any(String),
+          name: 'subCategory2',
+          parentId: categoryForTest._id,
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
+        };
+
+        expect(statusCode).toBe(201);
+        expect(body).toEqual(data);
+        subCategoryForTest2 = body;
+      });
     });
     describe('negative: uncorrect params', () => {
       it('empty body. should return a 400 ', async () => {
@@ -124,7 +154,7 @@ describe('category', () => {
     });
   });
 
-  describe('GetCategories. get( /category ): ', () => {
+  describe('--- GetCategories. get( /category ): ', () => {
     describe('positive', () => {
       it('should return a 200 and arr', async () => {
         const { statusCode, body } = await supertest(server).get(`/category`);
@@ -135,7 +165,7 @@ describe('category', () => {
     });
   });
 
-  describe('GetById. get( /category/:id ) ', () => {
+  describe('--- GetById. get( /category/:id ) ', () => {
     describe('positive. correct params id', () => {
       it('should return a 200 and category', async () => {
         const id: string = categoryForTest._id;
@@ -157,7 +187,7 @@ describe('category', () => {
     });
   });
 
-  describe('Update. put( /category ) ', () => {
+  describe('--- Update. put( /category ) ', () => {
     describe('positive: valid params', () => {
       it('should return a 200 and updated category', async () => {
         const payload: ICategoryUpdate = {
@@ -189,7 +219,7 @@ describe('category', () => {
     // });
   });
 
-  describe('Delete. delete( /category/:id ) ', () => {
+  describe('--- Delete. delete( /category/:id ) ', () => {
     describe('positive: valid id', () => {
       it('should return a 200', async () => {
         const id: string = categoryForTest._id;
@@ -198,7 +228,50 @@ describe('category', () => {
 
         expect(statusCode).toBe(200);
       });
+
+      describe('move subcategories up', () => {
+        it('check subCategoryForTest1 parentId === null ', async () => {
+          const id: string = subCategoryForTest1._id;
+          const { statusCode, body } = await supertest(server).get(`/category/${id}`);
+          const data: ICategory = {
+            _id: id,
+            name: 'subCategory1',
+            parentId: null,
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String),
+          };
+          expect(statusCode).toBe(200);
+          expect(body).toEqual(data);
+        });
+        it('check subCategoryForTest2 parentId === null ', async () => {
+          const id: string = subCategoryForTest2._id;
+          const { statusCode, body } = await supertest(server).get(`/category/${id}`);
+          const data: ICategory = {
+            _id: id,
+            name: 'subCategory2',
+            parentId: null,
+            createdAt: expect.any(String),
+            updatedAt: expect.any(String),
+          };
+          expect(statusCode).toBe(200);
+          expect(body).toEqual(data);
+        });
+
+        it('remove subCategoryForTest1. expect 200', async () => {
+          const id: string = subCategoryForTest1._id;
+          const { statusCode, body } = await supertest(server).delete(`/category/${id}`);
+
+          expect(statusCode).toBe(200);
+        });
+        it('remove subCategoryForTest2. expect 200', async () => {
+          const id: string = subCategoryForTest2._id;
+          const { statusCode, body } = await supertest(server).delete(`/category/${id}`);
+
+          expect(statusCode).toBe(200);
+        });
+      });
     });
+
     describe('negative: uncorrect id', () => {
       it('id = true. should return a 404 ', async () => {
         const id: string = 'fake id';

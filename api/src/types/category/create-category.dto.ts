@@ -11,5 +11,3 @@ export class CreateCategoryDto implements ICategoryCreate {
   @IsString({ message: 'parentId must be a string or null' })
   readonly parentId: string | null;
 }
-
-export const createCategoryDto = new CreateCategoryDto();

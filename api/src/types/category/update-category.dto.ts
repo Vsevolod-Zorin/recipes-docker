@@ -11,8 +11,6 @@ export class UpdateCategoryDto implements ICategoryUpdate {
   readonly name?: string;
 
   @IsOptional()
-  @IsString()
+  @IsString({ message: 'parentId must be a string or null' })
   readonly parentId?: string | null;
 }
-
-// export const updateCategoryDto = new UpdateCategoryDto();

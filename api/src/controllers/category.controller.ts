@@ -6,10 +6,8 @@ import { validateMongoId } from 'src/shared/validation/is-valid-object-id';
 import { ExpressRequest } from 'src/types/express/expressRequest.interface';
 import { ICategory } from 'src/types/category/category.interface';
 
-// todo: make category request interface
 class CategoryController {
-  async find(req: Request, res: Response) {
-    // todo: check query interface
+  async findAll(req: Request, res: Response) {
     const categories = await categoryService.find();
     res.status(StatusCodes.OK).json(categories);
   }

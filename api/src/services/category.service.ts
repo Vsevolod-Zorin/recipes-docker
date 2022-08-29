@@ -1,13 +1,14 @@
 import { categoryModel } from 'src/models/category.model';
-import { IQueryCategory } from 'src/types/category/query-category.interface';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
+import { IQueryCategoryFindMany } from 'src/types/category/query-category-find-many.interface';
+import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
 
 export class CategoryService {
-  find(query: IQueryCategory = {}): Promise<ICategory[]> {
+  find(query: IQueryCategoryFindMany = {}): Promise<ICategory[]> {
     return categoryModel.find(query);
   }
 
-  findOne(query: IQueryCategory = {}): Promise<ICategory> {
+  findOne(query: IQueryCategoryFindOne = {}): Promise<ICategory> {
     return categoryModel.findOne(query);
   }
 
@@ -24,7 +25,7 @@ export class CategoryService {
   }
 
   async moveChildsCategoryUp(category: ICategory) {
-    const query: IQueryCategory = {
+    const query: IQueryCategoryFindMany = {
       parentId: category._id,
     };
 

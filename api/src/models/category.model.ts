@@ -1,15 +1,15 @@
 import { UpdateWriteOpResult } from 'mongoose';
 import { Category } from 'src/schema/Category';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
-import { IQueryCategory } from 'src/types/category/query-category.interface';
+import { IQueryCategoryFindMany } from 'src/types/category/query-category-find-many.interface';
+import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
 
 class CategoryModel {
-  // todo interface
-  find(query: IQueryCategory = {}): Promise<ICategory[]> {
+  find(query: IQueryCategoryFindMany = {}): Promise<ICategory[]> {
     return Category.find(query).exec();
   }
 
-  findOne(query: IQueryCategory = {}): Promise<ICategory> {
+  findOne(query: IQueryCategoryFindOne = {}): Promise<ICategory> {
     return Category.findOne(query).exec();
   }
 
@@ -28,10 +28,6 @@ class CategoryModel {
   delete(id: string): Promise<ICategory> {
     return Category.findByIdAndDelete(id).exec();
   }
-
-  // delteMany(ids: string[]) {
-  //   return Category.deleteMany({ id: { $in: ids } });
-  // }
 }
 
 export const categoryModel = new CategoryModel();

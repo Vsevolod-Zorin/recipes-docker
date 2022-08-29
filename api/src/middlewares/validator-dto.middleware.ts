@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 import { OutgoingMessage } from 'http';
 import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
-import { CreateCategoryDto } from 'src/types/category/create-category.dto';
-import { UpdateCategoryDto } from 'src/types/category/update-category.dto';
+import { CreateCategoryDto } from 'src/shared/validation/category/dto/create-category.dto';
+import { UpdateCategoryDto } from 'src/shared/validation/category/dto/update-category.dto';
 
 type InputDtoType = typeof CreateCategoryDto | typeof UpdateCategoryDto;
 

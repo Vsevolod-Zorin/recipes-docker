@@ -51,7 +51,7 @@ class TestsManager {
 
   async closeServerForTests(): Promise<void> {
     await this.disconnectDb();
-    await this.httpServer.close();
+    this.httpServer.close();
   }
 }
 

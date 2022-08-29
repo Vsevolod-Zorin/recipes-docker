@@ -2,5 +2,5 @@ export const BackendMessage = {
   BAD_REQUEST: 'Bad Request',
   NOT_FOUND: 'Not found',
   NAME_EXIST: 'Name already exist',
-  INCORRECT_ID: 'Incorrect id',
+  UNCORRECT_ID: 'Uncorrect id',
 };

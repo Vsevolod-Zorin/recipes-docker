@@ -42,17 +42,16 @@ class TestsManager {
     await this.connection.close();
   }
 
-  startServerForTests(): void {
-    this.connectToDb().then(() => {
-      if (!this.httpServer.listening) {
-        this.httpServer.listen();
-      }
-    });
+  async startServerForTests(): Promise<void> {
+    await this.connectToDb();
+    if (!this.httpServer.listening) {
+      this.httpServer.listen();
+    }
   }
 
-  closeServerForTests(): void {
-    // todo: testEnv => remove created enti
-    this.disconnectDb().then(() => this.httpServer.close());
+  async closeServerForTests(): Promise<void> {
+    await this.disconnectDb();
+    await this.httpServer.close();
   }
 }
 

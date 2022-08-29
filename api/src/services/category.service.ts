@@ -1,34 +1,30 @@
 import { categoryModel } from 'src/models/category.model';
-import { QueryCategoryType } from 'src/types/category/query-category.type';
-import { CreateCategoryDto } from 'src/types/category/create-category.dto';
-import { UpdateCategoryDto } from 'src/types/category/update-category.dto';
-import { ICategory } from 'src/types/category/category.interface';
+import { IQueryCategory } from 'src/types/category/query-category.interface';
+import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
 
 export class CategoryService {
-  find(query: QueryCategoryType = {}): Promise<ICategory[]> {
+  find(query: IQueryCategory = {}): Promise<ICategory[]> {
     return categoryModel.find(query);
   }
 
-  findOne(query: QueryCategoryType = {}): Promise<ICategory> {
+  findOne(query: IQueryCategory = {}): Promise<ICategory> {
     return categoryModel.findOne(query);
   }
 
-  create(dto: CreateCategoryDto): Promise<ICategory> {
+  create(dto: ICategoryCreate): Promise<ICategory> {
     return categoryModel.create(dto);
   }
 
-  // todo category? or id
-  update(category: ICategory, dto: UpdateCategoryDto): Promise<ICategory> {
-    Object.assign(category, dto);
-    return categoryModel.update(category, dto);
+  update(id: string, dto: ICategoryUpdate): Promise<ICategory> {
+    return categoryModel.update(id, dto);
   }
 
-  async delete(id: string): Promise<ICategory> {
+  delete(id: string): Promise<ICategory> {
     return categoryModel.delete(id);
   }
 
   async moveChildsCategoryUp(category: ICategory) {
-    const query: QueryCategoryType = {
+    const query: IQueryCategory = {
       parentId: category._id,
     };
 
@@ -36,9 +32,6 @@ export class CategoryService {
     const ids = categories.map(el => el._id);
 
     return await categoryModel.updateMany(ids, { parentId: category.parentId });
-  }
-  async removeChildsCategory() {
-    // todo: recursive method
   }
 }
 

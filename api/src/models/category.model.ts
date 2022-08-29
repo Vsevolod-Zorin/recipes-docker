@@ -1,14 +1,15 @@
 import { UpdateWriteOpResult } from 'mongoose';
 import { Category } from 'src/schema/Category';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
-import { QueryCategoryType } from 'src/types/category/query-category.type';
+import { IQueryCategory } from 'src/types/category/query-category.interface';
 
 class CategoryModel {
-  find(query: QueryCategoryType = {}): Promise<ICategory[]> {
+  // todo interface
+  find(query: IQueryCategory = {}): Promise<ICategory[]> {
     return Category.find(query).exec();
   }
 
-  findOne(query: QueryCategoryType = {}): Promise<ICategory> {
+  findOne(query: IQueryCategory = {}): Promise<ICategory> {
     return Category.findOne(query).exec();
   }
 
@@ -16,9 +17,8 @@ class CategoryModel {
     return new Category(createCategoryDto).save();
   }
 
-  update(category: ICategory, dto: ICategoryUpdate): Promise<ICategory> {
-    // todo: check save or
-    return Category.findById(category._id).then(cat => Object.assign(cat, dto).save());
+  update(id: string, dto: ICategoryUpdate): Promise<ICategory> {
+    return Category.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
   }
 
   updateMany(ids: string[], update: Object): Promise<UpdateWriteOpResult> {

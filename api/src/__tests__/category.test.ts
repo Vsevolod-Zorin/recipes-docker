@@ -179,7 +179,7 @@ describe('category', () => {
       it('should return a 400 ', async () => {
         const fakeId = 'qwe';
         const { statusCode, body } = await supertest(server).get(`/category/${fakeId}`);
-        const data = { message: BackendMessage.INCORRECT_ID };
+        const data: BackendError = { statusCode: 400, message: BackendMessage.UNCORRECT_ID };
 
         expect(statusCode).toBe(400);
         expect(body).toEqual(data);
@@ -215,10 +215,7 @@ describe('category', () => {
         const { statusCode, body } = await supertest(server).put(`/category`).send({});
         const data: BackendError = {
           statusCode: 400,
-          message: 'Bad Request',
-          error: {
-            id: ['id must be a string', 'id should not be empty'],
-          },
+          message: BackendMessage.UNCORRECT_ID,
         };
 
         expect(statusCode).toBe(400);
@@ -232,10 +229,7 @@ describe('category', () => {
         const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
         const data: BackendError = {
           statusCode: 400,
-          message: 'Bad Request',
-          error: {
-            id: ['id must be a string', 'id should not be empty'],
-          },
+          message: BackendMessage.UNCORRECT_ID,
         };
 
         expect(statusCode).toBe(400);
@@ -250,10 +244,7 @@ describe('category', () => {
         const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
         const data: BackendError = {
           statusCode: 400,
-          message: 'Bad Request',
-          error: {
-            id: ['id must be a string'],
-          },
+          message: BackendMessage.UNCORRECT_ID,
         };
 
         expect(statusCode).toBe(400);
@@ -266,9 +257,7 @@ describe('category', () => {
           parentId: null,
         };
         const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
-        const data = {
-          message: 'Incorrect id',
-        };
+        const data: BackendError = { statusCode: 400, message: BackendMessage.UNCORRECT_ID };
 
         expect(statusCode).toBe(400);
         expect(body).toEqual(data);
@@ -370,7 +359,10 @@ describe('category', () => {
       it('id = true. should return a 404 ', async () => {
         const id: string = 'fake id';
         const { statusCode, body } = await supertest(server).delete(`/category/${id}`);
-        const data = { message: BackendMessage.INCORRECT_ID };
+        const data: BackendError = {
+          statusCode: 400,
+          message: BackendMessage.UNCORRECT_ID,
+        };
 
         expect(statusCode).toBe(400);
         expect(body).toEqual(data);

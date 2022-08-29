@@ -10,5 +10,5 @@ export const validateMongoId = (id: string): string => {
     }
   }
 
-  throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.INCORRECT_ID);
+  throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.UNCORRECT_ID);
 };

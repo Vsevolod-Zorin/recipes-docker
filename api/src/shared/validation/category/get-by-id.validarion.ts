@@ -1,11 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
-import { Document } from 'mongoose';
-import { Category } from 'src/schema/Category';
 import { categoryService } from 'src/services/category.service';
+import { ICategory } from 'src/types/category/category.interface';
 import { BackendError } from '../../backend.error';
 import { BackendMessage } from '../../backend.messages';
 
-export const validateCategoryById = async (id: string): Promise<Document<typeof Category>> => {
+export const validateCategoryById = async (id: string): Promise<ICategory> => {
   const category = await categoryService.findOne({ _id: id });
 
   if (!category) {

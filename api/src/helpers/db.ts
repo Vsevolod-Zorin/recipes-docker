@@ -1,10 +1,9 @@
-import { config } from '../config';
 import mongoose, { ConnectOptions } from 'mongoose';
+import { config } from '../config';
 
-export const connectDb = () => {
+export const connectDb = new Promise<mongoose.Connection>((resolve, reject) => {
   mongoose.connect(config.db.mongoUrl, {
     useNewUrlParser: true,
   } as ConnectOptions);
-
-  return mongoose.connection;
-};
+  resolve(mongoose.connection);
+});

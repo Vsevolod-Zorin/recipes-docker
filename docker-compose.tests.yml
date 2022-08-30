@@ -12,7 +12,7 @@ services:
   #     - ./frontend/src:/usr/src/app/src
 
   api:
-    command: npm run dev
+    command: npm run test
     volumes:
       - ./api/src:/usr/src/app/src
       - ./api/nodemon.json:/usr/src/app/nodemon.json

@@ -1,9 +1,8 @@
-{
-  "singleQuote": true,
+{  "singleQuote": true,
   "bracketSpacing": true,
   "arrowParens": "avoid",
   "printWidth": 100,
   "trailingComma": "es5",
   "proseWrap": "never",
-  "endOfLine": "cr"
+  "endOfLine": "lf"
 }

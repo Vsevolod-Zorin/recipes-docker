@@ -1,2 +1,3 @@
-export interface IDBConfig {  mongoUrl: string;
+export interface IDBConfig {
+  mongoUrl: string;
 }

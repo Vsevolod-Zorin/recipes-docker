@@ -1,5 +1,7 @@
-export const errorHandler = fn => (req, res, next) => {
-  Promise.resolve(fn(req, res, next)).catch(err => {
-    res.status(err.statusCode || 400).json({ msg: err.message, error: err.error });
-  });
+export const errorHandler = fn => async (req, res, next) => {
+  try {
+    await fn(req, res, next);
+  } catch (err) {
+    res.status(err.statusCode || 400).json({ message: err.message, error: err.error });
+  }
 };

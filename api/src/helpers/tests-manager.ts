@@ -1,8 +1,10 @@
 import { createServer } from 'src/helpers/create-server';
 import http from 'http';
 import { Express } from 'express';
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import { connectDb } from 'src/helpers/db';
+import { ICategory, ICategoryCreate } from 'src/types/category/category.interface';
+import { categoryModel } from 'src/models/category.model';
 
 class TestsManager {
   private _app: Express;
@@ -13,6 +15,7 @@ class TestsManager {
     this.app = createServer();
     this.httpServer = http.createServer(this.app);
   }
+
   public get app(): Express {
     return this._app;
   }
@@ -52,6 +55,14 @@ class TestsManager {
   async closeServerForTests(): Promise<void> {
     await this.disconnectDb();
     this.httpServer.close();
+  }
+
+  public async createCategory(payload: ICategoryCreate): Promise<ICategory> {
+    return await categoryModel.create(payload);
+  }
+
+  public generateRandomMongoId(): string {
+    return new Types.ObjectId().toString();
   }
 }
 

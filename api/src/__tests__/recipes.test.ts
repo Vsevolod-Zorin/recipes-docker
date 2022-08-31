@@ -15,9 +15,6 @@ describe('Recipe', () => {
 		parentId: null,
 	};
 	let testsCategory: ICategory;
-	testsManager.createCategory(testsCategoryPayload).then(res => {
-		testsCategory = res;
-	});
 
 	beforeAll(() => {
 		testsManager.startServerForTests();
@@ -27,20 +24,29 @@ describe('Recipe', () => {
 		testsManager.closeServerForTests();
 	});
 
+	describe('--- init category ', () => {
+		it('init', async () => {
+			testsCategory = await testsManager.createCategory(testsCategoryPayload);
+			expect(testsCategory.name).toBe('testsCategory');
+		});
+	});
+
 	describe('--- Create. post( /recipe ) ', () => {
 		describe('positive: valid params', () => {
 			it('should return a 201 and recipe', async () => {
+				console.log('tests category ', { testsCategory });
+
 				const payload: IRecipeCreate = {
 					title: 'test recipe',
 					description: 'test description',
-					categoryId: testsCategory._id,
+					categoryId: testsCategory._id.toString(),
 				};
 				const { statusCode, body } = await supertest(server).post(`/recipe`).send(payload);
 				const data: IRecipe = {
 					_id: expect.any(String),
 					title: payload.title,
 					description: payload.description,
-					categoryId: testsCategory._id,
+					categoryId: testsCategory._id.toString(),
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
 				};
@@ -62,9 +68,9 @@ describe('Recipe', () => {
 						title: ['title must be a string', 'title should not be empty'],
 						description: ['description must be a string', 'description should not be empty'],
 						categoryId: [
+							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
 							'categoryId must be a string',
 							'categoryId should not be empty',
-							`categoryId ${BackendMessage.MUST_BE_A_MONGO_ID}`,
 						],
 					},
 				};
@@ -117,9 +123,9 @@ describe('Recipe', () => {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						categoryId: [
+							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
 							'categoryId must be a string',
 							'categoryId should not be empty',
-							`categoryId ${BackendMessage.MUST_BE_A_MONGO_ID}`,
 						],
 					},
 				};
@@ -141,8 +147,8 @@ describe('Recipe', () => {
 						title: ['title must be a string'],
 						description: ['description must be a string'],
 						categoryId: [
+							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
 							'categoryId must be a string',
-							`categoryId ${BackendMessage.MUST_BE_A_MONGO_ID}`,
 						],
 					},
 				};
@@ -168,6 +174,8 @@ describe('Recipe', () => {
 	describe('--- GetRecipes. get( /recipe/:id ): ', () => {
 		describe('positive. correct params id', () => {
 			it('should return a 200 and recipe', async () => {
+				console.log('--- testsRecipe._id', { id: testsRecipe._id });
+
 				const { statusCode, body } = await supertest(server).get(`/recipe/${testsRecipe._id}`);
 				const data: IRecipe = body;
 
@@ -214,7 +222,7 @@ describe('Recipe', () => {
 					categoryId: testsRecipe.categoryId,
 				};
 
-				expect(statusCode).toBe(201);
+				expect(statusCode).toBe(200);
 				expect(body).toEqual(data);
 			});
 		});
@@ -229,16 +237,16 @@ describe('Recipe', () => {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						id: [
+							`id ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
 							'id must be a string',
 							'id should not be empty',
-							`id ${BackendMessage.MUST_BE_A_MONGO_ID}`,
 						],
 						title: ['title must be a string', 'title should not be empty'],
 						description: ['description must be a string', 'description should not be empty'],
 						categoryId: [
+							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
 							'categoryId must be a string',
 							'categoryId should not be empty',
-							`categoryId ${BackendMessage.MUST_BE_A_MONGO_ID}`,
 						],
 					},
 				};
@@ -258,9 +266,9 @@ describe('Recipe', () => {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						id: [
+							`id ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
 							'id must be a string',
 							'id should not be empty',
-							`id ${BackendMessage.MUST_BE_A_MONGO_ID}`,
 						],
 					},
 				};
@@ -283,8 +291,8 @@ describe('Recipe', () => {
 						title: ['title must be a string'],
 						description: ['description must be a string'],
 						categoryId: [
+							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
 							'categoryId must be a string',
-							`categoryId ${BackendMessage.MUST_BE_A_MONGO_ID}`,
 						],
 					},
 				};
@@ -304,7 +312,7 @@ describe('Recipe', () => {
 					statusCode: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						categoryId: [`categoryId ${BackendMessage.MUST_BE_A_MONGO_ID}`],
+						categoryId: [`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
 					},
 				};
 
@@ -344,7 +352,7 @@ describe('Recipe', () => {
 					error: {
 						categoryId: [
 							'categoryId must be a string',
-							`categoryId ${BackendMessage.MUST_BE_A_MONGO_ID}`,
+							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
 						],
 					},
 				};
@@ -384,7 +392,7 @@ describe('Recipe', () => {
 					statusCode: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						id: ['id must be a string', `id ${BackendMessage.MUST_BE_A_MONGO_ID}`],
+						id: ['id must be a string', `id ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
 					},
 				};
 				expect(statusCode).toBe(404);

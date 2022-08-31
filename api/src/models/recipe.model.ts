@@ -1,16 +1,30 @@
+import { UpdateWriteOpResult } from 'mongoose';
 import { Recipe } from 'src/schema/Recipe';
-import { IRecipe } from 'src/types/recipe/recipe.interface';
+import { IQueryRecipeFindMany } from 'src/types/recipe/query-recipe-find-many.interface';
+import { IQueryRecipeFindOne } from 'src/types/recipe/query-recipe-find-one.interface';
+import { IRecipe, IRecipeCreate, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 
 class RecipeModel {
-	find() {}
+	find(query: IQueryRecipeFindMany): Promise<IRecipe[]> {
+		return Recipe.find(query).exec();
+	}
 
-	findOne() {}
+	findOne(query: IQueryRecipeFindOne): Promise<IRecipe> {
+		return Recipe.findOne(query).exec();
+	}
 
-	create() {}
+	create(dto: IRecipeCreate): Promise<IRecipe> {
+		return new Recipe(dto).save();
+	}
 
-	update() {}
+	update(id: string, dto: IRecipeUpdate): Promise<IRecipe> {
+		return Recipe.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
+	}
 
-	updateMany() {}
+	// todo type
+	updateMany(ids: string[], update: IRecipeUpdate): Promise<UpdateWriteOpResult> {
+		return Recipe.updateMany({ id: { $in: ids } }, update).exec();
+	}
 
 	delete(id: string): Promise<IRecipe> {
 		return Recipe.findByIdAndDelete(id).exec();

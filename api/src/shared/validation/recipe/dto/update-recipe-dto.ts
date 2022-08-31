@@ -4,7 +4,6 @@ import { Category } from 'src/schema/Category';
 import { IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 
 export class UpdateRecipeDto implements IRecipeUpdate {
-	@IsNotEmpty()
 	@IsMongoId()
 	readonly id: string;
 

@@ -13,7 +13,7 @@ recipeRouter
 	.get('/', errorHandler(recipeController.findAll))
 	.get('/:id', validatorParamsId(), errorHandler(recipeController.getById))
 	.post('/', validatorDto(CreateRecipeDto), errorHandler(recipeController.create))
-	.put('/', validatorBodyId(), validatorDto(UpdateRecipeDto), errorHandler(recipeController.update))
+	.put('/', validatorDto(UpdateRecipeDto), validatorBodyId(), errorHandler(recipeController.update))
 	.delete('/:id', validatorParamsId(), errorHandler(recipeController.delete));
 
 export default recipeRouter;

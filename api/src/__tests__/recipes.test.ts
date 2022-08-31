@@ -234,20 +234,9 @@ describe('Recipe', () => {
 
 				const data: BackendError = {
 					statusCode: 400,
-					message: BackendMessage.BAD_REQUEST,
+					message: 'Bad Request',
 					error: {
-						id: [
-							`id ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
-							'id must be a string',
-							'id should not be empty',
-						],
-						title: ['title must be a string', 'title should not be empty'],
-						description: ['description must be a string', 'description should not be empty'],
-						categoryId: [
-							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
-							'categoryId must be a string',
-							'categoryId should not be empty',
-						],
+						id: ['id must be a mongodb id'],
 					},
 				};
 
@@ -265,18 +254,14 @@ describe('Recipe', () => {
 					statusCode: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						id: [
-							`id ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
-							'id must be a string',
-							'id should not be empty',
-						],
+						id: [`id ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
 					},
 				};
 
 				expect(statusCode).toBe(400);
 				expect(body).toEqual(data);
 			});
-			it('body with uncorrect type id. id = true. should return a 404 ', async () => {
+			it('body with uncorrect type id. id = true. should return a 400 ', async () => {
 				const payload = {
 					id: true,
 					title: 'updated recipe title',
@@ -290,10 +275,7 @@ describe('Recipe', () => {
 					error: {
 						title: ['title must be a string'],
 						description: ['description must be a string'],
-						categoryId: [
-							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
-							'categoryId must be a string',
-						],
+						categoryId: [`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
 					},
 				};
 
@@ -350,10 +332,7 @@ describe('Recipe', () => {
 					statusCode: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						categoryId: [
-							'categoryId must be a string',
-							`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`,
-						],
+						categoryId: [`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
 					},
 				};
 

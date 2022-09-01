@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
 import { validate, ValidationError } from 'class-validator';
-import { StatusCodes } from 'http-status-codes';
 import { OutgoingMessage } from 'http';
 import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
-import { CreateCategoryDto } from 'src/shared/validation/category/dto/create-category.dto';
-import { UpdateCategoryDto } from 'src/shared/validation/category/dto/update-category.dto';
-import { CreateRecipeDto } from 'src/shared/validation/recipe/dto/create-recipe-dto';
-import { UpdateRecipeDto } from 'src/shared/validation/recipe/dto/update-recipe-dto';
+import { CreateCategoryDto } from 'src/shared/validation/dto/create-category.dto';
+import { UpdateCategoryDto } from 'src/shared/validation/dto/update-category.dto';
+import { CreateRecipeDto } from 'src/shared/validation/dto/create-recipe-dto';
+import { UpdateRecipeDto } from 'src/shared/validation/dto/update-recipe-dto';
+import { StatusCodes } from 'http-status-codes';
 
 type InputDtoType =
 	| typeof CreateCategoryDto
@@ -36,7 +36,7 @@ export function validatorDto(DataTransferObject: InputDtoType) {
 
 			next();
 		} catch (e) {
-			return res.status(e.statusCode).json({ ...e });
+			return res.status(e.code || 400).json({ ...e });
 		}
 	};
 }

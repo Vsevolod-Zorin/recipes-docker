@@ -10,5 +10,5 @@ export const validateMongoId = (id: string): string => {
 		}
 	}
 
-	throw new BackendError(BackendMessage.BAD_REQUEST);
+	throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.BAD_REQUEST);
 };

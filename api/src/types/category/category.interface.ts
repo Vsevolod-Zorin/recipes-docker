@@ -8,13 +8,13 @@ export interface ICategory {
 
 export interface ICategoryCreate {
 	name: string;
-	parentId: string | null;
+	parentId?: string;
 }
 
 export interface ICategoryUpdate {
 	id: string;
 	name?: string;
-	parentId?: string | null;
+	parentId?: string;
 }
 export interface ICategoryUpdateMany {
 	name?: string;

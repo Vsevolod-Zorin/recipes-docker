@@ -3,6 +3,7 @@ export interface IErrorTemplate {
 }
 
 export interface IBackendError {
+	code: number;
 	message: string;
 	error?: IErrorTemplate;
 }

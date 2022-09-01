@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { recipeService } from 'src/services/recipe.service';
-import { validateMongoId } from 'src/shared/validation/is-valid-object-id';
 import { validateRecipeById } from 'src/shared/validation/recipe/recipe-get-by-id.validarion';
+import { ExpressRecipeRequest } from 'src/types/express/expressRecipeRequest.interface';
 import { ExpressRequest } from 'src/types/express/expressRequest.interface';
 
 class RecipeController {
@@ -11,10 +11,8 @@ class RecipeController {
 		res.status(StatusCodes.OK).json(recipes);
 	}
 
-	async getById(req: ExpressRequest, res: Response) {
-		const { id } = req;
-		const verifiedId = validateMongoId(id);
-		const recipe = await validateRecipeById(verifiedId);
+	async getById(req: ExpressRecipeRequest, res: Response) {
+		const { recipe } = req;
 		res.status(StatusCodes.OK).json(recipe);
 	}
 
@@ -24,17 +22,15 @@ class RecipeController {
 	}
 
 	async update(req: ExpressRequest, res: Response) {
-		const { id } = req;
+		const { id } = req.body;
 		await validateRecipeById(id);
 		const updatedRecipe = await recipeService.update(id, req.body);
 		res.status(StatusCodes.OK).json(updatedRecipe);
 	}
 
-	async delete(req: ExpressRequest, res: Response) {
-		const { id } = req;
-		const verifiedId = validateMongoId(id);
-		await validateRecipeById(verifiedId);
-		await recipeService.delete(verifiedId);
+	async delete(req: ExpressRecipeRequest, res: Response) {
+		const { recipe } = req;
+		await recipeService.delete(recipe._id);
 		res.status(StatusCodes.OK).send();
 	}
 }

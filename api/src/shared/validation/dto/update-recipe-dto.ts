@@ -1,5 +1,5 @@
 import { Ref } from '@typegoose/typegoose';
-import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Category } from 'src/schema/Category';
 import { IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import { IsMongoIdString } from '../decorators/is-mongodb-id-string';

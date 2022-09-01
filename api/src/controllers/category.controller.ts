@@ -25,9 +25,10 @@ class CategoryController {
 
 	async update(req: ExpressRequest, res: Response) {
 		// todo: check name exist in one branch
-		const { id } = req;
+		// todo: typing
+		const { id } = req.body;
 		await validateCategoryById(id);
-		const updatedCategory = await categoryService.update(id, req.body);
+		const updatedCategory = await categoryService.update(id.toString(), req.body);
 		res.status(StatusCodes.OK).json(updatedCategory);
 	}
 

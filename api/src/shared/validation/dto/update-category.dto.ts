@@ -5,8 +5,8 @@ import { IsMongoIdString } from '../decorators/is-mongodb-id-string';
 export class UpdateCategoryDto implements ICategoryUpdate {
 	// todo
 
-	@IsMongoIdString()
-	// @IsMongoId()
+	// !@IsMongoIdString()
+	@IsMongoId()
 	readonly id: string;
 
 	@IsOptional()
@@ -14,6 +14,6 @@ export class UpdateCategoryDto implements ICategoryUpdate {
 	readonly name?: string;
 
 	@IsOptional()
-	@IsString({ message: 'parentId must be a string or null' })
+	@IsMongoId()
 	readonly parentId?: string;
 }

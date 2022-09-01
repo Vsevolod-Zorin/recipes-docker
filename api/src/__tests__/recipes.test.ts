@@ -3,9 +3,8 @@ import http from 'http';
 import testsManager from 'src/helpers/tests-manager';
 import { IRecipe, IRecipeCreate, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import { ICategory, ICategoryCreate } from 'src/types/category/category.interface';
-import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
-import { StatusCodes } from 'http-status-codes';
+import { IBackendError } from 'src/types/backend/error-template.interface';
 
 describe('Recipe', () => {
 	let server: http.Server = testsManager.httpServer;
@@ -59,8 +58,7 @@ describe('Recipe', () => {
 			it('empty body. should return a 400 ', async () => {
 				const payload = {};
 				const { statusCode, body } = await supertest(server).post(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						title: ['title must be a string', 'title should not be empty'],
@@ -82,8 +80,7 @@ describe('Recipe', () => {
 					categoryId: testsCategory._id,
 				};
 				const { statusCode, body } = await supertest(server).post(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						title: ['title must be a string', 'title should not be empty'],
@@ -99,8 +96,7 @@ describe('Recipe', () => {
 					categoryId: testsCategory._id,
 				};
 				const { statusCode, body } = await supertest(server).post(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						description: ['description must be a string', 'description should not be empty'],
@@ -116,8 +112,7 @@ describe('Recipe', () => {
 					description: 'test description',
 				};
 				const { statusCode, body } = await supertest(server).post(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						categoryId: [
@@ -138,8 +133,7 @@ describe('Recipe', () => {
 					categoryId: true,
 				};
 				const { statusCode, body } = await supertest(server).post(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						title: ['title must be a string'],
@@ -190,8 +184,7 @@ describe('Recipe', () => {
 			it('should return a 400 and recipe', async () => {
 				const id = 'fakeId';
 				const { statusCode, body } = await supertest(server).get(`/recipe/${id}`);
-				const data: BackendError = {
-					statusCode: StatusCodes.BAD_REQUEST,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 				};
 
@@ -229,8 +222,7 @@ describe('Recipe', () => {
 			it('empty body. should return a 400 ', async () => {
 				const payload = {};
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: 'Bad Request',
 					error: {
 						id: ['id must be a mongodb id'],
@@ -247,8 +239,7 @@ describe('Recipe', () => {
 					categoryId: testsRecipe.categoryId,
 				};
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						id: [`id ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
@@ -266,8 +257,7 @@ describe('Recipe', () => {
 					categoryId: testsCategory._id,
 				};
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: 'Bad Request',
 					error: {
 						id: [`id ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
@@ -300,8 +290,7 @@ describe('Recipe', () => {
 					categoryId: testsCategory._id,
 				};
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						title: ['title must be a string'],
@@ -319,8 +308,7 @@ describe('Recipe', () => {
 					categoryId: false,
 				};
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					error: {
 						categoryId: [`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
@@ -357,8 +345,8 @@ describe('Recipe', () => {
 			it('id = true. should return a 400 ', async () => {
 				const id = true;
 				const { statusCode, body } = await supertest(server).delete(`/recipe/${id}`);
-				const data: BackendError = {
-					statusCode: 400,
+				// todo: interface
+				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 				};
 

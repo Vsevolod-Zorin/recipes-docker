@@ -13,7 +13,6 @@ class CategoryController {
 
 	async getById(req: ExpressCategoryRequest, res: Response) {
 		const { category } = req;
-		console.log('=== log', { category });
 		res.status(StatusCodes.OK).json(category);
 	}
 
@@ -25,7 +24,7 @@ class CategoryController {
 
 	async update(req: ExpressRequest, res: Response) {
 		// todo: check name exist in one branch
-		// todo: typing
+		// todo: make interface req.body
 		const { id } = req.body;
 		await validateCategoryById(id);
 		const updatedCategory = await categoryService.update(id.toString(), req.body);

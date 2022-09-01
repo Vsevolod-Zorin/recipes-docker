@@ -34,8 +34,6 @@ describe('Recipe', () => {
 	describe('--- Create. post( /recipe ) ', () => {
 		describe('positive: valid params', () => {
 			it('should return a 201 and recipe', async () => {
-				console.log('tests category ', { testsCategory });
-
 				const payload: IRecipeCreate = {
 					title: 'test recipe',
 					description: 'test description',
@@ -174,8 +172,6 @@ describe('Recipe', () => {
 	describe('--- GetRecipes. get( /recipe/:id ): ', () => {
 		describe('positive. correct params id', () => {
 			it('should return a 200 and recipe', async () => {
-				console.log('--- testsRecipe._id', { id: testsRecipe._id });
-
 				const { statusCode, body } = await supertest(server).get(`/recipe/${testsRecipe._id}`);
 				const data: IRecipe = body;
 
@@ -220,6 +216,8 @@ describe('Recipe', () => {
 					title: 'updated recipe title',
 					description: 'updated recipe description',
 					categoryId: testsRecipe.categoryId,
+					createdAt: expect.any(String),
+					updatedAt: expect.any(String),
 				};
 
 				expect(statusCode).toBe(200);
@@ -231,7 +229,6 @@ describe('Recipe', () => {
 			it('empty body. should return a 400 ', async () => {
 				const payload = {};
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
-
 				const data: BackendError = {
 					statusCode: 400,
 					message: 'Bad Request',
@@ -271,11 +268,9 @@ describe('Recipe', () => {
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
 				const data: BackendError = {
 					statusCode: 400,
-					message: BackendMessage.BAD_REQUEST,
+					message: 'Bad Request',
 					error: {
-						title: ['title must be a string'],
-						description: ['description must be a string'],
-						categoryId: [`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
+						id: [`id ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
 					},
 				};
 
@@ -287,18 +282,14 @@ describe('Recipe', () => {
 					id: testsManager.generateRandomMongoId(),
 					title: 'updated recipe title',
 					description: 'updated recipe description',
-					categoryId: testsCategory._id,
+					categoryId: testsCategory._id.toString(),
 				};
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
-				const data: BackendError = {
-					statusCode: 400,
-					message: BackendMessage.BAD_REQUEST,
-					error: {
-						categoryId: [`categoryId ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
-					},
+				const data = {
+					message: 'Not found',
 				};
 
-				expect(statusCode).toBe(400);
+				expect(statusCode).toBe(404);
 				expect(body).toEqual(data);
 			});
 			it('body with uncorrect title. title = true. should return a 400 ', async () => {
@@ -352,29 +343,26 @@ describe('Recipe', () => {
 			});
 		});
 
-		describe('negative: uncorrect id', () => {
+		describe('negative: uncorrect entity id', () => {
 			it('not found. should return a 404 ', async () => {
 				const id = testsRecipe._id;
 				const { statusCode, body } = await supertest(server).delete(`/recipe/${id}`);
-				const data: BackendError = {
-					statusCode: 404,
+				const data = {
 					message: BackendMessage.NOT_FOUND,
 				};
+
 				expect(statusCode).toBe(404);
 				expect(body).toEqual(data);
 			});
 			it('id = true. should return a 400 ', async () => {
-				const id = testsRecipe._id;
+				const id = true;
 				const { statusCode, body } = await supertest(server).delete(`/recipe/${id}`);
-
 				const data: BackendError = {
 					statusCode: 400,
 					message: BackendMessage.BAD_REQUEST,
-					error: {
-						id: ['id must be a string', `id ${BackendMessage.MUST_BE_A_MONGODB_ID}`],
-					},
 				};
-				expect(statusCode).toBe(404);
+
+				expect(statusCode).toBe(400);
 				expect(body).toEqual(data);
 			});
 		});

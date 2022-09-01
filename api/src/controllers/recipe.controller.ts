@@ -33,6 +33,7 @@ class RecipeController {
 	async delete(req: ExpressRequest, res: Response) {
 		const { id } = req;
 		const verifiedId = validateMongoId(id);
+		await validateRecipeById(verifiedId);
 		await recipeService.delete(verifiedId);
 		res.status(StatusCodes.OK).send();
 	}

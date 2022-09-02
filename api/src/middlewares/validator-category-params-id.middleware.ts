@@ -1,29 +1,24 @@
-import { NextFunction, Request, Response } from 'express';
-import { validate, ValidationError } from 'class-validator';
+import { NextFunction, Response } from 'express';
 import { OutgoingMessage } from 'http';
+import { validate, ValidationError } from 'class-validator';
+import { MongodbIdDto } from 'src/shared/validation/dto/mongodb-id.dto';
 import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
-import { CreateCategoryDto } from 'src/shared/validation/dto/create-category.dto';
-import { UpdateCategoryDto } from 'src/shared/validation/dto/update-category.dto';
-import { CreateRecipeDto } from 'src/shared/validation/dto/create-recipe-dto';
-import { UpdateRecipeDto } from 'src/shared/validation/dto/update-recipe-dto';
 import { StatusCodes } from 'http-status-codes';
+import { ExpressCategoryRequest } from 'src/types/express/expressCategoryRequest.interface';
+import { categoryService } from 'src/services/category.service';
 
-type InputDtoType =
-	| typeof CreateCategoryDto
-	| typeof UpdateCategoryDto
-	| typeof CreateRecipeDto
-	| typeof UpdateRecipeDto;
-
-export function validatorDto(DataTransferObject: InputDtoType) {
+export function validatorCategoryParamsId() {
 	return async function (
-		req: Request,
+		req: ExpressCategoryRequest,
 		res: Response,
 		next: NextFunction
 	): Promise<OutgoingMessage> {
 		try {
+			const { id } = req.params;
+
 			const errors: ValidationError[] = await validate(
-				Object.assign(new DataTransferObject(), req.body)
+				Object.assign(new MongodbIdDto(), req.params)
 			);
 			const errorMessage = errors.reduce((acc, error) => {
 				acc[error.property] = Object.values(error.constraints);
@@ -34,6 +29,13 @@ export function validatorDto(DataTransferObject: InputDtoType) {
 				throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.BAD_REQUEST, errorMessage);
 			}
 
+			const category = await categoryService.findOne({ _id: id });
+
+			if (!category) {
+				throw new BackendError(StatusCodes.NOT_FOUND, BackendMessage.NOT_FOUND);
+			}
+
+			req.category = category;
 			next();
 		} catch (e) {
 			return res.status(e.code || 400).json({ ...e });

@@ -12,17 +12,6 @@
     "typecheck": "tsc --project tsconfig.json --noEmit",
     "test": "jest --watchAll"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.(ts|tsx|json)": [
-      "npm run prettify",
-      "git add"
-    ]
-  },
   "keywords": [],
   "author": "Vsevolod Zorin",
   "license": "ISC",

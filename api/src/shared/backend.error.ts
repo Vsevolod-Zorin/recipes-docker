@@ -1,9 +1,5 @@
-import { IErrorTemplate } from 'src/types/backend/error-template.interface';
+import { IBackendError, IErrorTemplate } from 'src/types/backend/error-template.interface';
 
-export class BackendError {
-  constructor(
-    readonly statusCode: number,
-    readonly message: string,
-    readonly error?: IErrorTemplate
-  ) {}
+export class BackendError implements IBackendError {
+	constructor(readonly code: number, readonly message: string, readonly error?: IErrorTemplate) {}
 }

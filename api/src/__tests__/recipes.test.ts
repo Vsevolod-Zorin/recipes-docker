@@ -285,8 +285,9 @@ describe('Recipe', () => {
 				expect(body).toEqual(data);
 			});
 			it('body with uncorrect id. id = fakeid. should return a 400 ', async () => {
+				const id = 'fakeid';
 				const payload = {
-					id: testsManager.generateRandomMongoId(),
+					id,
 					title: 'updated recipe title',
 					description: 'updated recipe description',
 					categoryId: testsCategory._id.toString(),
@@ -297,7 +298,7 @@ describe('Recipe', () => {
 					message: BackendMessage.NOT_FOUND,
 				};
 
-				expect(statusCode).toBe(404);
+				expect(statusCode).toBe(400);
 				expect(body).toEqual(data);
 			});
 			it('body with uncorrect title. title = true. should return a 400 ', async () => {
@@ -371,6 +372,9 @@ describe('Recipe', () => {
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
+					error: {
+						id: ['id must be a mongodb id'],
+					},
 				};
 
 				expect(statusCode).toBe(400);

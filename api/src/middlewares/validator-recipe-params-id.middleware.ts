@@ -8,6 +8,7 @@ import { BackendMessage } from 'src/shared/backend.messages';
 import { StatusCodes } from 'http-status-codes';
 import { ExpressRecipeRequest } from 'src/types/express/expressRecipeRequest.interface';
 import { recipeService } from 'src/services/recipe.service';
+import mongoose from 'mongoose';
 
 export function validatorRecipeParamsId() {
 	return async function (
@@ -17,7 +18,10 @@ export function validatorRecipeParamsId() {
 	): Promise<OutgoingMessage> {
 		try {
 			const { id } = req.params;
-			const errors: ValidationError[] = await validate(Object.assign(new MongodbIdDto(), id));
+			const errors: ValidationError[] = await validate(
+				Object.assign(new MongodbIdDto(), req.params)
+			);
+
 			const errorMessage = errors.reduce((acc, error) => {
 				acc[error.property] = Object.values(error.constraints);
 				return acc;

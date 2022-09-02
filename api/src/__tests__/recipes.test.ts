@@ -63,8 +63,14 @@ describe('Recipe', () => {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						title: ['title must be a string', 'title should not be empty'],
-						description: ['description must be a string', 'description should not be empty'],
+						title: [
+							`title ${BackendMessage.validation.SHOULD_NOT_BE_EMPTY}`,
+							`title ${BackendMessage.validation.MUST_BE_A_STRING}`,
+						],
+						description: [
+							`description ${BackendMessage.validation.SHOULD_NOT_BE_EMPTY}`,
+							`description ${BackendMessage.validation.MUST_BE_A_STRING}`,
+						],
 						categoryId: [`categoryId ${BackendMessage.validation.MUST_BE_A_MONGODB_ID}`],
 					},
 				};
@@ -82,7 +88,10 @@ describe('Recipe', () => {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						title: ['title must be a string', 'title should not be empty'],
+						title: [
+							`title ${BackendMessage.validation.SHOULD_NOT_BE_EMPTY}`,
+							`title ${BackendMessage.validation.MUST_BE_A_STRING}`,
+						],
 					},
 				};
 
@@ -99,7 +108,10 @@ describe('Recipe', () => {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						description: ['description must be a string', 'description should not be empty'],
+						description: [
+							`description ${BackendMessage.validation.SHOULD_NOT_BE_EMPTY}`,
+							`description ${BackendMessage.validation.MUST_BE_A_STRING}`,
+						],
 					},
 				};
 
@@ -134,8 +146,8 @@ describe('Recipe', () => {
 					message: BackendMessage.BAD_REQUEST,
 					code: 400,
 					error: {
-						title: ['title must be a string'],
-						description: ['description must be a string'],
+						title: [`title ${BackendMessage.validation.MUST_BE_A_STRING}`],
+						description: [`description ${BackendMessage.validation.MUST_BE_A_STRING}`],
 						categoryId: [`categoryId ${BackendMessage.validation.MUST_BE_A_MONGODB_ID}`],
 					},
 				};
@@ -170,18 +182,24 @@ describe('Recipe', () => {
 			it('not found. should return a 404 and message', async () => {
 				const id: string = testsManager.generateRandomMongoId();
 				const { statusCode, body } = await supertest(server).get(`/recipe/${id}`);
+				const data: IBackendError = {
+					code: 404,
+					message: BackendMessage.NOT_FOUND,
+				};
 
 				expect(statusCode).toBe(404);
+				expect(body).toEqual(data);
 			});
 		});
 
 		describe('negative uncorrect params id', () => {
 			it('should return a 400 and recipe', async () => {
-				const id = 'fakeId';
+				const id = 'fakeIdsf';
 				const { statusCode, body } = await supertest(server).get(`/recipe/${id}`);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
+					error: { id: [`id ${BackendMessage.validation.MUST_BE_A_MONGODB_ID}`] },
 				};
 
 				expect(statusCode).toBe(400);
@@ -294,7 +312,7 @@ describe('Recipe', () => {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						title: ['title must be a string'],
+						title: [`title ${BackendMessage.validation.MUST_BE_A_STRING}`],
 					},
 				};
 

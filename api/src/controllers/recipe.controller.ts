@@ -7,7 +7,7 @@ import { ExpressRequest } from 'src/types/express/expressRequest.interface';
 
 class RecipeController {
 	async findAll(req: Request, res: Response) {
-		const recipes = recipeService.find();
+		const recipes = await recipeService.find();
 		res.status(StatusCodes.OK).json(recipes);
 	}
 

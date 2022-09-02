@@ -295,7 +295,10 @@ describe('Recipe', () => {
 				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
 				const data: IBackendError = {
 					code: 400,
-					message: BackendMessage.NOT_FOUND,
+					message: BackendMessage.BAD_REQUEST,
+					error: {
+						id: [`id ${BackendMessage.validation.MUST_BE_A_MONGODB_ID}`],
+					},
 				};
 
 				expect(statusCode).toBe(400);
@@ -332,7 +335,6 @@ describe('Recipe', () => {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
 					error: {
-						// todo search validatiton(category)
 						categoryId: [`categoryId ${BackendMessage.validation.MUST_BE_A_MONGODB_ID}`],
 					},
 				};

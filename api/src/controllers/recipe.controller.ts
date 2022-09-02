@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { recipeService } from 'src/services/recipe.service';
+import { validateCategoryById } from 'src/shared/validation/category/category-get-by-id.validarion';
 import { validateRecipeById } from 'src/shared/validation/recipe/recipe-get-by-id.validarion';
 import { ExpressRecipeRequest } from 'src/types/express/expressRecipeRequest.interface';
 import { ExpressRequest } from 'src/types/express/expressRequest.interface';
@@ -21,9 +22,11 @@ class RecipeController {
 		res.status(StatusCodes.CREATED).json(createdRecipe);
 	}
 
+	// todo make interface
 	async update(req: ExpressRequest, res: Response) {
-		const { id } = req.body;
+		const { id, categoryId } = req.body;
 		await validateRecipeById(id);
+		await validateCategoryById(categoryId);
 		const updatedRecipe = await recipeService.update(id, req.body);
 		res.status(StatusCodes.OK).json(updatedRecipe);
 	}

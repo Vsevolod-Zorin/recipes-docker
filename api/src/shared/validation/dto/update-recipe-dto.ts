@@ -1,5 +1,5 @@
 import { Ref } from '@typegoose/typegoose';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Category } from 'src/schema/Category';
 import { IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import { IsMongoIdString } from '../decorators/is-mongodb-id-string';
@@ -20,8 +20,6 @@ export class UpdateRecipeDto implements IRecipeUpdate {
 	readonly description?: string;
 
 	@IsOptional()
-	@IsNotEmpty()
-	// @IsMongoId()
-	// @IsMongoIdString()
+	@IsMongoId()
 	readonly categoryId?: Ref<typeof Category, string>;
 }

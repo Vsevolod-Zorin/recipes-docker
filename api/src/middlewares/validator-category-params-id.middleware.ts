@@ -17,7 +17,9 @@ export function validatorCategoryParamsId() {
 		try {
 			const { id } = req.params;
 
-			const errors: ValidationError[] = await validate(Object.assign(new MongodbIdDto(), id));
+			const errors: ValidationError[] = await validate(
+				Object.assign(new MongodbIdDto(), req.params)
+			);
 			const errorMessage = errors.reduce((acc, error) => {
 				acc[error.property] = Object.values(error.constraints);
 				return acc;

@@ -26,7 +26,9 @@ class RecipeController {
 	async update(req: ExpressRequest, res: Response) {
 		const { id, categoryId } = req.body;
 		await validateRecipeById(id);
-		await validateCategoryById(categoryId);
+		if (categoryId) {
+			await validateCategoryById(categoryId);
+		}
 		const updatedRecipe = await recipeService.update(id, req.body);
 		res.status(StatusCodes.OK).json(updatedRecipe);
 	}

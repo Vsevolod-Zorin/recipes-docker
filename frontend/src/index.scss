@@ -1,5 +1,6 @@
 :root {
 	--header-height: 64px;
+	--aside-width: 300px;
 }
 
 body {
@@ -16,4 +17,18 @@ input {
 }
 a {
 	text-decoration: none;
+}
+
+.content {
+	background-color: rgb(200, 229, 253);
+	width: 100%;
+	max-width: 1600px;
+	min-width: 600px;
+	margin: 0 10%;
+}
+
+@media (max-width: 1200px) {
+	.content {
+		margin: 0 5%;
+	}
 }

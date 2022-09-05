@@ -1,16 +1,25 @@
 import { combineReducers, configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import { categoryReducer } from 'src/store/reducers/category.slice';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { createLogger } from 'redux-logger';
+import { categoryReducer } from 'src/store/reducers/category.slice';
 import { categoryApi } from 'src/services/category.api';
+import { config, Envs } from 'src/config';
 
 const rootReducer = combineReducers({
 	categoryReducer,
 	[categoryApi.reducerPath]: categoryApi.reducer,
 });
 
+const logger = createLogger({});
+
 export const store = configureStore({
 	reducer: rootReducer,
-	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(categoryApi.middleware),
+	middleware: getDefaultMiddleware =>
+		config.getEnv() === Envs.production
+			? getDefaultMiddleware()
+			: getDefaultMiddleware().concat(logger),
+
+	devTools: config.getEnv() !== Envs.production,
 });
 
 setupListeners(store.dispatch);

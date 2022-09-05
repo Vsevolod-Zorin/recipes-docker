@@ -23,6 +23,12 @@ export class RecipeService {
 	delete(id: string): Promise<IRecipe> {
 		return recipeModel.delete(id);
 	}
+
+	// todo: delete type
+	deleteMany(recipes: IRecipe[]) {
+		const ids: string[] = recipes.map(el => el._id);
+		return recipeModel.deleteMany(ids);
+	}
 }
 
 export const recipeService = new RecipeService();

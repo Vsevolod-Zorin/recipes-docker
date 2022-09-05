@@ -1,11 +1,13 @@
 .footer {
 	display: flex;
 	justify-content: center;
-	&-wrapper {
-		display: flex;
-		align-items: center;
-	}
 	height: var(--header-height);
 	background-color: black;
 	color: white;
+
+	&-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
 }

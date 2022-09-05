@@ -1,4 +1,5 @@
 import React from 'react';
+import Loader from '../Loader';
 import './footer.scss';
 
 const Footer = () => {
@@ -6,6 +7,7 @@ const Footer = () => {
 		<footer className="footer">
 			<div className="footer-wrapper content">
 				<p>footer</p>
+				<Loader />
 			</div>
 		</footer>
 	);

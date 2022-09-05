@@ -1,4 +1,12 @@
 .main {
 	min-height: calc(100vh - var(--header-height) - var(--header-height));
-	background-color: lightblue;
+	background-color: lightgreen;
+	display: flex;
+	&__left-part {
+		background-color: lightblue;
+	}
+	&__right-part {
+		width: 100%;
+		background-color: lightsteelblue;
+	}
 }

@@ -2,6 +2,8 @@ import { categoryModel } from 'src/models/category.model';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
 import { IQueryCategoryFindMany } from 'src/types/category/query-category-find-many.interface';
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
+import { IRecipe } from 'src/types/recipe/recipe.interface';
+import { recipeService } from './recipe.service';
 
 export class CategoryService {
 	find(query: IQueryCategoryFindMany = {}): Promise<ICategory[]> {
@@ -33,6 +35,12 @@ export class CategoryService {
 		const ids = categories.map(el => el._id);
 
 		return await categoryModel.updateMany(ids, { parentId: category.parentId });
+	}
+
+	async deleteRecipes(category: ICategory) {
+		const id = category._id.toString();
+		const recipes: IRecipe[] = await recipeService.find({ categoryid: [id] });
+		return await recipeService.deleteMany(recipes);
 	}
 }
 

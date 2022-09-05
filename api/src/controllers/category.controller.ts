@@ -33,6 +33,7 @@ class CategoryController {
 
 	async delete(req: ExpressCategoryRequest, res: Response) {
 		const { category } = req;
+		await categoryService.deleteRecipes(category);
 		await categoryService.moveChildsCategoryUp(category);
 		await categoryService.delete(category._id);
 

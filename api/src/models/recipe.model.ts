@@ -21,9 +21,13 @@ class RecipeModel {
 		return Recipe.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
 	}
 
-	// todo type
 	updateMany(ids: string[], update: IRecipeUpdate): Promise<UpdateWriteOpResult> {
 		return Recipe.updateMany({ id: { $in: ids } }, update).exec();
+	}
+
+	// todo type
+	deleteMany(ids: string[]) {
+		return Recipe.deleteMany({ id: { $in: ids } });
 	}
 
 	delete(id: string): Promise<IRecipe> {

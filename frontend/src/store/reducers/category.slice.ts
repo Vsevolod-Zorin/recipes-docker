@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICategory } from 'src/types/category/category.interface';
-interface ICategoryState {
+
+export interface ICategoryState {
 	categories: ICategory[];
 }
 

@@ -11,14 +11,16 @@
 		ul {
 			list-style: none;
 			li {
-				a {
-					&:hover {
-						color: rgb(44, 162, 215);
-						cursor: pointer;
-						transition-delay: 0s;
-					}
-					&.active {
-						color: white;
+				div {
+					a {
+						&:hover {
+							color: rgb(44, 162, 215);
+							cursor: pointer;
+							transition-delay: 0s;
+						}
+						&.active {
+							color: white;
+						}
 					}
 				}
 			}

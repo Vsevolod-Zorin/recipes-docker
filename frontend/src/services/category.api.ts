@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { config } from 'src/config';
 import { ICategory } from 'src/types/category/category.interface';
 
 export const categoryApi = createApi({
 	reducerPath: 'categoryApi',
-	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:4000' }),
+	baseQuery: fetchBaseQuery({ baseUrl: config.api.baseUrl }),
 	tagTypes: ['Category'],
 	// refetchOnFocus: true,
 	endpoints: build => ({

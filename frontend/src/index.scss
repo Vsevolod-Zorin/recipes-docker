@@ -1,6 +1,8 @@
 :root {
 	--header-height: 64px;
 	--aside-width: 300px;
+	--accents-dark-1: black;
+	--accents-light-1: white;
 }
 
 body {
@@ -20,7 +22,6 @@ a {
 }
 
 .content {
-	background-color: rgb(200, 229, 253);
 	width: 100%;
 	max-width: 1600px;
 	min-width: 600px;
@@ -30,5 +31,10 @@ a {
 @media (max-width: 1200px) {
 	.content {
 		margin: 0 5%;
+	}
+}
+@media (max-width: 600px) {
+	.content {
+		margin: 0 0;
 	}
 }

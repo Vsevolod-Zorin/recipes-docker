@@ -4,6 +4,7 @@ import './recipe.scss';
 
 const Recipe = () => {
 	const { recipeId } = useParams();
+
 	return (
 		<div>
 			<h1>Recipe: {recipeId}</h1>

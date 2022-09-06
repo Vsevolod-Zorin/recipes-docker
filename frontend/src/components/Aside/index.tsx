@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
-import { useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { useNavigate } from 'react-router';
+import { useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { ICategory } from 'src/types/category/category.interface';
 import appManager from 'src/helpers/app.manager';
 import CategoryListItem from './parts/category-list-item';

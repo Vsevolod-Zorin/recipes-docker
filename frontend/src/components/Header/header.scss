@@ -3,7 +3,7 @@
 	justify-content: center;
 	height: var(--header-height);
 	background-color: black;
-	color: white;
+	color: var(--accents-light-1);
 
 	&-wrapper {
 		display: flex;
@@ -16,14 +16,12 @@
 		justify-content: flex-start;
 		align-items: center;
 		width: var(--aside-width);
-		background-color: brown;
 		cursor: pointer;
 	}
 	&__nav {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: lightgreen;
 	}
 	&__search {
 		width: 200px;

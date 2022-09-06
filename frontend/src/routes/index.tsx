@@ -5,7 +5,6 @@ import Posts from 'src/containers/Posts';
 import Recipe from 'src/containers/Recipe';
 import Recipes from 'src/containers/Recipes';
 
-// todo: fetch categories
 export const CustomRouter = () => {
 	return (
 		<Routes>

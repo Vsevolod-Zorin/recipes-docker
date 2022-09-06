@@ -19,6 +19,10 @@ class AppManager {
 	set selectCategoryId(value: string) {
 		this._selectedCategoryId = value;
 	}
+
+	resetSelectedCategory() {
+		this._selectedCategoryId = '';
+	}
 }
 
 const appManager = new AppManager();

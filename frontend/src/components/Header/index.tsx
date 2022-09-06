@@ -7,7 +7,7 @@ const Header = () => {
 	let navigate = useNavigate();
 
 	const handleClickLogo = () => {
-		appManager.selectCategoryId = '';
+		appManager.resetSelectedCategory();
 		navigate(`/`);
 	};
 	// todo make constants

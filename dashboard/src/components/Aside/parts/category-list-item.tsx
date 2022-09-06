@@ -8,7 +8,7 @@ interface ICategoryListItem {
 
 const CategoryListItem: React.FC<ICategoryListItem> = ({ category }) => {
 	return (
-		<div className="categoryItem">
+		<div className="list__item--wrapper">
 			<NavLink to={`category/${category._id}`}>{category.name}</NavLink>
 		</div>
 	);

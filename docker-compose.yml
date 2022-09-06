@@ -26,6 +26,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
       - apiBaseUrl=http://localhost:4000
+      - PORT=3020
     restart: unless-stopped
     command: serve -s build -l 3020
     networks:

@@ -7,10 +7,10 @@ const Main = () => {
 	return (
 		<main className="main">
 			<div className="main-wrapper content">
-				<div className="main__left-part">
+				<section className="main__left-part">
 					<Aside />
-				</div>
-				<div className="main__right-part">
+				</section>
+				<section className="main__right-part">
 					<Breadcrumbs />
 					<p>
 						main Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur nesciunt commodi
@@ -82,7 +82,8 @@ const Main = () => {
 						neque libero praesentium fuga unde earum aliquid quibusdam. Est aspernatur maxime iusto
 						saepe atque enim ea repellat perferendis non dicta
 					</p>
-				</div>
+					<div className="router-wrapper"></div>
+				</section>
 			</div>
 		</main>
 	);

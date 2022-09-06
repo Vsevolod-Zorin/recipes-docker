@@ -1,0 +1,28 @@
+.aside {
+	position: sticky;
+	top: 0;
+	width: var(--aside-width);
+	height: 500px;
+	&-wrapper {
+	}
+
+	&__nav {
+		ul {
+			list-style: none;
+			li {
+				div {
+					a {
+						&:hover {
+							color: rgb(44, 162, 215);
+							cursor: pointer;
+							transition-delay: 0s;
+						}
+						&.active {
+							color: var(--accents-light-1);
+						}
+					}
+				}
+			}
+		}
+	}
+}

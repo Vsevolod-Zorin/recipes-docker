@@ -1,0 +1,21 @@
+.main {
+	display: flex;
+	justify-content: center;
+	height: calc(100vh - var(--header-height) - var(--header-height));
+	overflow-y: scroll;
+	&-wrapper {
+		display: flex;
+		min-height: calc(100vh - var(--header-height) - var(--header-height));
+	}
+	&__left-part {
+		height: 100%;
+		width: var(--aside-width);
+		display: flex;
+		justify-content: center;
+	}
+	&__right-part {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 10px;
+	}
+}

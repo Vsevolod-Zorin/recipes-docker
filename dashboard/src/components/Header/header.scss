@@ -1,0 +1,30 @@
+.header {
+	display: flex;
+	justify-content: center;
+	height: var(--header-height);
+	background-color: black;
+	color: var(--accents-light-1);
+
+	&-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&__logo {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		width: var(--aside-width);
+		cursor: pointer;
+	}
+	&__nav {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&__search {
+		width: 200px;
+		height: 30px;
+	}
+}

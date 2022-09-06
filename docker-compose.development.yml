@@ -11,6 +11,16 @@ services:
     volumes:
       - ./frontend/src:/usr/src/app/src
 
+  dashboard:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./dashboard
+    command: yarn start
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./dashboard/src:/usr/src/app/src
+
   api:
     command: npm run dev
     volumes:

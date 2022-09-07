@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import appManager from 'src/helpers/app.manager';
-import './recipes.scss';
+import './posts.scss';
 
-const Recipes = () => {
+const Posts = () => {
 	useEffect(() => {
 		if (appManager.selectCategoryId) {
 			// fetch by category
@@ -11,13 +11,18 @@ const Recipes = () => {
 		}
 	}, []);
 
+	useEffect(() => {
+		if (appManager.selectCategoryId) {
+			// fetch by category
+		} else {
+			// fetch all
+		}
+	}, []);
 	return (
 		<div>
-			<h1>Recipes</h1>
+			<h1>Posts</h1>
 		</div>
 	);
 };
 
-export default Recipes;
-
-//
+export default Posts;

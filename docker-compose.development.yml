@@ -15,7 +15,7 @@ services:
     build:
       dockerfile: Dockerfile.dev
       context: ./dashboard
-    command: yarn start:dev
+    command: yarn start:dev-win
     stdin_open: true
     tty: true
     volumes:

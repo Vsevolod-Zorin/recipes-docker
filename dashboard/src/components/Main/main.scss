@@ -12,10 +12,12 @@
 		width: var(--aside-width);
 		display: flex;
 		justify-content: center;
+		background-color: lightcoral;
 	}
 	&__right-part {
 		width: 100%;
 		box-sizing: border-box;
 		padding: 10px;
+		background-color: lightblue;
 	}
 }

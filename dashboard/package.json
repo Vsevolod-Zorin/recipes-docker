@@ -26,7 +26,8 @@
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
-		"start:dev": "react-scripts start",
+		"start:dev-win": "set PORT=3020 && react-scripts start",
+		"start:dev": "PORT=3020 && react-scripts start",
 		"start": "WATCHPACK_POLLING=true react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",

@@ -1,27 +1,37 @@
 import { ICategory } from 'src/types/category/category.interface';
 
-interface ICell {
+export interface ICell {
 	_currentCategory: ICategory | null;
 	_prev: ICell | null;
-	_next: ICell | null;
+	_next: ICell[];
+	initParent?: (list: ICell[]) => void;
 }
 
 const initialState: ICell = {
 	_currentCategory: null,
 	_prev: null,
-	_next: null,
+	_next: [],
 };
 
 class Cell implements ICell {
 	public _currentCategory: ICategory | null = null;
 	public _prev: ICell | null = null;
-	public _next: ICell | null = null;
+	public _next: ICell[] = [];
 
 	constructor(initialState: ICell | null = null) {
 		if (initialState) {
 			this._currentCategory = initialState._currentCategory;
 			this._prev = initialState._prev;
 			this._next = initialState._next;
+		}
+	}
+
+	initParent(list: ICell[]): void {
+		const parent: ICell | undefined = list.find(
+			el => el._currentCategory?._id === this._currentCategory?.parentId
+		);
+		if (parent) {
+			this._prev = parent;
 		}
 	}
 
@@ -80,17 +90,23 @@ class Branch implements IBranch {
 	}
 }
 
-class TreeManager {
+export class TreeManager {
 	// private _sourceBranchesList: IBranch[] = [];
 	private _sourceBranchesMap: Map<number, IBranch> = new Map<number, IBranch>();
+	cellsList: ICell[] = [];
 	// todo private
-	public sourceCategoryList: ICategory[] = [];
+	constructor(readonly sourceCategoryList: ICategory[]) {
+		this.cellsList = this.sourceCategoryList.map(el => this.wrapCategoryToCell(el));
+	}
 
+	sortedCellsList: ICell[] = [];
 	getByParrentId(parrentId: string | null): ICategory[] {
 		return this.sourceCategoryList.filter(el => el.parentId === parrentId);
 	}
 
 	get sourceBranchesMap() {
+		// console.log('--- TreeManager');
+
 		return this._sourceBranchesMap;
 	}
 	private set sourceBranchesMap(value: Map<number, IBranch>) {
@@ -106,9 +122,40 @@ class TreeManager {
 		return cell._prev;
 	}
 
-	getNext(cell: ICell): ICell | null {
+	getNext(cell: ICell): ICell[] {
 		return cell._next;
 	}
+
+	wrapCategoryToCell(category: ICategory) {
+		const cell = new Cell();
+		cell._currentCategory = category;
+		return cell;
+	}
+
+	findManyByParentId(id: string | null): ICell[] {
+		return this.cellsList.filter(cell => cell._currentCategory?.parentId === id);
+	}
+
+	init() {
+		this.sortedCellsList = this.findManyByParentId(null);
+		console.log('--- sortedCellsList', { sortedCellsList: this.sortedCellsList });
+		// !@ todo:
+		this.cellsList.forEach((el, index, arr) => {
+			el._next = this.findManyByParentId(el._currentCategory!._id);
+			// make refs from child to parent
+			el.initParent!(this.cellsList);
+			// const childs = this.findManyByParentId(el._currentCategory!._id);
+			// childs.forEach(ch => {
+			// 	el._next.push(ch);
+			// });
+			// console.log('===', { childs });
+
+			//todo:  make refs from parrent ro childs
+		});
+
+		console.log('--- sortedCellsList', { sortedCellsList: this.sortedCellsList });
+	}
+
 	// todo check
 	// getCurrentCell(){
 	// 	const cell = new Cell({
@@ -125,8 +172,4 @@ class TreeManager {
 	}
 }
 
-const tree = new Map<string, IBranch>();
-
-export const treeBuilder = (categories: ICategory[]) => {
-	categories.forEach(el => {});
-};
+export const treeBuilder = (categories: ICategory[]) => {};

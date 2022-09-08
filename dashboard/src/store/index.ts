@@ -17,7 +17,8 @@ export const store = configureStore({
 	middleware: getDefaultMiddleware =>
 		config.getEnv() === Envs.production
 			? getDefaultMiddleware()
-			: getDefaultMiddleware().concat(logger),
+			: // : getDefaultMiddleware().concat(logger),
+			  getDefaultMiddleware().concat(),
 
 	devTools: config.getEnv() !== Envs.production,
 });

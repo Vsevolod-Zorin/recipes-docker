@@ -64,7 +64,6 @@ interface IBranch {
 	branchIndex: number;
 }
 class Branch implements IBranch {
-	// branchesList
 	private _branchesMap: Map<number, IBranch>;
 	private _cellsList: ICell[];
 	private _cell: ICell;
@@ -94,7 +93,7 @@ export class TreeManager {
 	// private _sourceBranchesList: IBranch[] = [];
 	private _sourceBranchesMap: Map<number, IBranch> = new Map<number, IBranch>();
 	cellsList: ICell[] = [];
-	// todo private
+
 	constructor(readonly sourceCategoryList: ICategory[]) {
 		this.cellsList = this.sourceCategoryList.map(el => this.wrapCategoryToCell(el));
 	}
@@ -105,26 +104,24 @@ export class TreeManager {
 	}
 
 	get sourceBranchesMap() {
-		// console.log('--- TreeManager');
-
 		return this._sourceBranchesMap;
 	}
 	private set sourceBranchesMap(value: Map<number, IBranch>) {
 		this._sourceBranchesMap = value;
 	}
 
-	addNewBranch(cell: ICell) {
-		const index = this._sourceBranchesMap.size;
-		this._sourceBranchesMap.set(index, new Branch(index, cell));
-	}
+	// addNewBranch(cell: ICell) {
+	// 	const index = this._sourceBranchesMap.size;
+	// 	this._sourceBranchesMap.set(index, new Branch(index, cell));
+	// }
 
-	getPrev(cell: ICell): ICell | null {
-		return cell._prev;
-	}
+	// getPrev(cell: ICell): ICell | null {
+	// 	return cell._prev;
+	// }
 
-	getNext(cell: ICell): ICell[] {
-		return cell._next;
-	}
+	// getNext(cell: ICell): ICell[] {
+	// 	return cell._next;
+	// }
 
 	wrapCategoryToCell(category: ICategory) {
 		const cell = new Cell();
@@ -136,45 +133,33 @@ export class TreeManager {
 		return this.cellsList.filter(cell => cell._currentCategory?.parentId === id);
 	}
 
+	/**
+	 * @description: 'cell(category) -> init cell.prev: ICell and cell.next: ICell[]'
+	 */
+	rec = (cellsList: ICell[]) => {
+		cellsList.forEach((el, index, arr) => {
+			el._next = this.findManyByParentId(el._currentCategory!._id);
+			el.initParent!(this.cellsList);
+			if (el._next.length > 0) {
+				this.rec(el._next);
+			}
+		});
+	};
+
 	init() {
 		this.sortedCellsList = this.findManyByParentId(null);
 		console.log('--- sortedCellsList', { sortedCellsList: this.sortedCellsList });
-		// !@ todo:
 
-		const rec = (cellsList: ICell[]) => {
-			cellsList.forEach((el, index, arr) => {
-				el._next = this.findManyByParentId(el._currentCategory!._id);
-				el.initParent!(this.cellsList);
-				if (el._next.length > 0) {
-					rec(el._next);
-				}
-			});
-		};
-
+		//
 		this.cellsList.forEach((el, index, arr) => {
 			el._next = this.findManyByParentId(el._currentCategory!._id);
 			el.initParent!(this.cellsList);
-			// const childs = this.findManyByParentId(el._currentCategory!._id);
-			// childs.forEach(ch => {
-			// 	el._next.push(ch);
-			// });
-			// console.log('===', { childs });
-
-			//todo:  make refs from parrent ro childs
+			this.rec(this.cellsList);
 		});
 
-		console.log('--- sortedCellsList init', { sortedCellsList: this.sortedCellsList });
+		// console.log('cellsList', { cellsList: this.cellsList });
+		// console.log('--- sortedCellsList init', { sortedCellsList: this.sortedCellsList });
 	}
-
-	// todo check
-	// getCurrentCell(){
-	// 	const cell = new Cell({
-	// 		_currentCategory: this.,
-	// 		 _next: this.next,
-	// 		  _prev: this.prev
-	// 		});
-	// 	return cell
-	// }
 
 	getBreadcrumbs(cell: ICell) {
 		const list: ICell[] = [];

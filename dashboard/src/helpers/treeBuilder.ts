@@ -150,15 +150,11 @@ export class TreeManager {
 		this.sortedCellsList = this.findManyByParentId(null);
 		console.log('--- sortedCellsList', { sortedCellsList: this.sortedCellsList });
 
-		//
 		this.cellsList.forEach((el, index, arr) => {
 			el._next = this.findManyByParentId(el._currentCategory!._id);
 			el.initParent!(this.cellsList);
 			this.rec(this.cellsList);
 		});
-
-		// console.log('cellsList', { cellsList: this.cellsList });
-		// console.log('--- sortedCellsList init', { sortedCellsList: this.sortedCellsList });
 	}
 
 	getBreadcrumbs(cell: ICell) {

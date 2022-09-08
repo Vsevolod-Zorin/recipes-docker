@@ -48,16 +48,41 @@ class Cell implements ICell {
 }
 
 interface IBranch {
-	categoriesList: ICategory[];
+	// parent: IBranch | null;
+	cellsList: ICell[];
+	branchesMap: Map<number, IBranch>;
+	branchIndex: number;
 }
 class Branch implements IBranch {
-	public categoriesList: ICategory[] = [];
-	// private ca;
-	constructor(cell: ICell) {}
+	// branchesList
+	private _branchesMap: Map<number, IBranch>;
+	private _cellsList: ICell[];
+	private _cell: ICell;
+
+	constructor(readonly branchIndex: number, cell: ICell) {
+		this._branchesMap = new Map<number, IBranch>();
+		this._cellsList = [];
+		this._cell = cell;
+	}
+
+	get branchesMap() {
+		return this._branchesMap;
+	}
+	private set branchesMap(value: Map<number, IBranch>) {
+		this._branchesMap = value;
+	}
+
+	get cellsList() {
+		return this._cellsList;
+	}
+	private set celslList(value: ICell[]) {
+		this._cellsList = value;
+	}
 }
 
 class TreeManager {
-	private _sourceBranchesList: IBranch[] = [];
+	// private _sourceBranchesList: IBranch[] = [];
+	private _sourceBranchesMap: Map<number, IBranch> = new Map<number, IBranch>();
 	// todo private
 	public sourceCategoryList: ICategory[] = [];
 
@@ -65,15 +90,16 @@ class TreeManager {
 		return this.sourceCategoryList.filter(el => el.parentId === parrentId);
 	}
 
-	get sourceBranchesList() {
-		return this._sourceBranchesList;
+	get sourceBranchesMap() {
+		return this._sourceBranchesMap;
 	}
-	private set sourceBranchesList(value: IBranch[]) {
-		this._sourceBranchesList = value;
+	private set sourceBranchesMap(value: Map<number, IBranch>) {
+		this._sourceBranchesMap = value;
 	}
 
 	addNewBranch(cell: ICell) {
-		this._sourceBranchesList.push(new Branch(cell));
+		const index = this._sourceBranchesMap.size;
+		this._sourceBranchesMap.set(index, new Branch(index, cell));
 	}
 
 	getPrev(cell: ICell): ICell | null {

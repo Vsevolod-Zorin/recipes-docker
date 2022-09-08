@@ -140,9 +140,19 @@ export class TreeManager {
 		this.sortedCellsList = this.findManyByParentId(null);
 		console.log('--- sortedCellsList', { sortedCellsList: this.sortedCellsList });
 		// !@ todo:
+
+		const rec = (cellsList: ICell[]) => {
+			cellsList.forEach((el, index, arr) => {
+				el._next = this.findManyByParentId(el._currentCategory!._id);
+				el.initParent!(this.cellsList);
+				if (el._next.length > 0) {
+					rec(el._next);
+				}
+			});
+		};
+
 		this.cellsList.forEach((el, index, arr) => {
 			el._next = this.findManyByParentId(el._currentCategory!._id);
-			// make refs from child to parent
 			el.initParent!(this.cellsList);
 			// const childs = this.findManyByParentId(el._currentCategory!._id);
 			// childs.forEach(ch => {
@@ -153,7 +163,7 @@ export class TreeManager {
 			//todo:  make refs from parrent ro childs
 		});
 
-		console.log('--- sortedCellsList', { sortedCellsList: this.sortedCellsList });
+		console.log('--- sortedCellsList init', { sortedCellsList: this.sortedCellsList });
 	}
 
 	// todo check

@@ -15,7 +15,10 @@ const Cell: React.FC<ICellProps> = ({ cell }) => {
 	const renderChilds = useCallback(() => {
 		if (cell._next.length > 0) {
 			return cell._next.map((el, index) => (
-				<div key={'sub1-' + index}> {el._currentCategory?.name}</div>
+				<div key={'sub1-' + index}>
+					name: {el._currentCategory?.name}
+					<div>parentId: {el._currentCategory?.parentId}</div>
+				</div>
 			));
 		}
 	}, [cell]);

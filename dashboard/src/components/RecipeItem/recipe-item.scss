@@ -1,0 +1,15 @@
+.recipe {
+	width: 100%;
+	min-width: 200px;
+	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+	&__item {
+		&--title {
+		}
+		&--description {
+		}
+		&--category {
+		}
+	}
+}

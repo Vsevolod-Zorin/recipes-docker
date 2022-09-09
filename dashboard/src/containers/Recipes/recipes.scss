@@ -1,0 +1,23 @@
+.recipes {
+	&-wrapper {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	&__left-part {
+		width: 50%;
+		background-color: green;
+	}
+	&__right-part {
+		width: 50%;
+		background-color: brown;
+	}
+}
+
+.right-part {
+	&__controls {
+		display: flex;
+		flex-direction: column;
+	}
+}

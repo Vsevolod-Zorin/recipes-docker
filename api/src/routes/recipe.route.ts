@@ -10,6 +10,7 @@ const recipeRouter = Router();
 
 recipeRouter
 	.get('/', errorHandler(recipeController.findAll))
+	.get('/test', errorHandler(recipeController.getByCategoryId))
 	.get('/:id', validatorRecipeParamsId(), errorHandler(recipeController.getById))
 	.post('/', validatorDto(CreateRecipeDto), errorHandler(recipeController.create))
 	.put('/', validatorDto(UpdateRecipeDto), errorHandler(recipeController.update))

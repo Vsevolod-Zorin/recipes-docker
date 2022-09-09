@@ -4,10 +4,12 @@ import { createLogger } from 'redux-logger';
 import { categoryReducer } from 'src/store/reducers/category.slice';
 import { categoryApi } from 'src/services/category.api';
 import { config, Envs } from 'src/config';
+import { recipeApi } from 'src/services/recipe.api';
 
 const rootReducer = combineReducers({
 	categoryReducer,
 	[categoryApi.reducerPath]: categoryApi.reducer,
+	[recipeApi.reducerPath]: recipeApi.reducer,
 });
 
 const logger = createLogger({});

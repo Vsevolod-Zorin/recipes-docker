@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-interface IRecipeState {}
+export interface IRecipeState {}
 
 const initialState: IRecipeState = {};
 

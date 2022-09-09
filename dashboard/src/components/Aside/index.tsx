@@ -1,54 +1,26 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import { useFetchAllCategoriesQuery } from 'src/services/category.api';
-import { ICategory } from 'src/types/category/category.interface';
-import appManager from 'src/helpers/app.manager';
-import CategoryListItem from './parts/category-list-item';
-import './aside.scss';
+
 import Tree from '../shared/Tree';
+import './aside.scss';
+import { useAppDispatch } from 'src/hooks/redux';
+import { ICell } from 'src/helpers/treeBuilder';
+import { categoryActions } from 'src/store/reducers/category.slice';
 
 const Aside = () => {
-	let navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
-	const { data } = useFetchAllCategoriesQuery({});
-	useEffect(() => {}, []);
-
-	const handleClick = useCallback(
-		(el: ICategory) => {
-			// todo routes constants
-			appManager.selectCategoryId = el._id;
-			navigate(`/category/${el._id}/${appManager.resourceType}`);
-		},
-		[navigate]
-	);
-
-	const renderCategories = useCallback(() => {
-		// const categories = data?.map((el, index) => (
-		// 	<li key={`aside-item-${index}`} onClick={() => handleClick(el)}>
-		// 		<CategoryListItem category={el} />
-		// 	</li>
-		// ))
-
-		if (data) {
-			//todo: Tree[]
-			return <Tree categories={data}></Tree>;
-		}
-		return null;
-	}, [data]);
-
-	// const renderCategories = useCallback(() => {
-	// 	return data?.map((el, index) => (
-	// 		<li key={`aside-item-${index}`} onClick={() => handleClick(el)}>
-	// 			<CategoryListItem category={el} />
-	// 		</li>
-	// 	));
-	// }, [data]);
+	const handleClick = (el: ICell) => {
+		dispatch(categoryActions.setSelectedCell(el));
+	};
 
 	return (
 		<aside className="aside">
 			<div className="aside-wrapper">
 				<h1>categories</h1>
-				<nav className="aside__nav">{renderCategories()}</nav>
+				<nav className="aside__nav">
+					<Tree onClick={handleClick} />
+				</nav>
 			</div>
 		</aside>
 	);

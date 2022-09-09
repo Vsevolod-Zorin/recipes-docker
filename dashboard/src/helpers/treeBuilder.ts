@@ -34,103 +34,28 @@ class Cell implements ICell {
 			this._prev = parent;
 		}
 	}
-
-	// get currentCategory(): ICategory | null {
-	// 	return this._currentCategory;
-	// }
-	// set currentCategory(value: ICategory) {
-	// 	this._currentCategory = value;
-	// }
-
-	// get prev() {
-	// 	return this._prev;
-	// }
-	// set prev(value: ICategory | null) {
-	// 	this._prev = value;
-	// }
-
-	// get next() {
-	// 	return this._next;
-	// }
-	// set next(value: ICategory | null) {
-	// 	this._next = value;
-	// }
-}
-
-interface IBranch {
-	// parent: IBranch | null;
-	cellsList: ICell[];
-	branchesMap: Map<number, IBranch>;
-	branchIndex: number;
-}
-class Branch implements IBranch {
-	private _branchesMap: Map<number, IBranch>;
-	private _cellsList: ICell[];
-	private _cell: ICell;
-
-	constructor(readonly branchIndex: number, cell: ICell) {
-		this._branchesMap = new Map<number, IBranch>();
-		this._cellsList = [];
-		this._cell = cell;
-	}
-
-	get branchesMap() {
-		return this._branchesMap;
-	}
-	private set branchesMap(value: Map<number, IBranch>) {
-		this._branchesMap = value;
-	}
-
-	get cellsList() {
-		return this._cellsList;
-	}
-	private set celslList(value: ICell[]) {
-		this._cellsList = value;
-	}
 }
 
 export class TreeManager {
-	// private _sourceBranchesList: IBranch[] = [];
-	private _sourceBranchesMap: Map<number, IBranch> = new Map<number, IBranch>();
 	cellsList: ICell[] = [];
+	sortedCellsList: ICell[] = [];
 
 	constructor(readonly sourceCategoryList: ICategory[]) {
 		this.cellsList = this.sourceCategoryList.map(el => this.wrapCategoryToCell(el));
 	}
 
-	sortedCellsList: ICell[] = [];
 	getByParrentId(parrentId: string | null): ICategory[] {
 		return this.sourceCategoryList.filter(el => el.parentId === parrentId);
 	}
 
-	get sourceBranchesMap() {
-		return this._sourceBranchesMap;
+	findManyByParentId(id: string | null): ICell[] {
+		return this.cellsList.filter(cell => cell._currentCategory?.parentId === id);
 	}
-	private set sourceBranchesMap(value: Map<number, IBranch>) {
-		this._sourceBranchesMap = value;
-	}
-
-	// addNewBranch(cell: ICell) {
-	// 	const index = this._sourceBranchesMap.size;
-	// 	this._sourceBranchesMap.set(index, new Branch(index, cell));
-	// }
-
-	// getPrev(cell: ICell): ICell | null {
-	// 	return cell._prev;
-	// }
-
-	// getNext(cell: ICell): ICell[] {
-	// 	return cell._next;
-	// }
 
 	wrapCategoryToCell(category: ICategory) {
 		const cell = new Cell();
 		cell._currentCategory = category;
 		return cell;
-	}
-
-	findManyByParentId(id: string | null): ICell[] {
-		return this.cellsList.filter(cell => cell._currentCategory?.parentId === id);
 	}
 
 	/**
@@ -148,7 +73,6 @@ export class TreeManager {
 
 	init() {
 		this.sortedCellsList = this.findManyByParentId(null);
-		console.log('--- sortedCellsList', { sortedCellsList: this.sortedCellsList });
 
 		this.cellsList.forEach((el, index, arr) => {
 			el._next = this.findManyByParentId(el._currentCategory!._id);

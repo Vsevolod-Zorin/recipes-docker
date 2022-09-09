@@ -1,21 +1,20 @@
 import React, { useCallback } from 'react';
-import Cell from 'src/components/Aside/parts/menu.cell';
-import { ICell } from 'src/helpers/treeBuilder';
+import Cell from 'src/components/Tree/parts/menu.cell';
 import { useFetchAllCategoriesQuery } from 'src/services/category.api';
 import './tree.scss';
 
 interface ITreeProps {
-	onClick?: (el: ICell) => void;
+	isAdmin: boolean;
 }
 
-const Tree: React.FC<ITreeProps> = ({ onClick }) => {
+const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	const { data } = useFetchAllCategoriesQuery({});
 
 	const renderTree = useCallback(() => {
 		return data?.cellsList.map((el, index) => (
-			<Cell key={el._currentCategory!._id + index} cell={el} onClick={onClick} />
+			<Cell key={el._currentCategory!._id + index} cell={el} isAdmin={isAdmin} />
 		));
-	}, [data, onClick]);
+	}, [data]);
 	return <div className="tree">{renderTree()}</div>;
 };
 

@@ -1,24 +1,31 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import { NavLink } from 'react-router-dom';
 import appManager from 'src/helpers/app.manager';
 import './header.scss';
 
 const Header = () => {
 	let navigate = useNavigate();
-	const listMenu = ['categories', 'recipes', 'posts'];
 
 	const handleClickLogo = () => {
 		appManager.resetSelectedCategory();
 		navigate(`/`);
 	};
 
-	const renderMenu = () => {
-		return listMenu.map((el, index) => (
-			<li key={`menu-item-${index}`} className="list__item--wrapper">
-				<NavLink to={`/${el}`}>{el}</NavLink>
-			</li>
-		));
+	const handleClickRecipeBtn = () => {
+		appManager.resourceType = 'recipe';
+		if (appManager.selectCategoryId) {
+			navigate(`/category/${appManager.selectCategoryId}/${appManager.resourceType}`);
+		} else {
+			navigate(`/`);
+		}
+	};
+	const handleClickPostBtn = () => {
+		appManager.resourceType = 'post';
+		if (appManager.selectCategoryId) {
+			navigate(`/category/${appManager.selectCategoryId}/${appManager.resourceType}`);
+		} else {
+			navigate(`/`);
+		}
 	};
 
 	return (
@@ -29,7 +36,10 @@ const Header = () => {
 				</div>
 
 				<nav className="header__menu">
-					<ul>{renderMenu()}</ul>
+					<nav className="header__nav">
+						<button onClick={handleClickRecipeBtn}>recipes</button>
+						<button onClick={handleClickPostBtn}>posts</button>
+					</nav>
 				</nav>
 
 				<input type="text" className="header__search" placeholder="search"></input>

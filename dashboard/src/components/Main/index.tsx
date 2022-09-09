@@ -1,7 +1,7 @@
 import React from 'react';
 import { CustomRouter } from 'src/routes';
 import Aside from 'src/components/Aside';
-import Breadcrumbs from 'src/components/shared/BreadCrumbs';
+import Breadcrumbs from 'src/components/BreadCrumbs';
 import './main.scss';
 
 const Main = () => {

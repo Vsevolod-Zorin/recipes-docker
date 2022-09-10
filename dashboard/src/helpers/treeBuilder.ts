@@ -5,18 +5,14 @@ export interface ICell {
 	_prev: ICell | null;
 	_next: ICell[];
 	initParent?: (list: ICell[]) => void;
+	initBreadcrumbs?: () => void;
 }
-
-const initialState: ICell = {
-	_currentCategory: null,
-	_prev: null,
-	_next: [],
-};
 
 class Cell implements ICell {
 	public _currentCategory: ICategory | null = null;
 	public _prev: ICell | null = null;
 	public _next: ICell[] = [];
+	public _breadcrumbs: string[] = [];
 
 	constructor(initialState: ICell | null = null) {
 		if (initialState) {
@@ -33,6 +29,17 @@ class Cell implements ICell {
 		if (parent) {
 			this._prev = parent;
 		}
+	}
+
+	initBreadcrumbs() {
+		let parent: ICell | null = this._prev;
+		do {
+			if (parent) {
+				this._breadcrumbs.push(parent._currentCategory!.name);
+				parent = parent._prev;
+			}
+		} while (parent);
+		this._breadcrumbs = this._breadcrumbs.reverse();
 	}
 }
 
@@ -65,8 +72,20 @@ export class TreeManager {
 		cellsList.forEach((el, index, arr) => {
 			el._next = this.findManyByParentId(el._currentCategory!._id);
 			el.initParent!(this.cellsList);
+			el.initBreadcrumbs!();
 			if (el._next.length > 0) {
 				this.rec(el._next);
+			}
+		});
+	};
+
+	recInitBreadcrumbs = (cellsList: ICell[]) => {
+		cellsList.forEach((el, index, arr) => {
+			el._next = this.findManyByParentId(el._currentCategory!._id);
+			// el.initParent!(this.cellsList);
+			el.initBreadcrumbs!();
+			if (el._next.length > 0) {
+				this.recInitBreadcrumbs(el._next);
 			}
 		});
 	};
@@ -77,8 +96,14 @@ export class TreeManager {
 		this.cellsList.forEach((el, index, arr) => {
 			el._next = this.findManyByParentId(el._currentCategory!._id);
 			el.initParent!(this.cellsList);
+			el.initBreadcrumbs!();
+
 			this.rec(this.cellsList);
 		});
+
+		console.log('--- sortedCellsList ', { sortedCellsList: this.sortedCellsList });
+
+		this.recInitBreadcrumbs(this.sortedCellsList);
 	}
 
 	getBreadcrumbs(cell: ICell) {

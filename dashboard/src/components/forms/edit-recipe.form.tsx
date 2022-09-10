@@ -10,8 +10,6 @@ interface IEditRecipeFormProps {
 }
 
 const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
-	// const { updateRecipe } = useUpdateRecipeMutation();
-
 	const formik = useFormik<IRecipeUpdate>({
 		initialValues: {
 			id: recipe!._id,
@@ -20,9 +18,7 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 			categoryId: recipe!.categoryId,
 		},
 		onSubmit: async (values: IRecipeUpdate) => {
-			// onUpdate(values);
 			console.log(values);
-			// updateRecipe(values as IRecipeUpdate);
 		},
 	});
 
@@ -44,7 +40,7 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 			</div>
 			<div className="form__input--wrapper">
 				<label className="form__input--label" htmlFor="title">
-					text
+					title
 				</label>
 				<input
 					className="form__input--input"
@@ -57,12 +53,11 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 			</div>
 			<div className="form__input--wrapper">
 				<label className="form__input--label" htmlFor="description">
-					text
+					description
 				</label>
-				<input
+				<textarea
 					className="form__input--input"
 					id="description"
-					type="text"
 					name="description"
 					value={formik.values.description}
 					onChange={formik.handleChange}
@@ -81,7 +76,11 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 					onChange={formik.handleChange}
 				/>
 			</div>
-			<button className="form__btn__submit" type="submit">
+			<button
+				className="btn btn__content--success form__btn__submit"
+				type="submit"
+				disabled={formik.isSubmitting}
+			>
 				update
 			</button>
 		</form>

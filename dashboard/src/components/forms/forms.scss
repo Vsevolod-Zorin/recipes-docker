@@ -12,6 +12,8 @@
 			box-sizing: border-box;
 		}
 		&--label {
+			color: var(--accents-light-1);
+			margin-bottom: 5px;
 		}
 		&--input {
 		}
@@ -20,6 +22,7 @@
 	&__btn {
 		&__submit {
 			margin-top: 30px;
+			font-size: 1.2em;
 		}
 	}
 }

@@ -12,13 +12,13 @@
 		width: var(--aside-width);
 		display: flex;
 		justify-content: center;
-		background-color: lightcoral;
+		// background-color: lightcoral;
 		overflow-y: scroll;
 	}
 	&__right-part {
 		width: 100%;
 		box-sizing: border-box;
 		padding: 10px;
-		background-color: lightblue;
+		// background-color: lightblue;
 	}
 }

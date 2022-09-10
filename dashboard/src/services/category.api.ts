@@ -23,6 +23,9 @@ export const categoryApi = createApi({
 					categoriesList: response,
 					cellsList: sortedCellsList,
 				};
+
+				console.log('--- fetchAllCategories', { data });
+
 				return data;
 			},
 		}),

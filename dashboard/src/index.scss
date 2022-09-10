@@ -41,3 +41,11 @@ a {
 		margin: 0 0;
 	}
 }
+
+.btn {
+	&__content {
+		&--success {
+			background-color: rgb(88, 253, 86);
+		}
+	}
+}

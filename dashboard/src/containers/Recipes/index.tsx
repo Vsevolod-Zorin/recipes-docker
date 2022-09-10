@@ -1,14 +1,19 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useParams } from 'react-router';
+import EditRecipeForm from 'src/components/forms/edit-recipe.form';
+import ModalForm from 'src/components/Modal';
 import RecipeItem from 'src/components/RecipeItem';
-import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
-import { IRecipe } from 'src/types/recipe/recipe.interface';
+import { useAppDispatch } from 'src/hooks/redux';
+import { useFetchAllRecipesQuery, useUpdateRecipeMutation } from 'src/services/recipe.api';
+import { IRecipe, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import './recipes.scss';
 
 const Recipes = () => {
 	const { categoryId } = useParams();
 	const { data } = useFetchAllRecipesQuery(categoryId as string);
 	const [selectedRecipe, setSelectedRecipe] = useState<IRecipe | null>(null);
+	const [editForm, setEditForm] = useState<boolean>(false);
+	// const { updateRecipe } = useUpdateRecipeMutation();
 
 	useEffect(() => {
 		return setSelectedRecipe(null);
@@ -24,6 +29,14 @@ const Recipes = () => {
 		}
 	}, [data]);
 
+	const handleClickEdit = () => {
+		setEditForm(true);
+	};
+
+	const onUpdateRecipe = (values: IRecipeUpdate) => {
+		// updateRecipe(values);
+	};
+
 	return (
 		<div className="recipes recipes-wrapper">
 			<section className="recipes__left-part">
@@ -33,14 +46,21 @@ const Recipes = () => {
 				<div className="right-part__controls">
 					<button>add recipe</button>
 					<input type="text" />
-					<button disabled={!selectedRecipe}>edit recipe</button>
+					<button onClick={handleClickEdit} disabled={!selectedRecipe}>
+						edit recipe
+					</button>
 					<button disabled={!selectedRecipe}>delete</button>
 				</div>
 				<div className="right-part__preview">
 					preview
-					{selectedRecipe && data && <RecipeItem recipe={selectedRecipe} />}
+					{selectedRecipe && <RecipeItem recipe={selectedRecipe} />}
 				</div>
 			</section>
+			{selectedRecipe && (
+				<ModalForm modalTitle="edit" active={editForm} setActive={setEditForm}>
+					<EditRecipeForm recipe={selectedRecipe} />
+				</ModalForm>
+			)}
 		</div>
 	);
 };

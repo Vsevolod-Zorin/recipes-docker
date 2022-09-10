@@ -42,7 +42,7 @@ const Header = () => {
 					</nav>
 				</nav>
 
-				<input type="text" className="header__search" placeholder="search"></input>
+				{/* <input type="text" className="header__search" placeholder="search"></input> */}
 			</div>
 		</header>
 	);

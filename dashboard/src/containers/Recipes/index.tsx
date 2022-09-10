@@ -22,7 +22,11 @@ const Recipes = () => {
 	const renderList = useCallback(() => {
 		if (data) {
 			return data.map((el, index) => (
-				<li key={`recipeListItem-${index}`} onClick={() => setSelectedRecipe(el)}>
+				<li
+					className="recipes__list--item"
+					key={`recipeListItem-${index}`}
+					onClick={() => setSelectedRecipe(el)}
+				>
 					{el.title}
 				</li>
 			));
@@ -40,7 +44,8 @@ const Recipes = () => {
 	return (
 		<div className="recipes recipes-wrapper">
 			<section className="recipes__left-part">
-				<ul>{renderList()}</ul>
+				<h1>recipes List</h1>
+				<ul className="recipes__list">{renderList()}</ul>
 			</section>
 			<section className="recipes__right-part">
 				<div className="right-part__controls">

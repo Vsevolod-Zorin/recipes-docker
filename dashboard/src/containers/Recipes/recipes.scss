@@ -7,11 +7,14 @@
 	}
 	&__left-part {
 		width: 50%;
-		background-color: green;
+		// background-color: green;
 	}
 	&__right-part {
 		width: 50%;
-		background-color: brown;
+		// background-color: brown;
+	}
+	&__list {
+		list-style: none;
 	}
 }
 

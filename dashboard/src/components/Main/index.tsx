@@ -12,7 +12,7 @@ const Main = () => {
 					<Aside />
 				</section>
 				<section className="main__right-part">
-					<Breadcrumbs />
+					{/* <Breadcrumbs /> */}
 					<div className="router-wrapper">
 						<CustomRouter />
 					</div>

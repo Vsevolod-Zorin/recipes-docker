@@ -1,6 +1,6 @@
 :root {
 	--header-height: 64px;
-	--aside-width: 450px;
+	--aside-width: 600px;
 	--accents-dark-1: black;
 	--accents-light-1: white;
 	--accents-light-2: rgb(220, 220, 220);
@@ -45,7 +45,7 @@ a {
 .btn {
 	&__content {
 		&--success {
-			background-color: rgb(88, 253, 86);
+			background-color: rgb(24, 195, 104);
 		}
 	}
 }

@@ -3,7 +3,8 @@ import { useParams } from 'react-router';
 import EditRecipeForm from 'src/components/forms/edit-recipe.form';
 import ModalForm from 'src/components/Modal';
 import RecipeItem from 'src/components/RecipeItem';
-import { useAppDispatch } from 'src/hooks/redux';
+import { useAppDispatch, useAppSelector } from 'src/hooks/redux';
+import { useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { useFetchAllRecipesQuery, useUpdateRecipeMutation } from 'src/services/recipe.api';
 import { IRecipe, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import './recipes.scss';
@@ -11,6 +12,7 @@ import './recipes.scss';
 const Recipes = () => {
 	const { categoryId } = useParams();
 	const { data } = useFetchAllRecipesQuery(categoryId as string);
+	// const category = useAppSelector();
 	const [selectedRecipe, setSelectedRecipe] = useState<IRecipe | null>(null);
 	const [editForm, setEditForm] = useState<boolean>(false);
 	// const { updateRecipe } = useUpdateRecipeMutation();
@@ -27,7 +29,7 @@ const Recipes = () => {
 					key={`recipeListItem-${index}`}
 					onClick={() => setSelectedRecipe(el)}
 				>
-					{el.title}
+					<RecipeItem recipe={el} />
 				</li>
 			));
 		}

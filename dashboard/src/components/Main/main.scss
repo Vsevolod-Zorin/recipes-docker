@@ -8,12 +8,14 @@
 		min-height: calc(100vh - var(--header-height) - var(--header-height));
 	}
 	&__left-part {
-		height: 100%;
 		width: var(--aside-width);
+		height: 100%;
+		padding: 10px;
 		display: flex;
 		justify-content: center;
 		// background-color: lightcoral;
 		overflow-y: scroll;
+		box-sizing: border-box;
 	}
 	&__right-part {
 		width: 100%;

@@ -51,15 +51,17 @@ const Recipes = () => {
 			</section>
 			<section className="recipes__right-part">
 				<div className="right-part__controls">
-					<button>add recipe</button>
-					<input type="text" />
-					<button onClick={handleClickEdit} disabled={!selectedRecipe}>
-						edit recipe
+					<button className="btn">add</button>
+
+					<button className="btn" onClick={handleClickEdit} disabled={!selectedRecipe}>
+						edit
 					</button>
-					<button disabled={!selectedRecipe}>delete</button>
+					<button className="btn" disabled={!selectedRecipe}>
+						delete
+					</button>
 				</div>
 				<div className="right-part__preview">
-					preview
+					<span>preview</span>
 					{selectedRecipe && <RecipeItem recipe={selectedRecipe} />}
 				</div>
 			</section>

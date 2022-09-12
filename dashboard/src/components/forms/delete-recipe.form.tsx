@@ -1,25 +1,24 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { IRecipe, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
-import { useUpdateRecipeMutation } from 'src/services/recipe.api';
+import { IRecipe, IRecipeDelete } from 'src/types/recipe/recipe.interface';
+import { useDeleteRecipeMutation } from 'src/services/recipe.api';
 import './forms.scss';
 
-interface IEditRecipeFormProps {
-	recipe: IRecipe | null;
+interface IDeleteRecipeFormProps {
+	recipe: IRecipe;
 }
 
-const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
-	// todo error
-	const [updateRecipe, {}] = useUpdateRecipeMutation();
-	const formik = useFormik<IRecipeUpdate>({
+const DeleteRecipeForm: React.FC<IDeleteRecipeFormProps> = ({ recipe }) => {
+	const [deleteRecipe, {}] = useDeleteRecipeMutation();
+	const formik = useFormik<IRecipeDelete>({
 		initialValues: {
-			id: recipe!._id,
-			title: recipe!.title,
-			description: recipe!.description,
-			categoryId: recipe!.categoryId,
+			id: recipe._id,
+			title: recipe.title,
+			description: recipe.description,
+			categoryId: recipe.categoryId,
 		},
-		onSubmit: async (values: IRecipeUpdate) => {
-			updateRecipe(values);
+		onSubmit: async (values: IRecipeDelete) => {
+			deleteRecipe(values.id);
 		},
 	});
 
@@ -30,13 +29,12 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 					id
 				</label>
 				<input
-					disabled
 					className="form__input--input"
 					id="id"
 					type="text"
 					name="id"
 					value={formik.values.id}
-					onChange={formik.handleChange}
+					disabled
 				/>
 			</div>
 			<div className="form__input--wrapper">
@@ -49,7 +47,7 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 					type="text"
 					name="title"
 					value={formik.values.title}
-					onChange={formik.handleChange}
+					disabled
 				/>
 			</div>
 			<div className="form__input--wrapper">
@@ -61,7 +59,7 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 					id="description"
 					name="description"
 					value={formik.values.description}
-					onChange={formik.handleChange}
+					disabled
 				/>
 			</div>
 			<div className="form__input--wrapper">
@@ -74,7 +72,7 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 					type="text"
 					name="categoryId"
 					value={formik.values.categoryId}
-					onChange={formik.handleChange}
+					disabled
 				/>
 			</div>
 			<button
@@ -82,10 +80,10 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
 				type="submit"
 				disabled={formik.isSubmitting}
 			>
-				update
+				delete
 			</button>
 		</form>
 	);
 };
 
-export default EditRecipeForm;
+export default DeleteRecipeForm;

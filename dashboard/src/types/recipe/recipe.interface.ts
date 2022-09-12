@@ -19,3 +19,10 @@ export interface IRecipeUpdate {
 	description?: string;
 	categoryId?: string;
 }
+
+export interface IRecipeDelete {
+	id: string;
+	title: string;
+	description: string;
+	categoryId: string;
+}

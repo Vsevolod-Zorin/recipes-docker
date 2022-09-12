@@ -1,21 +1,23 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useParams } from 'react-router';
+import CreateRecipeForm from 'src/components/forms/create-recipe.form';
+import DeleteRecipeForm from 'src/components/forms/delete-recipe.form';
 import EditRecipeForm from 'src/components/forms/edit-recipe.form';
 import ModalForm from 'src/components/Modal';
 import RecipeItem from 'src/components/RecipeItem';
-import { useAppDispatch, useAppSelector } from 'src/hooks/redux';
-import { useFetchAllCategoriesQuery } from 'src/services/category.api';
-import { useFetchAllRecipesQuery, useUpdateRecipeMutation } from 'src/services/recipe.api';
-import { IRecipe, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
+
+import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
+import { IRecipe } from 'src/types/recipe/recipe.interface';
 import './recipes.scss';
 
 const Recipes = () => {
 	const { categoryId } = useParams();
 	const { data } = useFetchAllRecipesQuery(categoryId as string);
-	// const category = useAppSelector();
+
 	const [selectedRecipe, setSelectedRecipe] = useState<IRecipe | null>(null);
 	const [editForm, setEditForm] = useState<boolean>(false);
-	// const { updateRecipe } = useUpdateRecipeMutation();
+	const [createForm, setCreateForm] = useState<boolean>(false);
+	const [deleteForm, setDeleteForm] = useState<boolean>(false);
 
 	useEffect(() => {
 		return setSelectedRecipe(null);
@@ -39,8 +41,12 @@ const Recipes = () => {
 		setEditForm(true);
 	};
 
-	const onUpdateRecipe = (values: IRecipeUpdate) => {
-		// updateRecipe(values);
+	const handleClickCreate = () => {
+		setCreateForm(true);
+	};
+
+	const handleClickDelete = () => {
+		setDeleteForm(true);
 	};
 
 	return (
@@ -51,12 +57,14 @@ const Recipes = () => {
 			</section>
 			<section className="recipes__right-part">
 				<div className="right-part__controls">
-					<button className="btn">add</button>
+					<button className="btn" onClick={handleClickCreate}>
+						add
+					</button>
 
 					<button className="btn" onClick={handleClickEdit} disabled={!selectedRecipe}>
 						edit
 					</button>
-					<button className="btn" disabled={!selectedRecipe}>
+					<button className="btn" onClick={handleClickDelete} disabled={!selectedRecipe}>
 						delete
 					</button>
 				</div>
@@ -65,9 +73,17 @@ const Recipes = () => {
 					{selectedRecipe && <RecipeItem recipe={selectedRecipe} />}
 				</div>
 			</section>
+			<ModalForm modalTitle="create" active={createForm} setActive={setCreateForm}>
+				<CreateRecipeForm />
+			</ModalForm>
 			{selectedRecipe && (
 				<ModalForm modalTitle="edit" active={editForm} setActive={setEditForm}>
 					<EditRecipeForm recipe={selectedRecipe} />
+				</ModalForm>
+			)}
+			{selectedRecipe && (
+				<ModalForm modalTitle="delete" active={deleteForm} setActive={setDeleteForm}>
+					<DeleteRecipeForm recipe={selectedRecipe} />
 				</ModalForm>
 			)}
 		</div>

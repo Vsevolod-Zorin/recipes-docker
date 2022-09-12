@@ -14,7 +14,7 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 		return data?.cellsList.map((el, index) => (
 			<Cell key={el._currentCategory!._id + index} cell={el} isAdmin={isAdmin} />
 		));
-	}, [data]);
+	}, [data, isAdmin]);
 	return <div className="tree">{renderTree()}</div>;
 };
 

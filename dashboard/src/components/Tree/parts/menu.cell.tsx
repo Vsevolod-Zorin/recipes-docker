@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import appManager from 'src/helpers/app.manager';
@@ -14,6 +14,11 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell }) => {
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const haveChilds = cell._next.length > 0;
 	let navigate = useNavigate();
+
+	useEffect(() => {
+		const b = cell.initBreadcrumbs!();
+		console.log('--- cell', { b });
+	}, []);
 
 	const handleClick = () => {
 		appManager.selectCategoryId = cell._currentCategory?._id || '';

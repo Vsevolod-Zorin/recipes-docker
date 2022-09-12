@@ -18,14 +18,14 @@ export const recipeApi = createApi({
 			providesTags: result => ['Recipe'],
 		}),
 
-		// createRecipe: build.mutation<IRecipe, IRecipeCreate>({
-		// 	query: (data: IRecipeCreate) => ({
-		// 		url: '/recipe',
-		// 		method: 'POST',
-		// 		body: data,
-		// 	}),
-		// 	invalidatesTags: ['Recipe'],
-		// }),
+		createRecipe: build.mutation<IRecipe, IRecipeCreate>({
+			query: (data: IRecipeCreate) => ({
+				url: '/recipe',
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['Recipe'],
+		}),
 		updateRecipe: build.mutation<IRecipe, IRecipeUpdate>({
 			query: (update: IRecipeUpdate) => ({
 				url: '/recipe',
@@ -34,15 +34,20 @@ export const recipeApi = createApi({
 			}),
 			invalidatesTags: ['Recipe'],
 		}),
-		// deleteRiecipe: build.mutation<null, {}>({
-		// 	query: (id: string) => ({
-		// 		url: `/recipe/${id}`,
-		// 		method: 'DELETE',
-		// 	}),
-		// 	invalidatesTags: ['Recipe'],
-		// }),
+		deleteRecipe: build.mutation<null, {}>({
+			query: (id: string) => ({
+				url: `/recipe/${id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['Recipe'],
+		}),
 	}),
 });
 
-export const { useFetchAllRecipesQuery, useLazyFetchAllRecipesQuery, useUpdateRecipeMutation } =
-	recipeApi;
+export const {
+	useCreateRecipeMutation,
+	useFetchAllRecipesQuery,
+	useLazyFetchAllRecipesQuery,
+	useUpdateRecipeMutation,
+	useDeleteRecipeMutation,
+} = recipeApi;

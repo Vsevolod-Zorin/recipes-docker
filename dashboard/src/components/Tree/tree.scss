@@ -1,0 +1,29 @@
+.tree {
+}
+
+.cell {
+	margin: 20px 0 20px 10px;
+
+	box-sizing: border-box;
+	&-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border-bottom: 1px solid black;
+	}
+	&__body {
+		margin-left: 2px;
+	}
+	a {
+		color: lightgray;
+		&:hover {
+			color: rgb(44, 162, 215);
+			cursor: pointer;
+			transition-delay: 0s;
+		}
+		&.active {
+			// color: var(--accents-light-1);
+			color: rgb(44, 162, 215);
+		}
+	}
+}

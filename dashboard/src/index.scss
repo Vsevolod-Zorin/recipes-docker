@@ -44,11 +44,6 @@ a {
 		color: var(--color-light-grey);
 	}
 	color: var(--accents-light-1);
-	&__content {
-		&--success {
-			background-color: rgb(24, 195, 104);
-		}
-	}
 }
 
 .custom-scroll {

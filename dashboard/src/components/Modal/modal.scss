@@ -23,8 +23,9 @@
 	}
 	&__content {
 		padding: 20px;
-		border-radius: 10px;
-		background-color: rgba(0, 0, 0, 0.6);
+		border-radius: 4px;
+		// background-color: rgba(0, 0, 0, 0.6);
+		background-color: var(--accents-light-1);
 		// border: 1px solid var(--accents-light-1);
 		width: auto;
 		min-width: 400px;
@@ -39,7 +40,8 @@
 		}
 
 		&__title {
-			color: var(--accents-light-1);
+			// color: var(--accents-light-1);
+			// color: black;
 		}
 		&__form {
 		}

@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipe, IRecipeDelete } from 'src/types/recipe/recipe.interface';
 import { useDeleteRecipeMutation } from 'src/services/recipe.api';
 import './forms.scss';
+import { IFormDefault } from './form-default.interface';
 
-interface IDeleteRecipeFormProps {
+interface IDeleteRecipeFormProps extends IFormDefault {
 	recipe: IRecipe;
 }
 
-const DeleteRecipeForm: React.FC<IDeleteRecipeFormProps> = ({ recipe }) => {
-	const [deleteRecipe, {}] = useDeleteRecipeMutation();
+const DeleteRecipeForm: React.FC<IDeleteRecipeFormProps> = ({ recipe, closeModal }) => {
+	const [deleteRecipe, { isSuccess }] = useDeleteRecipeMutation();
+
+	useEffect(() => {
+		if (isSuccess) {
+			closeModal();
+		}
+	}, [isSuccess, closeModal]);
+
 	const formik = useFormik<IRecipeDelete>({
 		initialValues: {
 			id: recipe._id,
@@ -18,7 +26,7 @@ const DeleteRecipeForm: React.FC<IDeleteRecipeFormProps> = ({ recipe }) => {
 			categoryId: recipe.categoryId,
 		},
 		onSubmit: async (values: IRecipeDelete) => {
-			deleteRecipe(values.id);
+			await deleteRecipe(values.id);
 		},
 	});
 

@@ -42,6 +42,10 @@ export class CategoryService {
 		const recipes: IRecipe[] = await recipeService.find({ categoryid: [id] });
 		return await recipeService.deleteMany(recipes);
 	}
+
+	deleteAll() {
+		return categoryModel.deleteAll();
+	}
 }
 
 export const categoryService = new CategoryService();

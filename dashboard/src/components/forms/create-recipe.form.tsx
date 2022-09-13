@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipeCreate } from 'src/types/recipe/recipe.interface';
 import { useCreateRecipeMutation } from 'src/services/recipe.api';
 import { useParams } from 'react-router';
 import './forms.scss';
+import { IFormDefault } from './form-default.interface';
 
-interface ICreateRecipeFormProps {}
+interface ICreateRecipeFormProps extends IFormDefault {}
 
-const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = () => {
+const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = ({ closeModal }) => {
 	const { categoryId } = useParams();
-	const [createRecipe, {}] = useCreateRecipeMutation();
+	const [createRecipe, { isSuccess }] = useCreateRecipeMutation();
+
+	useEffect(() => {
+		if (isSuccess) {
+			closeModal();
+		}
+	}, [isSuccess, closeModal]);
 
 	const formik = useFormik<IRecipeCreate>({
 		initialValues: {
@@ -18,7 +25,7 @@ const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = () => {
 			categoryId: categoryId!,
 		},
 		onSubmit: async (values: IRecipeCreate) => {
-			createRecipe(values);
+			await createRecipe(values);
 		},
 	});
 

@@ -26,6 +26,14 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 		setDeleteForm(true);
 	};
 
+	const handleCloseEditForm = () => {
+		setEditForm(false);
+	};
+
+	const handleCloseDeleteForm = () => {
+		setDeleteForm(false);
+	};
+
 	const renderTree = useCallback(() => {
 		return data?.cellsList.map((el, index) => (
 			<Cell
@@ -42,12 +50,18 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 			{renderTree()}
 			{editedCell && editForm && (
 				<ModalForm modalTitle="Edit Category" active={editForm} setActive={setEditForm}>
-					<EditCategoryForm category={editedCell?._currentCategory} />
+					<EditCategoryForm
+						closeModal={handleCloseEditForm}
+						category={editedCell?._currentCategory}
+					/>
 				</ModalForm>
 			)}
 			{editedCell && deleteForm && (
 				<ModalForm modalTitle="Delete Category" active={deleteForm} setActive={setDeleteForm}>
-					<DeleteCategoryForm category={editedCell?._currentCategory} />
+					<DeleteCategoryForm
+						closeModal={handleCloseDeleteForm}
+						category={editedCell?._currentCategory}
+					/>
 				</ModalForm>
 			)}
 		</div>

@@ -4,12 +4,12 @@ import bodyParser from 'body-parser';
 import routes from '../routes';
 
 export function createServer() {
-  const app = express();
+	const app = express();
 
-  app.use(bodyParser.json());
-  app.use(cors());
+	app.use(bodyParser.json());
+	app.use(cors());
 
-  app.use(routes);
+	app.use(routes);
 
-  return app;
+	return app;
 }

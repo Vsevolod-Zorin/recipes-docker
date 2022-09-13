@@ -12,6 +12,10 @@ const Aside = () => {
 		setCreateForm(true);
 	};
 
+	const handleCloseCreateForm = () => {
+		setCreateForm(false);
+	};
+
 	return (
 		<aside className="aside">
 			<div className="aside-wrapper">
@@ -25,7 +29,7 @@ const Aside = () => {
 					<Tree isAdmin={true} />
 				</nav>
 				<ModalForm modalTitle="Create Category" active={createForm} setActive={setCreateForm}>
-					<CreateCategoryForm />
+					<CreateCategoryForm closeModal={handleCloseCreateForm} />
 				</ModalForm>
 			</div>
 		</aside>

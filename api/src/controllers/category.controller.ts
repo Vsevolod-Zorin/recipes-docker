@@ -39,6 +39,11 @@ class CategoryController {
 
 		res.status(StatusCodes.OK).send();
 	}
+
+	async deleteAll(req: ExpressCategoryRequest, res: Response) {
+		await categoryService.deleteAll();
+		res.status(StatusCodes.OK).send();
+	}
 }
 
 export const categoryController = new CategoryController();

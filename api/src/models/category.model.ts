@@ -34,6 +34,10 @@ class CategoryModel {
 	delete(id: string): Promise<ICategory> {
 		return Category.findByIdAndDelete(id).exec();
 	}
+
+	deleteAll() {
+		return Category.deleteMany();
+	}
 }
 
 export const categoryModel = new CategoryModel();

@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
-import { useCreateCategoryMutation } from 'src/services/category.api';
+import { useCreateCategoryMutation, useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { ICategoryCreate } from 'src/types/category/category.interface';
 import './forms.scss';
+import { IFormDefault } from './form-default.interface';
 
-interface ICreateCategoryFormProps {}
+interface ICreateCategoryFormProps extends IFormDefault {}
 
-const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = () => {
-	const [createCategory, {}] = useCreateCategoryMutation({});
+const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({ closeModal }) => {
+	const { refetch } = useFetchAllCategoriesQuery({});
+	const [createCategory, { isSuccess }] = useCreateCategoryMutation({});
+
+	useEffect(() => {
+		if (isSuccess) {
+			closeModal();
+		}
+	}, [isSuccess]);
 
 	const formik = useFormik<ICategoryCreate>({
 		initialValues: {
@@ -15,9 +23,9 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = () => {
 			parentId: '',
 		},
 		onSubmit: async (values: ICategoryCreate) => {
-			const data: ICategoryCreate = { ...values };
 			if (values.parentId === '') values.parentId = null;
-			createCategory(values);
+			await createCategory(values);
+			refetch();
 		},
 	});
 

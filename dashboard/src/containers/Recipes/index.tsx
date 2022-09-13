@@ -74,16 +74,16 @@ const Recipes = () => {
 				</div>
 			</section>
 			<ModalForm modalTitle="Create Recipe" active={createForm} setActive={setCreateForm}>
-				<CreateRecipeForm />
+				<CreateRecipeForm closeModal={() => setCreateForm(false)} />
 			</ModalForm>
 			{selectedRecipe && (
 				<ModalForm modalTitle="Edit Recipe" active={editForm} setActive={setEditForm}>
-					<EditRecipeForm recipe={selectedRecipe} />
+					<EditRecipeForm closeModal={() => setEditForm(false)} recipe={selectedRecipe} />
 				</ModalForm>
 			)}
 			{selectedRecipe && (
 				<ModalForm modalTitle="Delete Recipe" active={deleteForm} setActive={setDeleteForm}>
-					<DeleteRecipeForm recipe={selectedRecipe} />
+					<DeleteRecipeForm closeModal={() => setDeleteForm(false)} recipe={selectedRecipe} />
 				</ModalForm>
 			)}
 		</div>

@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipe, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import { useUpdateRecipeMutation } from 'src/services/recipe.api';
 import './forms.scss';
+import { IFormDefault } from './form-default.interface';
 
-interface IEditRecipeFormProps {
+interface IEditRecipeFormProps extends IFormDefault {
 	recipe: IRecipe | null;
 }
 
-const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe }) => {
+const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) => {
 	// todo error
-	const [updateRecipe, {}] = useUpdateRecipeMutation();
+	const [updateRecipe, { isSuccess }] = useUpdateRecipeMutation();
+
+	useEffect(() => {
+		if (isSuccess) {
+			closeModal();
+		}
+	}, [isSuccess, closeModal]);
+
 	const formik = useFormik<IRecipeUpdate>({
 		initialValues: {
 			id: recipe!._id,

@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
-import { useUpdateCategoryMutation } from 'src/services/category.api';
+import { useFetchAllCategoriesQuery, useUpdateCategoryMutation } from 'src/services/category.api';
 import { ICategory, ICategoryUpdate } from 'src/types/category/category.interface';
 import './forms.scss';
+import { IFormDefault } from './form-default.interface';
 
-interface IUpdateCategoryFormProps {
+interface IUpdateCategoryFormProps extends IFormDefault {
 	category: ICategory | null;
 }
 
-const EditCategoryForm: React.FC<IUpdateCategoryFormProps> = ({ category }) => {
-	const [updateCategory, {}] = useUpdateCategoryMutation({});
+const EditCategoryForm: React.FC<IUpdateCategoryFormProps> = ({ category, closeModal }) => {
+	const { refetch } = useFetchAllCategoriesQuery({});
+	const [updateCategory, { isSuccess }] = useUpdateCategoryMutation({});
+
+	useEffect(() => {
+		if (isSuccess) {
+			closeModal();
+		}
+	}, [isSuccess, closeModal]);
 
 	const formik = useFormik<ICategoryUpdate>({
 		initialValues: {
@@ -20,12 +28,27 @@ const EditCategoryForm: React.FC<IUpdateCategoryFormProps> = ({ category }) => {
 		onSubmit: async (values: ICategoryUpdate) => {
 			const data: ICategoryUpdate = { ...values };
 			if (values.parentId === '') data.parentId = null;
-			updateCategory(data);
+			await updateCategory(data);
+			refetch();
 		},
 	});
 
 	return (
 		<form className="form form-wrapper" onSubmit={formik.handleSubmit}>
+			<div className="form__input--wrapper">
+				<label className="form__input--label" htmlFor="id">
+					id
+				</label>
+				<input
+					className="form__input--input"
+					id="id"
+					type="text"
+					name="id"
+					value={formik.values.id}
+					onChange={formik.handleChange}
+					disabled
+				/>
+			</div>
 			<div className="form__input--wrapper">
 				<label className="form__input--label" htmlFor="name">
 					name

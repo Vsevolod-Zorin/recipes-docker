@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
-import { useDeleteCategoryMutation } from 'src/services/category.api';
+import { useDeleteCategoryMutation, useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { ICategory, ICategoryDelete } from 'src/types/category/category.interface';
+import { IFormDefault } from './form-default.interface';
 import './forms.scss';
 
-interface IDeleteCategoryFormProps {
+interface IDeleteCategoryFormProps extends IFormDefault {
 	category: ICategory | null;
 }
 
-const DeleteCategoryForm: React.FC<IDeleteCategoryFormProps> = ({ category }) => {
-	const [deleteCategory, {}] = useDeleteCategoryMutation({});
+const DeleteCategoryForm: React.FC<IDeleteCategoryFormProps> = ({ category, closeModal }) => {
+	const { refetch } = useFetchAllCategoriesQuery({});
+	const [deleteCategory, { isSuccess }] = useDeleteCategoryMutation({});
+
+	useEffect(() => {
+		if (isSuccess) {
+			closeModal();
+		}
+	}, [isSuccess, closeModal]);
 
 	const formik = useFormik<ICategoryDelete>({
 		initialValues: {
@@ -18,9 +26,8 @@ const DeleteCategoryForm: React.FC<IDeleteCategoryFormProps> = ({ category }) =>
 			parentId: category!.parentId,
 		},
 		onSubmit: async (values: ICategoryDelete) => {
-			console.log('delete values');
-
-			deleteCategory(values.id);
+			await deleteCategory(values.id);
+			refetch();
 		},
 	});
 

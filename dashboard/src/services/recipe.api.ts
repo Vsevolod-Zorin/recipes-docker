@@ -10,6 +10,7 @@ export const recipeApi = createApi({
 	endpoints: build => ({
 		fetchAllRecipes: build.query<IRecipe[], string>({
 			query: (id: string) => ({
+				// todo
 				url: '/recipe/test',
 				params: {
 					id,

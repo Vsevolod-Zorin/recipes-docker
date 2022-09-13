@@ -2,13 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { config } from 'src/config';
 import { TreeManager } from 'src/helpers/treeBuilder';
 import { ICategoryWrapper } from 'src/store/reducers/category.slice';
-import { ICategory } from 'src/types/category/category.interface';
+import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
 
 export const categoryApi = createApi({
 	reducerPath: 'categoryApi',
 	baseQuery: fetchBaseQuery({ baseUrl: config.api.baseUrl }),
 	tagTypes: ['Category'],
-	// refetchOnFocus: true,
+	refetchOnFocus: true,
 	endpoints: build => ({
 		fetchAllCategories: build.query<ICategoryWrapper, {}>({
 			query: () => ({
@@ -23,13 +23,40 @@ export const categoryApi = createApi({
 					categoriesList: response,
 					cellsList: sortedCellsList,
 				};
-
-				console.log('--- fetchAllCategories', { data });
-
 				return data;
 			},
+		}),
+
+		createCategory: build.mutation<ICategory, ICategoryCreate>({
+			query: (data: ICategoryCreate) => ({
+				url: '/category',
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['Category'],
+		}),
+		updateCategory: build.mutation<ICategory, ICategoryUpdate>({
+			query: (update: ICategoryUpdate) => ({
+				url: '/category',
+				method: 'PUT',
+				body: update,
+			}),
+			invalidatesTags: ['Category'],
+		}),
+		deleteCategory: build.mutation<null, {}>({
+			query: (id: string) => ({
+				url: `/category/${id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: ['Category'],
 		}),
 	}),
 });
 
-export const { useFetchAllCategoriesQuery, useLazyFetchAllCategoriesQuery } = categoryApi;
+export const {
+	useCreateCategoryMutation,
+	useUpdateCategoryMutation,
+	useDeleteCategoryMutation,
+	useFetchAllCategoriesQuery,
+	useLazyFetchAllCategoriesQuery,
+} = categoryApi;

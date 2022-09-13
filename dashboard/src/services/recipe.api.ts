@@ -6,7 +6,7 @@ export const recipeApi = createApi({
 	reducerPath: 'recipeApi',
 	baseQuery: fetchBaseQuery({ baseUrl: config.api.baseUrl }),
 	tagTypes: ['Recipe'],
-	// refetchOnFocus: true,
+	refetchOnFocus: true,
 	endpoints: build => ({
 		fetchAllRecipes: build.query<IRecipe[], string>({
 			query: (id: string) => ({

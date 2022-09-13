@@ -15,8 +15,8 @@ const Recipes = () => {
 	const { data } = useFetchAllRecipesQuery(categoryId as string);
 
 	const [selectedRecipe, setSelectedRecipe] = useState<IRecipe | null>(null);
-	const [editForm, setEditForm] = useState<boolean>(false);
 	const [createForm, setCreateForm] = useState<boolean>(false);
+	const [editForm, setEditForm] = useState<boolean>(false);
 	const [deleteForm, setDeleteForm] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -37,12 +37,12 @@ const Recipes = () => {
 		}
 	}, [data]);
 
-	const handleClickEdit = () => {
-		setEditForm(true);
-	};
-
 	const handleClickCreate = () => {
 		setCreateForm(true);
+	};
+
+	const handleClickEdit = () => {
+		setEditForm(true);
 	};
 
 	const handleClickDelete = () => {
@@ -73,16 +73,16 @@ const Recipes = () => {
 					{selectedRecipe && <RecipeItem recipe={selectedRecipe} />}
 				</div>
 			</section>
-			<ModalForm modalTitle="create" active={createForm} setActive={setCreateForm}>
+			<ModalForm modalTitle="Create Recipe" active={createForm} setActive={setCreateForm}>
 				<CreateRecipeForm />
 			</ModalForm>
 			{selectedRecipe && (
-				<ModalForm modalTitle="edit" active={editForm} setActive={setEditForm}>
+				<ModalForm modalTitle="Edit Recipe" active={editForm} setActive={setEditForm}>
 					<EditRecipeForm recipe={selectedRecipe} />
 				</ModalForm>
 			)}
 			{selectedRecipe && (
-				<ModalForm modalTitle="delete" active={deleteForm} setActive={setDeleteForm}>
+				<ModalForm modalTitle="Delete Recipe" active={deleteForm} setActive={setDeleteForm}>
 					<DeleteRecipeForm recipe={selectedRecipe} />
 				</ModalForm>
 			)}

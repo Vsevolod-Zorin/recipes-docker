@@ -2,17 +2,20 @@ import React from 'react';
 import { useFormik } from 'formik';
 import { IRecipeCreate } from 'src/types/recipe/recipe.interface';
 import { useCreateRecipeMutation } from 'src/services/recipe.api';
+import { useParams } from 'react-router';
 import './forms.scss';
 
 interface ICreateRecipeFormProps {}
 
 const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = () => {
+	const { categoryId } = useParams();
 	const [createRecipe, {}] = useCreateRecipeMutation();
+
 	const formik = useFormik<IRecipeCreate>({
 		initialValues: {
 			title: '',
 			description: '',
-			categoryId: '',
+			categoryId: categoryId!,
 		},
 		onSubmit: async (values: IRecipeCreate) => {
 			createRecipe(values);

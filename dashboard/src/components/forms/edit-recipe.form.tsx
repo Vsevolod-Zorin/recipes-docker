@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipe, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
-import { useUpdateRecipeMutation } from 'src/services/recipe.api';
-import './forms.scss';
+import { useFetchAllRecipesQuery, useUpdateRecipeMutation } from 'src/services/recipe.api';
 import { IFormDefault } from './form-default.interface';
+import './forms.scss';
 
 interface IEditRecipeFormProps extends IFormDefault {
 	recipe: IRecipe | null;
@@ -12,6 +12,7 @@ interface IEditRecipeFormProps extends IFormDefault {
 const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) => {
 	// todo error
 	const [updateRecipe, { isSuccess }] = useUpdateRecipeMutation();
+	const { refetch } = useFetchAllRecipesQuery(recipe!.categoryId as string);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -27,7 +28,8 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) 
 			categoryId: recipe!.categoryId,
 		},
 		onSubmit: async (values: IRecipeUpdate) => {
-			updateRecipe(values);
+			await updateRecipe(values);
+			refetch();
 		},
 	});
 

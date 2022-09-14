@@ -13,7 +13,7 @@ export const recipeApi = createApi({
 			query: (id: string) => ({
 				url: `/recipe/category/${id}`,
 			}),
-			providesTags: result => ['Recipe'],
+			// providesTags: result => ['Recipe'],
 		}),
 
 		createRecipe: build.mutation<IRecipe, IRecipeCreate>({
@@ -26,7 +26,7 @@ export const recipeApi = createApi({
 		}),
 		updateRecipe: build.mutation<IRecipe, IRecipeUpdate>({
 			query: (update: IRecipeUpdate) => ({
-				url: `/recipe/category/${update.id}`,
+				url: `/recipe/${update.id}`,
 				method: 'PUT',
 				body: update,
 			}),

@@ -9,6 +9,7 @@ export const categoryApi = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl: config.api.baseUrl }),
 	tagTypes: ['Category'],
 	refetchOnFocus: true,
+
 	endpoints: build => ({
 		fetchAllCategories: build.query<ICategoryWrapper, {}>({
 			query: () => ({

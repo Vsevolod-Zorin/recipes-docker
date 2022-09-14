@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipe, IRecipeDelete } from 'src/types/recipe/recipe.interface';
-import { useDeleteRecipeMutation } from 'src/services/recipe.api';
+import { useDeleteRecipeMutation, useFetchAllRecipesQuery } from 'src/services/recipe.api';
 import './forms.scss';
 import { IFormDefault } from './form-default.interface';
 
@@ -10,6 +10,8 @@ interface IDeleteRecipeFormProps extends IFormDefault {
 }
 
 const DeleteRecipeForm: React.FC<IDeleteRecipeFormProps> = ({ recipe, closeModal }) => {
+	const { refetch } = useFetchAllRecipesQuery(recipe.categoryId as string);
+
 	const [deleteRecipe, { isSuccess }] = useDeleteRecipeMutation();
 
 	useEffect(() => {
@@ -27,6 +29,7 @@ const DeleteRecipeForm: React.FC<IDeleteRecipeFormProps> = ({ recipe, closeModal
 		},
 		onSubmit: async (values: IRecipeDelete) => {
 			await deleteRecipe(values.id);
+			refetch();
 		},
 	});
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipeCreate } from 'src/types/recipe/recipe.interface';
-import { useCreateRecipeMutation } from 'src/services/recipe.api';
+import { useCreateRecipeMutation, useFetchAllRecipesQuery } from 'src/services/recipe.api';
 import { IFormDefault } from './form-default.interface';
 import './forms.scss';
 
@@ -11,6 +11,7 @@ interface ICreateRecipeFormProps extends IFormDefault {
 
 const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = ({ closeModal, categoryId }) => {
 	const [createRecipe, { isSuccess }] = useCreateRecipeMutation();
+	const { refetch } = useFetchAllRecipesQuery(categoryId as string);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -26,6 +27,7 @@ const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = ({ closeModal, catego
 		},
 		onSubmit: async (values: IRecipeCreate) => {
 			await createRecipe(values);
+			refetch();
 		},
 	});
 

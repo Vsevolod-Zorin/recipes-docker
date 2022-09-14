@@ -4,11 +4,12 @@ import { useCreateCategoryMutation, useFetchAllCategoriesQuery } from 'src/servi
 import { ICategoryCreate } from 'src/types/category/category.interface';
 import './forms.scss';
 import { IFormDefault } from './form-default.interface';
+import DropdownCategories from './parts/dropdown-categories';
 
 interface ICreateCategoryFormProps extends IFormDefault {}
 
 const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({ closeModal }) => {
-	const { refetch } = useFetchAllCategoriesQuery({});
+	const { data, refetch } = useFetchAllCategoriesQuery({});
 	const [createCategory, { isSuccess }] = useCreateCategoryMutation({});
 
 	useEffect(() => {
@@ -48,10 +49,11 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({ closeModal }) 
 				<label className="form__input--label" htmlFor="parentId">
 					parentId
 				</label>
-				<input
+				<DropdownCategories
 					className="form__input--input"
-					id="parentId"
 					name="parentId"
+					categories={data?.categoriesList || []}
+					cells={data?.cellsList || []}
 					value={formik.values.parentId || ''}
 					onChange={formik.handleChange}
 				/>

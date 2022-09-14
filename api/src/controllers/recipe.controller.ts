@@ -1,12 +1,10 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { categoryService } from 'src/services/category.service';
 import { recipeService } from 'src/services/recipe.service';
 import { validateCategoryById } from 'src/shared/validation/category/category-get-by-id.validarion';
 import { validateRecipeById } from 'src/shared/validation/recipe/recipe-get-by-id.validarion';
 import { ExpressRecipeRequest } from 'src/types/express/expressRecipeRequest.interface';
 import { ExpressRequest } from 'src/types/express/expressRequest.interface';
-import { IQueryRecipeFindMany } from 'src/types/recipe/query-recipe-find-many.interface';
 
 class RecipeController {
 	async findAll(req: Request, res: Response) {
@@ -19,7 +17,7 @@ class RecipeController {
 		res.status(StatusCodes.OK).json(recipe);
 	}
 	async getByCategoryId(req: ExpressRecipeRequest, res: Response) {
-		const { id } = req.query;
+		const { id } = req.params;
 		await validateCategoryById(id as string);
 		const recipes = await recipeService.findByCategoryId(id as string);
 		res.status(StatusCodes.OK).json(recipes);

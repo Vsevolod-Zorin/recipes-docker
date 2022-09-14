@@ -52,7 +52,7 @@ const Recipes = () => {
 	return (
 		<div className="recipes recipes-wrapper">
 			<section className="recipes__left-part">
-				<h1>recipes List</h1>
+				<h1>recipes List: </h1>
 				<ul className="recipes__list">{renderList()}</ul>
 			</section>
 			<section className="recipes__right-part">
@@ -73,9 +73,11 @@ const Recipes = () => {
 					{selectedRecipe && <RecipeItem recipe={selectedRecipe} />}
 				</div>
 			</section>
-			<ModalForm modalTitle="Create Recipe" active={createForm} setActive={setCreateForm}>
-				<CreateRecipeForm closeModal={() => setCreateForm(false)} />
-			</ModalForm>
+			{createForm && (
+				<ModalForm modalTitle="Create Recipe" active={createForm} setActive={setCreateForm}>
+					<CreateRecipeForm closeModal={() => setCreateForm(false)} categoryId={categoryId!} />
+				</ModalForm>
+			)}
 			{selectedRecipe && (
 				<ModalForm modalTitle="Edit Recipe" active={editForm} setActive={setEditForm}>
 					<EditRecipeForm closeModal={() => setEditForm(false)} recipe={selectedRecipe} />

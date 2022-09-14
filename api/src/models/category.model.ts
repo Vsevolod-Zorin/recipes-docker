@@ -10,7 +10,7 @@ import { IQueryCategoryFindMany } from 'src/types/category/query-category-find-m
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
 
 class CategoryModel {
-	find(query: IQueryCategoryFindMany = {}): Promise<ICategory[]> {
+	find(query = {}): Promise<ICategory[]> {
 		return Category.find(query).exec();
 	}
 

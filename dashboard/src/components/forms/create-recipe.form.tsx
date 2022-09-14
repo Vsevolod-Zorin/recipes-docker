@@ -2,14 +2,14 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipeCreate } from 'src/types/recipe/recipe.interface';
 import { useCreateRecipeMutation } from 'src/services/recipe.api';
-import { useParams } from 'react-router';
-import './forms.scss';
 import { IFormDefault } from './form-default.interface';
+import './forms.scss';
 
-interface ICreateRecipeFormProps extends IFormDefault {}
+interface ICreateRecipeFormProps extends IFormDefault {
+	categoryId: string;
+}
 
-const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = ({ closeModal }) => {
-	const { categoryId } = useParams();
+const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = ({ closeModal, categoryId }) => {
 	const [createRecipe, { isSuccess }] = useCreateRecipeMutation();
 
 	useEffect(() => {
@@ -67,6 +67,7 @@ const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = ({ closeModal }) => {
 					name="categoryId"
 					value={formik.values.categoryId || ''}
 					onChange={formik.handleChange}
+					disabled
 				/>
 			</div>
 			<button

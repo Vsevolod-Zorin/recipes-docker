@@ -7,14 +7,11 @@ export const recipeApi = createApi({
 	baseQuery: fetchBaseQuery({ baseUrl: config.api.baseUrl }),
 	tagTypes: ['Recipe'],
 	refetchOnFocus: true,
+
 	endpoints: build => ({
 		fetchAllRecipes: build.query<IRecipe[], string>({
 			query: (id: string) => ({
-				// todo
-				url: '/recipe/test',
-				params: {
-					id,
-				},
+				url: `/recipe/category/${id}`,
 			}),
 			providesTags: result => ['Recipe'],
 		}),

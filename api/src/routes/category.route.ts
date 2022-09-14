@@ -9,7 +9,6 @@ import { validatorCategoryParamsId } from 'src/middlewares/validator-category-pa
 const categoryRouter = Router();
 
 categoryRouter
-	.get('/deleteAll', errorHandler(categoryController.deleteAll))
 	.get('/', errorHandler(categoryController.findAll))
 	.get('/:id', validatorCategoryParamsId(), errorHandler(categoryController.getById))
 	.post('/', validatorDto(CreateCategoryDto), errorHandler(categoryController.create))

@@ -5,7 +5,7 @@ export interface ICell {
 	_prev: ICell | null;
 	_next: ICell[];
 	initParent?: (list: ICell[]) => void;
-	initBreadcrumbs?: () => void;
+	initBreadcrumbs?: () => ICell[];
 }
 
 class Cell implements ICell {
@@ -30,7 +30,7 @@ class Cell implements ICell {
 		}
 	}
 
-	initBreadcrumbs() {
+	initBreadcrumbs(): ICell[] {
 		let parent: ICell | null = this._prev;
 		const breadcrumbs: ICell[] = [];
 		do {

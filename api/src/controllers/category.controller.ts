@@ -7,7 +7,7 @@ import { ExpressCategoryRequest } from 'src/types/express/expressCategoryRequest
 
 class CategoryController {
 	async findAll(req: Request, res: Response) {
-		const categories = await categoryService.find();
+		const categories = await categoryService.getAll();
 		res.status(StatusCodes.OK).json(categories);
 	}
 
@@ -37,11 +37,6 @@ class CategoryController {
 		await categoryService.moveChildsCategoryUp(category);
 		await categoryService.delete(category._id);
 
-		res.status(StatusCodes.OK).send();
-	}
-
-	async deleteAll(req: ExpressCategoryRequest, res: Response) {
-		await categoryService.deleteAll();
 		res.status(StatusCodes.OK).send();
 	}
 }

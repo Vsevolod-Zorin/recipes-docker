@@ -29,8 +29,8 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 				<Cell
 					key={`${el._currentCategory?._id}-${index}`}
 					cell={el}
-					handleClickEdit={() => handleClickEdit(el)}
-					handleClickDelete={() => handleClickDelete(el)}
+					handleClickEdit={handleClickEdit}
+					handleClickDelete={handleClickDelete}
 					isAdmin={isAdmin}
 				></Cell>
 			));

@@ -37,7 +37,7 @@ export const categoryApi = createApi({
 		}),
 		updateCategory: build.mutation<ICategory, ICategoryUpdate>({
 			query: (update: ICategoryUpdate) => ({
-				url: '/category',
+				url: `/category/${update.id}`,
 				method: 'PUT',
 				body: update,
 			}),

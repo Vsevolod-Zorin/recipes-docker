@@ -12,7 +12,12 @@ categoryRouter
 	.get('/', errorHandler(categoryController.findAll))
 	.get('/:id', validatorCategoryParamsId(), errorHandler(categoryController.getById))
 	.post('/', validatorDto(CreateCategoryDto), errorHandler(categoryController.create))
-	.put('/', validatorDto(UpdateCategoryDto), errorHandler(categoryController.update))
+	.put(
+		'/:id',
+		validatorCategoryParamsId(),
+		validatorDto(UpdateCategoryDto),
+		errorHandler(categoryController.update)
+	)
 	.delete('/:id', validatorCategoryParamsId(), errorHandler(categoryController.delete));
 
 export default categoryRouter;

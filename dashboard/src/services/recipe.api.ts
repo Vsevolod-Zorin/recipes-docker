@@ -26,7 +26,7 @@ export const recipeApi = createApi({
 		}),
 		updateRecipe: build.mutation<IRecipe, IRecipeUpdate>({
 			query: (update: IRecipeUpdate) => ({
-				url: '/recipe',
+				url: `/recipe/category/${update.id}`,
 				method: 'PUT',
 				body: update,
 			}),

@@ -14,7 +14,12 @@ recipeRouter
 	.get('/category/:id', validatorCategoryParamsId(), errorHandler(recipeController.getByCategoryId))
 	.get('/:id', validatorRecipeParamsId(), errorHandler(recipeController.getById))
 	.post('/', validatorDto(CreateRecipeDto), errorHandler(recipeController.create))
-	.put('/', validatorDto(UpdateRecipeDto), errorHandler(recipeController.update))
+	.put(
+		'/:id',
+		validatorRecipeParamsId(),
+		validatorDto(UpdateRecipeDto),
+		errorHandler(recipeController.update)
+	)
 	.delete('/:id', validatorRecipeParamsId(), errorHandler(recipeController.delete));
 
 export default recipeRouter;

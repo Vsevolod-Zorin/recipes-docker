@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useCreateCategoryMutation, useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { ICategoryCreate } from 'src/types/category/category.interface';
-import './forms.scss';
 import { IFormDefault } from './form-default.interface';
 import DropdownCategories from './parts/dropdown-categories';
+import './forms.scss';
 
 interface ICreateCategoryFormProps extends IFormDefault {}
 
@@ -16,7 +16,7 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({ closeModal }) 
 		if (isSuccess) {
 			closeModal();
 		}
-	}, [isSuccess]);
+	}, [isSuccess, closeModal]);
 
 	const formik = useFormik<ICategoryCreate>({
 		initialValues: {

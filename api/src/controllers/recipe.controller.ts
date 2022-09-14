@@ -28,14 +28,14 @@ class RecipeController {
 		res.status(StatusCodes.CREATED).json(createdRecipe);
 	}
 
-	// todo make interface
-	async update(req: ExpressRequest, res: Response) {
-		const { id, categoryId } = req.body;
-		await validateRecipeById(id);
+	async update(req: ExpressRecipeRequest, res: Response) {
+		const { categoryId } = req.body;
+		const { recipe } = req;
+
 		if (categoryId) {
 			await validateCategoryById(categoryId);
 		}
-		const updatedRecipe = await recipeService.update(id, req.body);
+		const updatedRecipe = await recipeService.update(recipe._id, req.body);
 		res.status(StatusCodes.OK).json(updatedRecipe);
 	}
 

@@ -1,7 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import Cell from 'src/components/Tree/parts/menu.cell';
+import { openParentCells } from 'src/helpers/open-parent-cells';
 import { ICell } from 'src/helpers/treeBuilder';
+import { useAppSelector } from 'src/hooks/redux';
 import { useFetchAllCategoriesQuery } from 'src/services/category.api';
+import { selectCategoryId } from 'src/store/selectors';
 import DeleteCategoryForm from '../forms/delete-category.form';
 import EditCategoryForm from '../forms/edit-category.form';
 import ModalForm from '../Modal';
@@ -16,6 +19,13 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	const [editedCell, setEditedCell] = useState<ICell | null>(null);
 	const [editForm, setEditForm] = useState<boolean>(false);
 	const [deleteForm, setDeleteForm] = useState<boolean>(false);
+	const categoryId = useAppSelector(selectCategoryId);
+
+	useEffect(() => {
+		if (categoryId && data?.cellsList) {
+			openParentCells(categoryId, data?.cellsList);
+		}
+	}, [data, categoryId]);
 
 	const handleClickEdit = (cell: ICell) => {
 		setEditedCell(cell);
@@ -35,7 +45,7 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	};
 
 	const renderTree = useCallback(() => {
-		return data?.cellsList.map((el, index) => (
+		return data?.rootCellsList.map((el, index) => (
 			<Cell
 				key={el._currentCategory!._id + index}
 				cell={el}
@@ -45,6 +55,7 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 			/>
 		));
 	}, [data, isAdmin]);
+
 	return (
 		<div className="tree">
 			{renderTree()}

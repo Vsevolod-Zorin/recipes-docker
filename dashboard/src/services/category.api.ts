@@ -18,11 +18,12 @@ export const categoryApi = createApi({
 			transformResponse: (response: ICategory[]) => {
 				const treeManager = new TreeManager(response);
 				treeManager.init();
-				const sortedCellsList = treeManager.sortedCellsList;
-
+				const rootCellsList = treeManager.rootCellsList;
+				const cellsList = treeManager.cellsList;
 				let data: ICategoryWrapper = {
 					categoriesList: response,
-					cellsList: sortedCellsList,
+					rootCellsList,
+					cellsList,
 				};
 				return data;
 			},

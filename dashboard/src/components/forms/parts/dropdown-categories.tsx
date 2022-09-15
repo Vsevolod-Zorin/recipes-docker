@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Breadcrumbs from 'src/components/BreadCrumbs';
 import Dropdown, { IDropdownOption } from 'src/components/inputs/dropdown';
 import { ICell } from 'src/helpers/treeBuilder';
 import { ICategory } from 'src/types/category/category.interface';
@@ -13,11 +12,6 @@ interface IDropdownCategoriesProps {
 	name: string;
 }
 
-const options = [
-	{ label: 'Fruit', value: 'fruit' },
-	{ label: 'Vegetable', value: 'vegetable' },
-	{ label: 'Meat', value: 'meat' },
-];
 const DropdownCategories: React.FC<IDropdownCategoriesProps> = ({
 	cells,
 	value,
@@ -25,7 +19,9 @@ const DropdownCategories: React.FC<IDropdownCategoriesProps> = ({
 	className,
 	name,
 }) => {
-	const [dropdownOptions, setDropdownOptions] = useState<IDropdownOption[]>([]);
+	const [dropdownOptions, setDropdownOptions] = useState<IDropdownOption[]>([
+		{ label: 'null', value: '' },
+	]);
 
 	useEffect(() => {
 		if (cells) {
@@ -38,7 +34,7 @@ const DropdownCategories: React.FC<IDropdownCategoriesProps> = ({
 			const breadcrumbs = el.initBreadcrumbs!()
 				.map(el => el._currentCategory?.name)
 				.join('  ');
-			const label = el._currentCategory?.name + ': ' + breadcrumbs;
+			const label = el._currentCategory?.name + ' -> ' + breadcrumbs;
 			const item: IDropdownOption = {
 				label,
 				value: el._currentCategory!._id,
@@ -53,7 +49,6 @@ const DropdownCategories: React.FC<IDropdownCategoriesProps> = ({
 	return (
 		<div className={className}>
 			<Dropdown name={name} value={value} onChange={onChange} options={dropdownOptions} />
-			{/* <Breadcrumbs cell={cell} /> */}
 		</div>
 	);
 };

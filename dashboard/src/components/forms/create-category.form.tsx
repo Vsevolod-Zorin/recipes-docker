@@ -53,7 +53,7 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({ closeModal }) 
 					className="form__input--input"
 					name="parentId"
 					categories={data?.categoriesList || []}
-					cells={data?.cellsList || []}
+					cells={data?.rootCellsList || []}
 					value={formik.values.parentId || ''}
 					onChange={formik.handleChange}
 				/>

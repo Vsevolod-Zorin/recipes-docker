@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import CreateCategoryForm from '../forms/create-category.form';
 import ModalForm from '../Modal';
 import Tree from '../Tree';
@@ -27,9 +28,11 @@ const Aside = () => {
 				<nav className="aside__nav">
 					<Tree isAdmin={true} />
 				</nav>
-				<ModalForm modalTitle="Create Category" active={createForm} setActive={setCreateForm}>
-					<CreateCategoryForm closeModal={handleCloseCreateForm} />
-				</ModalForm>
+				{createForm && (
+					<ModalForm modalTitle="Create Category" active={createForm} setActive={setCreateForm}>
+						<CreateCategoryForm closeModal={handleCloseCreateForm} />
+					</ModalForm>
+				)}
 			</div>
 		</aside>
 	);

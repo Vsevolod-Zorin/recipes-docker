@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import appManager from 'src/helpers/app.manager';
@@ -13,10 +13,15 @@ interface ICellProps {
 }
 
 const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClickDelete }) => {
-	const [isOpen, setIsOpen] = useState<boolean>(false);
 	const navigate = useNavigate();
-
 	const haveChilds = cell._next.length > 0;
+	const [renderSub, setRenderSub] = useState<boolean>(false);
+
+	useEffect(() => {
+		if (renderSub !== cell._isOpen) {
+			setRenderSub(cell._isOpen);
+		}
+	}, [cell._isOpen]);
 
 	const handleClick = () => {
 		appManager.selectCategoryId = cell._currentCategory?._id || '';
@@ -40,12 +45,12 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 	const renderIconOpenSub = useCallback(() => {
 		if (haveChilds) {
 			return (
-				<button className="cell__btm--childs" onClick={() => setIsOpen(prev => !prev)}>
-					{isOpen ? '-' : '+'}
+				<button className="cell__btm--childs" onClick={() => (cell._isOpen = !cell._isOpen)}>
+					{cell._isOpen ? '-' : '+'}
 				</button>
 			);
 		}
-	}, [isOpen, haveChilds]);
+	}, [cell._isOpen, haveChilds]);
 
 	const renderAdminBtns = useCallback(() => {
 		if (isAdmin) {
@@ -76,7 +81,7 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 				</div>
 				{renderAdminBtns()}
 			</div>
-			{isOpen && renderChilds()}
+			{renderSub && renderChilds()}
 		</div>
 	);
 };

@@ -4,6 +4,7 @@ export interface ICell {
 	_currentCategory: ICategory | null;
 	_prev: ICell | null;
 	_next: ICell[];
+	_isOpen: boolean;
 	initParent?: (list: ICell[]) => void;
 	initBreadcrumbs?: () => ICell[];
 }
@@ -12,6 +13,7 @@ class Cell implements ICell {
 	public _currentCategory: ICategory | null = null;
 	public _prev: ICell | null = null;
 	public _next: ICell[] = [];
+	public _isOpen: boolean = false;
 
 	constructor(initialState: ICell | null = null) {
 		if (initialState) {
@@ -45,7 +47,7 @@ class Cell implements ICell {
 
 export class TreeManager {
 	cellsList: ICell[] = [];
-	sortedCellsList: ICell[] = [];
+	rootCellsList: ICell[] = [];
 
 	constructor(readonly sourceCategoryList: ICategory[]) {
 		this.cellsList = this.sourceCategoryList.map(el => this.wrapCategoryToCell(el));
@@ -79,7 +81,7 @@ export class TreeManager {
 	};
 
 	init() {
-		this.sortedCellsList = this.findManyByParentId(null);
+		this.rootCellsList = this.findManyByParentId(null);
 
 		this.cellsList.forEach((el, index, arr) => {
 			el._next = this.findManyByParentId(el._currentCategory!._id);

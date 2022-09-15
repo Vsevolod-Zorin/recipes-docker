@@ -1,30 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICell } from 'src/helpers/treeBuilder';
 import { ICategory } from 'src/types/category/category.interface';
 
 export interface ICategoryWrapper {
 	categoriesList: ICategory[];
+	rootCellsList: ICell[];
 	cellsList: ICell[];
 }
 
 export interface ICategoryState {
-	selectedCell: ICell | null;
+	categoryId: string | null;
 }
 
 const initialState: ICategoryState = {
-	selectedCell: null,
+	categoryId: null,
 };
 
 export const CategorySlice = createSlice({
 	name: 'category',
 	initialState,
 	reducers: {
-		// setSelectedCell(state, action: PayloadAction<ICell | null>) {
-		// 	state.selectedCell = action.payload;
-		// },
+		setSelectedCell(state, action: PayloadAction<string | null>) {
+			state.categoryId = action.payload;
+		},
 	},
 	extraReducers: {},
 });
 
-// export const categoryActions = CategorySlice.actions;
+export const categoryActions = CategorySlice.actions;
 export const categoryReducer = CategorySlice.reducer;

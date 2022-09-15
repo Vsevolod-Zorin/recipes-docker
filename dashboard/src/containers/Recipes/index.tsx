@@ -5,8 +5,10 @@ import DeleteRecipeForm from 'src/components/forms/delete-recipe.form';
 import EditRecipeForm from 'src/components/forms/edit-recipe.form';
 import ModalForm from 'src/components/Modal';
 import RecipeItem from 'src/components/RecipeItem';
+import { useAppDispatch } from 'src/hooks/redux';
 
 import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
+import { categoryActions } from 'src/store/reducers/category.slice';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
 import './recipes.scss';
 
@@ -18,10 +20,16 @@ const Recipes = () => {
 	const [createForm, setCreateForm] = useState<boolean>(false);
 	const [editForm, setEditForm] = useState<boolean>(false);
 	const [deleteForm, setDeleteForm] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		if (categoryId) {
+			dispatch(categoryActions.setSelectedCell(categoryId));
+		}
 		return setSelectedRecipe(null);
 	}, [categoryId]);
+
+	useEffect(() => {}, [categoryId]);
 
 	const renderList = useCallback(() => {
 		if (data) {

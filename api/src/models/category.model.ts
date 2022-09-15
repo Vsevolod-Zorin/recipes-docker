@@ -28,7 +28,7 @@ class CategoryModel {
 
 	// todo check tests after change type Object to ICategoryUpdate
 	updateMany(ids: string[], update: ICategoryUpdateMany): Promise<UpdateWriteOpResult> {
-		return Category.updateMany({ id: { $in: ids } }, update).exec();
+		return Category.updateMany({ _id: { $in: ids } }, update).exec();
 	}
 
 	delete(id: string): Promise<ICategory> {

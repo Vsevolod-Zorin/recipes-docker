@@ -1,5 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Cell from 'src/components/Tree/parts/menu.cell';
+import appManager from 'src/helpers/app.manager';
 import { openParentCells } from 'src/helpers/open-parent-cells';
 import { ICell } from 'src/helpers/treeBuilder';
 import { useAppSelector } from 'src/hooks/redux';
@@ -20,6 +22,7 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	const [editForm, setEditForm] = useState<boolean>(false);
 	const [deleteForm, setDeleteForm] = useState<boolean>(false);
 	const categoryId = useAppSelector(selectCategoryId);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (categoryId && data?.cellsList) {
@@ -41,6 +44,12 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	};
 
 	const handleCloseDeleteForm = () => {
+		console.log('--- handleCloseDeleteForm', { cat: editedCell?._currentCategory });
+
+		navigate(
+			`/category/${editedCell?._currentCategory?.parentId}/${appManager.resourceType}` ||
+				'/category'
+		);
 		setDeleteForm(false);
 	};
 

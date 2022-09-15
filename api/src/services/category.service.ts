@@ -1,7 +1,5 @@
-import { convertSearchConfigToQueryConfig } from 'src/helpers/query-converter';
 import { categoryModel } from 'src/models/category.model';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
-import { IQueryCategoryFindMany } from 'src/types/category/query-category-find-many.interface';
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
 import { recipeService } from './recipe.service';
@@ -33,14 +31,8 @@ export class CategoryService {
 
 	async moveChildsCategoryUp(category: ICategory) {
 		const categories: ICategory[] = await this.getByParentId(category._id);
-
-		categories.forEach(async el => {
-			await this.update(el._id, { parentId: category.parentId, id: el._id });
-		});
-		// todo fix update Many
-		// const ids = categories.map(el => el._id.toString());
-		// return await categoryModel.updateMany(ids, { parentId: category.parentId });
-		return;
+		const ids = categories.map(el => el._id.toString());
+		return await categoryModel.updateMany(ids, { parentId: category.parentId });
 	}
 
 	async deleteRecipes(category: ICategory) {

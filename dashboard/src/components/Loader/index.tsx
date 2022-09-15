@@ -24,8 +24,6 @@ const Loader = () => {
 	const [updateRecipeFn, { isLoading: updateRecipe }] = useUpdateRecipeMutation();
 	const [deleteRecipeFn, { isLoading: deleteRecipe }] = useDeleteRecipeMutation();
 	const loading = useMemo(() => {
-		console.log('loading fetchingAllCategories', { fetchingAllCategories });
-
 		return (
 			fetchingAllCategories ||
 			createCategory ||

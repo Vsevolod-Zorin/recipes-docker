@@ -21,7 +21,7 @@ const Header = () => {
 		if (appManager.selectCategoryId) {
 			navigate(`/category/${appManager.selectCategoryId}/${appManager.resourceType}`);
 		} else {
-			navigate(`/`);
+			navigate(`/category`);
 		}
 	};
 	const handleClickPostBtn = () => {
@@ -31,7 +31,7 @@ const Header = () => {
 		if (appManager.selectCategoryId) {
 			navigate(`/category/${appManager.selectCategoryId}/${appManager.resourceType}`);
 		} else {
-			navigate(`/`);
+			navigate(`/category`);
 		}
 	};
 

@@ -44,8 +44,6 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	};
 
 	const handleCloseDeleteForm = () => {
-		console.log('--- handleCloseDeleteForm', { cat: editedCell?._currentCategory });
-
 		navigate(
 			`/category/${editedCell?._currentCategory?.parentId}/${appManager.resourceType}` ||
 				'/category'

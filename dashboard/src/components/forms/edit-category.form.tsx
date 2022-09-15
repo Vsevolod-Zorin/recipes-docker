@@ -2,15 +2,16 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { useFetchAllCategoriesQuery, useUpdateCategoryMutation } from 'src/services/category.api';
 import { ICategory, ICategoryUpdate } from 'src/types/category/category.interface';
-import './forms.scss';
 import { IFormDefault } from './form-default.interface';
+import DropdownCategories from './parts/dropdown-categories';
+import './forms.scss';
 
 interface IUpdateCategoryFormProps extends IFormDefault {
 	category: ICategory | null;
 }
 
 const EditCategoryForm: React.FC<IUpdateCategoryFormProps> = ({ category, closeModal }) => {
-	const { refetch } = useFetchAllCategoriesQuery({});
+	const { data, refetch } = useFetchAllCategoriesQuery({});
 	const [updateCategory, { isSuccess }] = useUpdateCategoryMutation({});
 
 	useEffect(() => {
@@ -66,12 +67,14 @@ const EditCategoryForm: React.FC<IUpdateCategoryFormProps> = ({ category, closeM
 				<label className="form__input--label" htmlFor="parentId">
 					parentId
 				</label>
-				<input
+				<DropdownCategories
 					className="form__input--input"
-					id="parentId"
 					name="parentId"
+					categories={data?.categoriesList || []}
+					cells={data?.rootCellsList || []}
 					value={formik.values.parentId || ''}
 					onChange={formik.handleChange}
+					category={category!}
 				/>
 			</div>
 			<button

@@ -6,6 +6,7 @@ import { ICategory } from 'src/types/category/category.interface';
 interface IDropdownCategoriesProps {
 	categories: ICategory[];
 	cells: ICell[];
+	category?: ICategory;
 	value: string | number;
 	onChange: (e: React.ChangeEvent<any>) => void;
 	className?: string;
@@ -18,6 +19,7 @@ const DropdownCategories: React.FC<IDropdownCategoriesProps> = ({
 	onChange,
 	className,
 	name,
+	category,
 }) => {
 	const [dropdownOptions, setDropdownOptions] = useState<IDropdownOption[]>([
 		{ label: 'null', value: '' },
@@ -31,17 +33,21 @@ const DropdownCategories: React.FC<IDropdownCategoriesProps> = ({
 
 	const rec = (cellsList: ICell[]) => {
 		cellsList.forEach((el, index, arr) => {
-			const breadcrumbs = el.initBreadcrumbs!()
-				.map(el => el._currentCategory?.name)
-				.join('  ');
-			const label = el._currentCategory?.name + ' -> ' + breadcrumbs;
-			const item: IDropdownOption = {
-				label,
-				value: el._currentCategory!._id,
-			};
-			setDropdownOptions(prev => [...prev, item]);
-			if (el._next.length > 0) {
-				rec(el._next);
+			if (el._currentCategory?._id !== category?._id) {
+				const breadcrumbs = el.initBreadcrumbs!()
+					.map(el => el._currentCategory?.name)
+					.join('  ');
+
+				const label = el._currentCategory?.name + ' -> ' + breadcrumbs;
+				const item: IDropdownOption = {
+					label,
+					value: el._currentCategory!._id,
+				};
+
+				setDropdownOptions(prev => [...prev, item]);
+				if (el._next.length > 0) {
+					rec(el._next);
+				}
 			}
 		});
 	};

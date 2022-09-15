@@ -47,7 +47,7 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 		if (editedCell?._currentCategory?.parentId) {
 			navigate(`/category/${editedCell?._currentCategory?.parentId}/${appManager.resourceType}`);
 		} else {
-			navigate(`/category`);
+			navigate(`/`);
 		}
 		setDeleteForm(false);
 	}, [editedCell, navigate]);

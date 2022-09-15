@@ -60,5 +60,4 @@ export const {
 	useUpdateCategoryMutation,
 	useDeleteCategoryMutation,
 	useFetchAllCategoriesQuery,
-	useLazyFetchAllCategoriesQuery,
 } = categoryApi;

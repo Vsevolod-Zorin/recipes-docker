@@ -45,7 +45,6 @@ export const recipeApi = createApi({
 export const {
 	useCreateRecipeMutation,
 	useFetchAllRecipesQuery,
-	useLazyFetchAllRecipesQuery,
 	useUpdateRecipeMutation,
 	useDeleteRecipeMutation,
 } = recipeApi;

@@ -2,8 +2,8 @@
 	display: flex;
 	justify-content: center;
 	height: var(--header-height);
-	background-color: black;
-	color: var(--accents-light-1);
+	background-color: var(--color-black);
+	color: var(--color-white);
 
 	&-wrapper {
 		display: flex;
@@ -23,27 +23,10 @@
 		width: auto;
 		display: flex;
 		align-items: center;
-		ul {
-			list-style: none;
-			display: flex;
-			align-items: center;
-			.list__item--wrapper {
-				a {
-					width: auto;
-					margin: 0 20px;
-					// color: green;
-					color: var(--accents-light-3);
-					&:hover {
-						color: brown;
-						// color: rgb(44, 162, 215);
-						cursor: pointer;
-						transition-delay: 0s;
-					}
-					&.active {
-						transition-duration: 0.5s;
-						color: var(--accents-light-1);
-					}
-				}
+		&--btn {
+			color: var(--color-grey-accent-1);
+			&.active {
+				color: var(--color-white);
 			}
 		}
 	}

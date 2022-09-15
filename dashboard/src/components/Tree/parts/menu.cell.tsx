@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import appManager from 'src/helpers/app.manager';
-
 import { ICell } from 'src/helpers/treeBuilder';
 
 interface ICellProps {
@@ -21,7 +20,7 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 		if (renderSub !== cell._isOpen) {
 			setRenderSub(cell._isOpen);
 		}
-	}, [cell._isOpen]);
+	}, [cell, renderSub, setRenderSub]);
 
 	const handleClick = () => {
 		appManager.selectCategoryId = cell._currentCategory?._id || '';
@@ -40,12 +39,17 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 				></Cell>
 			));
 		}
-	}, [cell, isAdmin]);
+	}, [cell, isAdmin, handleClickEdit, handleClickDelete]);
+
+	const handleb = useCallback(() => {
+		setRenderSub(prev => !prev);
+		cell._isOpen = !cell._isOpen;
+	}, [cell]);
 
 	const renderIconOpenSub = useCallback(() => {
 		if (haveChilds) {
 			return (
-				<button className="cell__btm--childs" onClick={() => (cell._isOpen = !cell._isOpen)}>
+				<button className="cell__btm--childs" onClick={handleb}>
 					{cell._isOpen ? '-' : '+'}
 				</button>
 			);
@@ -59,7 +63,11 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 					<button className="cell__btn--edit" onClick={() => handleClickEdit(cell)}>
 						edit
 					</button>
-					<button className="cell__btn--edit" onClick={() => handleClickDelete(cell)}>
+					<button
+						style={{ marginLeft: 10 }}
+						className="cell__btn--edit"
+						onClick={() => handleClickDelete(cell)}
+					>
 						del
 					</button>
 				</div>

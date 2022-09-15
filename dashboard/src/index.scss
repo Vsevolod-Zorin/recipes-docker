@@ -1,13 +1,10 @@
 :root {
 	--header-height: 64px;
 	--aside-width: 600px;
-	--accents-dark-1: black;
-	--accents-light-1: white;
-	--accents-light-2: rgb(220, 220, 220);
-	--accents-light-3: rgb(192, 192, 192);
 
-	--color-light-grey: #ccc;
-	--color-dark-grey: rgb(66, 66, 66);
+	--color-grey-accent-1: rgb(204, 204, 204);
+	--color-black: black;
+	--color-white: white;
 
 	--box-shadow--list-items: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
 		0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
@@ -38,12 +35,18 @@ a {
 }
 
 .btn {
-	background-color: var(--accents-dark-1);
+	background-color: var(--color-black);
 	cursor: pointer;
+	color: var(--color-white);
 	&:disabled {
-		color: var(--color-light-grey);
+		color: var(--color-grey-accent-1);
 	}
-	color: var(--accents-light-1);
+	&__header {
+		color: var(--color-grey-accent-1);
+		&.active {
+			color: var(--color-white);
+		}
+	}
 }
 
 .custom-scroll {

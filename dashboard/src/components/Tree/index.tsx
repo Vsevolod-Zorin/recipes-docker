@@ -18,11 +18,11 @@ interface ITreeProps {
 
 const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	const { data } = useFetchAllCategoriesQuery({});
+	const categoryId = useAppSelector(selectCategoryId);
+	const navigate = useNavigate();
 	const [editedCell, setEditedCell] = useState<ICell | null>(null);
 	const [editForm, setEditForm] = useState<boolean>(false);
 	const [deleteForm, setDeleteForm] = useState<boolean>(false);
-	const categoryId = useAppSelector(selectCategoryId);
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (categoryId && data?.cellsList) {
@@ -43,13 +43,14 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 		setEditForm(false);
 	};
 
-	const handleCloseDeleteForm = () => {
-		navigate(
-			`/category/${editedCell?._currentCategory?.parentId}/${appManager.resourceType}` ||
-				'/category'
-		);
+	const handleCloseDeleteForm = useCallback(() => {
+		if (editedCell?._currentCategory?.parentId) {
+			navigate(`/category/${editedCell?._currentCategory?.parentId}/${appManager.resourceType}`);
+		} else {
+			navigate(`/category`);
+		}
 		setDeleteForm(false);
-	};
+	}, [editedCell, navigate]);
 
 	const renderTree = useCallback(() => {
 		return data?.rootCellsList.map((el, index) => (

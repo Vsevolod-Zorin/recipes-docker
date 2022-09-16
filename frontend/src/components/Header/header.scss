@@ -1,14 +1,25 @@
 .header {
+	width: 100%;
+	height: var(--header-height);
 	display: flex;
 	justify-content: center;
-	height: var(--header-height);
-	background-color: black;
-	color: var(--accents-light-1);
+	color: var(--color-grey-accent-1);
+	background-color: #fff;
+	box-shadow: var(--box-shadow--header);
+	overflow: hidden;
+	position: sticky;
+	top: 0;
+	z-index: 10;
 
 	&-wrapper {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+
+		color: #333;
+		font-weight: 200;
+		letter-spacing: 3.5px;
+		text-transform: uppercase;
 	}
 
 	&__logo {
@@ -22,6 +33,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		&--btn {
+			margin-left: 20px;
+			&.active {
+				text-decoration: dashed;
+			}
+		}
 	}
 	&__search {
 		width: 200px;

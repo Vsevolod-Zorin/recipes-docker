@@ -6,8 +6,8 @@ const Footer = () => {
 	return (
 		<footer className="footer">
 			<div className="footer-wrapper content">
-				<p>footer</p>
-				<Loader />
+				<p></p>
+				{/* <Loader /> */}
 			</div>
 		</footer>
 	);

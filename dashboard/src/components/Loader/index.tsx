@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
 	useCreateCategoryMutation,
 	useDeleteCategoryMutation,
@@ -23,6 +23,7 @@ const Loader = () => {
 	const [createRecipeFn, { isLoading: createRecipe }] = useCreateRecipeMutation();
 	const [updateRecipeFn, { isLoading: updateRecipe }] = useUpdateRecipeMutation();
 	const [deleteRecipeFn, { isLoading: deleteRecipe }] = useDeleteRecipeMutation();
+
 	const loading = useMemo(() => {
 		return (
 			fetchingAllCategories ||

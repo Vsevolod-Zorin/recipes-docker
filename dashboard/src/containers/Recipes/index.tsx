@@ -6,7 +6,6 @@ import EditRecipeForm from 'src/components/forms/edit-recipe.form';
 import ModalForm from 'src/components/Modal';
 import RecipeItem from 'src/components/RecipeItem';
 import { useAppDispatch } from 'src/hooks/redux';
-
 import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
 import { categoryActions } from 'src/store/reducers/category.slice';
 import { IRecipe } from 'src/types/recipe/recipe.interface';

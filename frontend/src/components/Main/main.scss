@@ -1,8 +1,7 @@
 .main {
 	display: flex;
 	justify-content: center;
-	height: calc(100vh - var(--header-height) - var(--header-height));
-	overflow-y: scroll;
+	height: calc(100vh - var(--header-height));
 	&-wrapper {
 		display: flex;
 		min-height: calc(100vh - var(--header-height) - var(--header-height));

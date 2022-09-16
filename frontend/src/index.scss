@@ -1,13 +1,22 @@
 :root {
 	--header-height: 64px;
-	--aside-width: 300px;
-	--accents-dark-1: black;
-	--accents-light-1: white;
+	--footer-height: 64px;
+	--aside-width: 600px;
+
+	--color-grey-accent-1: rgb(204, 204, 204);
+	--color-black: black;
+	--color-white: white;
+
+	--box-shadow--list-items: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+		0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+	--box-shadow--header: 0 5px 20px -10px #000;
 }
 
 body {
 	font-family: 'Roboto', sans-serif;
 }
+
 body,
 div,
 ul,
@@ -26,6 +35,34 @@ a {
 	max-width: 1600px;
 	min-width: 600px;
 	margin: 0 10%;
+}
+
+.btn {
+	cursor: pointer;
+	color: green;
+	&:disabled {
+		color: var(--color-grey-accent-1);
+	}
+	&__header {
+		// color: var(--color-grey-accent-1);
+		color: #333;
+		font-weight: 200;
+		letter-spacing: 3.5px;
+		text-transform: uppercase;
+
+		&.active {
+			color: green;
+		}
+	}
+}
+
+.custom-scroll {
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: black;
+	}
 }
 
 @media (max-width: 1200px) {

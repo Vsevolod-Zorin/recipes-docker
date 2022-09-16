@@ -10,14 +10,14 @@ export const CustomRouter = () => {
 		<Routes>
 			<Route path="/">
 				<Route path="/" element={<Home />} />
+				<Route path="recipes" element={<Recipes />} />
+				<Route path="posts" element={<Posts />} />
 				<Route path="category/:categoryId">
 					<Route path="recipe" element={<Recipes />} />
 					<Route path="recipe/:recipeId" element={<Recipe />} />
 					<Route path="post" element={<Posts />} />
 					<Route path="post/:postId" element={<Post />} />
 				</Route>
-				<Route path="recipes" element={<Recipes />} />
-				<Route path="posts" element={<Posts />} />
 			</Route>
 			<Route path="*" element={<Navigate to="/" replace />} />
 		</Routes>

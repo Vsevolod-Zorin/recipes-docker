@@ -42,7 +42,7 @@ const Header = () => {
 					DASHBOARD
 				</div>
 
-				<nav className="header__menu">
+				<div className="header__menu">
 					<nav className="header__nav">
 						<button
 							ref={refBtnRecipes}
@@ -55,7 +55,7 @@ const Header = () => {
 							posts
 						</button>
 					</nav>
-				</nav>
+				</div>
 
 				{/* <input type="text" className="header__search" placeholder="search"></input> */}
 			</div>

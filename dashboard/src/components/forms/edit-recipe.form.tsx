@@ -3,6 +3,8 @@ import { useFormik } from 'formik';
 import { IRecipe, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import { useFetchAllRecipesQuery, useUpdateRecipeMutation } from 'src/services/recipe.api';
 import { IFormDefault } from './form-default.interface';
+import DropdownCategories from './parts/dropdown-categories';
+import { useFetchAllCategoriesQuery } from 'src/services/category.api';
 import './forms.scss';
 
 interface IEditRecipeFormProps extends IFormDefault {
@@ -13,6 +15,7 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) 
 	// todo error
 	const [updateRecipe, { isSuccess }] = useUpdateRecipeMutation();
 	const { refetch } = useFetchAllRecipesQuery(recipe!.categoryId as string);
+	const { data } = useFetchAllCategoriesQuery({});
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -75,15 +78,15 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) 
 				/>
 			</div>
 			<div className="form__input--wrapper">
-				<label className="form__input--label" htmlFor="categoryId">
-					category Id
+				<label className="form__input--label" htmlFor="parentId">
+					category
 				</label>
-				<input
+				<DropdownCategories
 					className="form__input--input"
-					id="categoryId"
-					type="text"
 					name="categoryId"
-					value={formik.values.categoryId}
+					categories={data?.categoriesList || []}
+					cells={data?.rootCellsList || []}
+					value={formik.values.categoryId || ''}
 					onChange={formik.handleChange}
 				/>
 			</div>

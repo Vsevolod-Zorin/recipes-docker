@@ -25,11 +25,19 @@
 		align-items: center;
 		&--btn {
 			color: var(--color-grey-accent-1);
+			margin-left: 20px;
 			&.active {
 				color: var(--color-white);
 			}
 		}
 	}
+
+	&__nav{
+		display: flex;
+		flex-direction: row;
+
+	}
+
 	&__search {
 		width: 200px;
 		height: 30px;

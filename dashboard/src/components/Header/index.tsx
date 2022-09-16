@@ -5,8 +5,8 @@ import './header.scss';
 
 const Header = () => {
 	let navigate = useNavigate();
-	const refBtnRecipes = useRef<HTMLButtonElement>(null);
-	const refBtnPosts = useRef<HTMLButtonElement>(null);
+	const refBtnRecipes = useRef<HTMLDivElement>(null);
+	const refBtnPosts = useRef<HTMLDivElement>(null);
 
 	const handleClickLogo = () => {
 		appManager.resetSelectedCategory();
@@ -44,16 +44,16 @@ const Header = () => {
 
 				<div className="header__menu">
 					<nav className="header__nav">
-						<button
+						<div
 							ref={refBtnRecipes}
-							className="btn btn__header active"
+							className="btn btn__header active header__menu--btn"
 							onClick={handleClickRecipeBtn}
 						>
 							recipes
-						</button>
-						<button ref={refBtnPosts} className="btn  btn__header" onClick={handleClickPostBtn}>
+						</div>
+						<div ref={refBtnPosts} className="btn  btn__header header__menu--btn" onClick={handleClickPostBtn}>
 							posts
-						</button>
+						</div>
 					</nav>
 				</div>
 

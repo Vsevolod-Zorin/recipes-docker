@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import appManager from 'src/helpers/app.manager';
-import { ICell } from 'src/helpers/treeBuilder';
+import appManager from 'src/utils/app.manager';
+import { ICell } from 'src/utils/treeBuilder';
 
 interface ICellProps {
 	cell: ICell;

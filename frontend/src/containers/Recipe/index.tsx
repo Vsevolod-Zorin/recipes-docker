@@ -19,7 +19,7 @@ const Recipe = () => {
 				<h1>category: {categoryId}</h1>
 				<h1>title: {recipe?.title}</h1>
 				<h1>description: {recipe?.description}</h1>
-				<h1>updatedAt: {recipe?.updatedAt?.toDateString() || ''}</h1>
+				{/* <h1>updatedAt: {recipe?.updatedAt?.toDateString() || ''}</h1> */}
 			</div>
 		);
 	}, [recipe]);

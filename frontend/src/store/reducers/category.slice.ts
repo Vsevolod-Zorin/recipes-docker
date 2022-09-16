@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICell } from 'src/helpers/treeBuilder';
+import { ICell } from 'src/utils/treeBuilder';
 import { ICategory } from 'src/types/category/category.interface';
 
 export interface ICategoryWrapper {

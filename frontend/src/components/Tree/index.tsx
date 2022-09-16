@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import Cell from 'src/components/Tree/parts/menu.cell';
-import { openParentCells } from 'src/helpers/open-parent-cells';
+import { openParentCells } from 'src/utils/open-parent-cells';
 import { useAppSelector } from 'src/hooks/redux';
 import { useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { selectCategoryId } from 'src/store/selectors';

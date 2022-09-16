@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router';
-import appManager from 'src/helpers/app.manager';
+import appManager from 'src/utils/app.manager';
 import './header.scss';
 
 const Header = () => {

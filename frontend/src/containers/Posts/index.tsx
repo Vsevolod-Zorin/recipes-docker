@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import appManager from 'src/helpers/app.manager';
+import appManager from 'src/utils/app.manager';
 import './posts.scss';
 
 const Posts = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ICell } from 'src/helpers/treeBuilder';
+import { ICell } from 'src/utils/treeBuilder';
 import './breadcrumbs.scss';
 
 interface IBreadcrumbsProps {

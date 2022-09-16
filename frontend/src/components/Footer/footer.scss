@@ -1,0 +1,13 @@
+.footer {
+	display: flex;
+	justify-content: center;
+	height: var(--footer-height);
+	background-color: var(--accents-dark-1);
+	color: var(--accents-light-1);
+
+	&-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+}

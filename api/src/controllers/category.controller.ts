@@ -1,13 +1,11 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { categoryService } from 'src/services/category.service';
-import { validateCategoryById } from 'src/shared/validation/category/category-get-by-id.validarion';
-import { ExpressRequest } from 'src/types/express/expressRequest.interface';
 import { ExpressCategoryRequest } from 'src/types/express/expressCategoryRequest.interface';
 
 class CategoryController {
 	async findAll(req: Request, res: Response) {
-		const categories = await categoryService.find();
+		const categories = await categoryService.getAll();
 		res.status(StatusCodes.OK).json(categories);
 	}
 
@@ -22,12 +20,10 @@ class CategoryController {
 		res.status(StatusCodes.CREATED).json(createdCategory);
 	}
 
-	async update(req: ExpressRequest, res: Response) {
+	async update(req: ExpressCategoryRequest, res: Response) {
 		// todo: check name exist in one branch
-		// todo: make interface req.body
-		const { id } = req.body;
-		await validateCategoryById(id);
-		const updatedCategory = await categoryService.update(id.toString(), req.body);
+		const { category } = req;
+		const updatedCategory = await categoryService.update(category._id, req.body);
 		res.status(StatusCodes.OK).json(updatedCategory);
 	}
 

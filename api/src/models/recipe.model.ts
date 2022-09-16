@@ -8,7 +8,9 @@ class RecipeModel {
 	find(query: IQueryRecipeFindMany): Promise<IRecipe[]> {
 		return Recipe.find(query).exec();
 	}
-
+	findByCategoryId(id: string) {
+		return Recipe.find({ categoryId: id }).exec();
+	}
 	findOne(query: IQueryRecipeFindOne): Promise<IRecipe> {
 		return Recipe.findOne(query).exec();
 	}

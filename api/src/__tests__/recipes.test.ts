@@ -5,7 +5,6 @@ import { IRecipe, IRecipeCreate, IRecipeUpdate } from 'src/types/recipe/recipe.i
 import { ICategory, ICategoryCreate } from 'src/types/category/category.interface';
 import { BackendMessage } from 'src/shared/backend.messages';
 import { IBackendError } from 'src/types/backend/error-template.interface';
-import { StatusCodes } from 'http-status-codes';
 
 describe('Recipe', () => {
 	let server: http.Server = testsManager.httpServer;

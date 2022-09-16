@@ -16,20 +16,26 @@ class RecipeController {
 		const { recipe } = req;
 		res.status(StatusCodes.OK).json(recipe);
 	}
+	async getByCategoryId(req: ExpressRecipeRequest, res: Response) {
+		const { id } = req.params;
+		await validateCategoryById(id as string);
+		const recipes = await recipeService.findByCategoryId(id as string);
+		res.status(StatusCodes.OK).json(recipes);
+	}
 
 	async create(req: Request, res: Response) {
 		const createdRecipe = await recipeService.create(req.body);
 		res.status(StatusCodes.CREATED).json(createdRecipe);
 	}
 
-	// todo make interface
-	async update(req: ExpressRequest, res: Response) {
-		const { id, categoryId } = req.body;
-		await validateRecipeById(id);
+	async update(req: ExpressRecipeRequest, res: Response) {
+		const { categoryId } = req.body;
+		const { recipe } = req;
+
 		if (categoryId) {
 			await validateCategoryById(categoryId);
 		}
-		const updatedRecipe = await recipeService.update(id, req.body);
+		const updatedRecipe = await recipeService.update(recipe._id, req.body);
 		res.status(StatusCodes.OK).json(updatedRecipe);
 	}
 

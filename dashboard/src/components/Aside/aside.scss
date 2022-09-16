@@ -1,0 +1,22 @@
+.aside {
+	top: 0;
+	width: 100%;
+
+	&-wrapper {
+		&__header {
+			display: flex;
+			align-items: center;
+			&--btn-add {
+				margin-left: 20px;
+			}
+		}
+	}
+
+	&__nav {
+		ul {
+			list-style: none;
+			li {
+			}
+		}
+	}
+}

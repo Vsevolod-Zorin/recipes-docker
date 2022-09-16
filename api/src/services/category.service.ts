@@ -1,17 +1,20 @@
 import { categoryModel } from 'src/models/category.model';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
-import { IQueryCategoryFindMany } from 'src/types/category/query-category-find-many.interface';
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
 import { recipeService } from './recipe.service';
 
 export class CategoryService {
-	find(query: IQueryCategoryFindMany = {}): Promise<ICategory[]> {
-		return categoryModel.find(query);
+	getAll(): Promise<ICategory[]> {
+		return categoryModel.find();
 	}
 
 	findOne(query: IQueryCategoryFindOne = {}): Promise<ICategory> {
 		return categoryModel.findOne(query);
+	}
+
+	getByParentId(parentId: string): Promise<ICategory[]> {
+		return categoryModel.find({ parentId });
 	}
 
 	create(dto: ICategoryCreate): Promise<ICategory> {
@@ -27,13 +30,8 @@ export class CategoryService {
 	}
 
 	async moveChildsCategoryUp(category: ICategory) {
-		const query: IQueryCategoryFindMany = {
-			parentId: category._id,
-		};
-
-		const categories: ICategory[] = await this.find(query);
-		const ids = categories.map(el => el._id);
-
+		const categories: ICategory[] = await this.getByParentId(category._id);
+		const ids = categories.map(el => el._id.toString());
 		return await categoryModel.updateMany(ids, { parentId: category.parentId });
 	}
 

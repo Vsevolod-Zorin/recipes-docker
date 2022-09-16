@@ -1,0 +1,28 @@
+.form {
+	&-wrapper {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&__input {
+		&--wrapper {
+			display: flex;
+			flex-direction: column;
+			margin: 10px 0;
+			box-sizing: border-box;
+		}
+		&--label {
+			color: var(--color-black);
+			margin-bottom: 5px;
+		}
+		&--input {
+		}
+	}
+
+	&__btn {
+		&__submit {
+			margin-top: 30px;
+			font-size: 1.2em;
+		}
+	}
+}

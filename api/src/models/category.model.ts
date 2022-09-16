@@ -10,7 +10,7 @@ import { IQueryCategoryFindMany } from 'src/types/category/query-category-find-m
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
 
 class CategoryModel {
-	find(query: IQueryCategoryFindMany = {}): Promise<ICategory[]> {
+	find(query = {}): Promise<ICategory[]> {
 		return Category.find(query).exec();
 	}
 
@@ -28,11 +28,15 @@ class CategoryModel {
 
 	// todo check tests after change type Object to ICategoryUpdate
 	updateMany(ids: string[], update: ICategoryUpdateMany): Promise<UpdateWriteOpResult> {
-		return Category.updateMany({ id: { $in: ids } }, update).exec();
+		return Category.updateMany({ _id: { $in: ids } }, update).exec();
 	}
 
 	delete(id: string): Promise<ICategory> {
 		return Category.findByIdAndDelete(id).exec();
+	}
+
+	deleteAll() {
+		return Category.deleteMany();
 	}
 }
 

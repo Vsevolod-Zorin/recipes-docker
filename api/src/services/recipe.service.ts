@@ -8,6 +8,10 @@ export class RecipeService {
 		return recipeModel.find(query);
 	}
 
+	findByCategoryId(id: string) {
+		return recipeModel.findByCategoryId(id);
+	}
+
 	findOne(query: IQueryRecipeFindOne): Promise<IRecipe> {
 		return recipeModel.findOne(query);
 	}

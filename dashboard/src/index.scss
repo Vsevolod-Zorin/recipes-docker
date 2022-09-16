@@ -1,0 +1,70 @@
+:root {
+	--header-height: 64px;
+	--aside-width: 600px;
+
+	--color-grey-accent-1: rgb(204, 204, 204);
+	--color-black: black;
+	--color-white: white;
+
+	--box-shadow--list-items: 0px 5px 5px -3px rgba(0, 0, 0, 0.2),
+		0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+body,
+div,
+ul,
+form,
+img,
+input {
+	margin: 0;
+	padding: 0;
+}
+a {
+	text-decoration: none;
+}
+
+.content {
+	width: 100%;
+	max-width: 1600px;
+	min-width: 600px;
+	margin: 0 10%;
+}
+
+.btn {
+	background-color: var(--color-black);
+	cursor: pointer;
+	color: var(--color-white);
+	&:disabled {
+		color: var(--color-grey-accent-1);
+	}
+	&__header {
+		color: var(--color-grey-accent-1);
+		&.active {
+			color: var(--color-white);
+		}
+	}
+}
+
+.custom-scroll {
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+	&::-webkit-scrollbar-thumb {
+		background: black;
+	}
+}
+
+@media (max-width: 1200px) {
+	.content {
+		margin: 0 5%;
+	}
+}
+@media (max-width: 600px) {
+	.content {
+		margin: 0 0;
+	}
+}

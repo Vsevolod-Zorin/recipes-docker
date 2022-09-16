@@ -1,0 +1,45 @@
+.header {
+	display: flex;
+	justify-content: center;
+	height: var(--header-height);
+	background-color: var(--color-black);
+	color: var(--color-white);
+
+	&-wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	&__logo {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		width: var(--aside-width);
+		cursor: pointer;
+	}
+	&__menu {
+		width: auto;
+		display: flex;
+		align-items: center;
+		&--btn {
+			color: var(--color-grey-accent-1);
+			margin-left: 20px;
+			&.active {
+				color: var(--color-white);
+			}
+		}
+	}
+
+	&__nav{
+		display: flex;
+		flex-direction: row;
+
+	}
+
+	&__search {
+		width: 200px;
+		height: 30px;
+	}
+}

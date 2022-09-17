@@ -63,21 +63,23 @@ const Recipes = () => {
 				<ul className="recipes__list">{renderList()}</ul>
 			</section>
 			<section className="recipes__right-part">
-				<div className="right-part__controls">
-					<button className="btn" onClick={handleClickCreate}>
-						add
-					</button>
+				<div className="right-part__wrapper">
+					<div className="right-part__controls">
+						<button className="btn" onClick={handleClickCreate}>
+							add
+						</button>
 
-					<button className="btn" onClick={handleClickEdit} disabled={!selectedRecipe}>
-						edit
-					</button>
-					<button className="btn" onClick={handleClickDelete} disabled={!selectedRecipe}>
-						delete
-					</button>
-				</div>
-				<div className="right-part__preview">
-					<span>preview</span>
-					{selectedRecipe && <RecipeItem recipe={selectedRecipe} />}
+						<button className="btn" onClick={handleClickEdit} disabled={!selectedRecipe}>
+							edit
+						</button>
+						<button className="btn" onClick={handleClickDelete} disabled={!selectedRecipe}>
+							delete
+						</button>
+					</div>
+					<div className="right-part__preview">
+						<span>preview</span>
+						{selectedRecipe && <RecipeItem recipe={selectedRecipe} />}
+					</div>
 				</div>
 			</section>
 			{createForm && (

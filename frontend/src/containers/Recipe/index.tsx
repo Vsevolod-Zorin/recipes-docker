@@ -15,24 +15,26 @@ const Recipe = () => {
 			// open tree on new page
 			dispatch(categoryActions.setSelectedCell(categoryId));
 		}
-	}, [categoryId]);
+	}, [categoryId, dispatch]);
 
 	const recipe = useMemo(() => {
 		const recipe = data?.find(el => el._id === recipeId);
 		return recipe || null;
-	}, [data]);
+	}, [data, recipeId]);
 
 	const renderRecipe = useCallback(() => {
-		return (
-			<div className="recipe__item--wrapper">
-				<h1>Recipe: {recipeId}</h1>
-				<h1>category: {categoryId}</h1>
-				<h1>title: {recipe?.title}</h1>
-				<h1>description: {recipe?.description}</h1>
-				{/* <h1>updatedAt: {recipe?.updatedAt?.toDateString() || ''}</h1> */}
-			</div>
-		);
-	}, [recipe]);
+		if (recipe && categoryId && recipeId) {
+			return (
+				<div className="recipe__item--wrapper">
+					<h1>Recipe: {recipeId}</h1>
+					<h1>category: {categoryId}</h1>
+					<h1>title: {recipe?.title}</h1>
+					<h1>description: {recipe?.description}</h1>
+					<h1>updatedAt: {new Date(recipe.updatedAt!).toLocaleDateString()}</h1>
+				</div>
+			);
+		}
+	}, [recipe, categoryId, recipeId]);
 
 	return <div className="recipe__item">{renderRecipe()}</div>;
 };

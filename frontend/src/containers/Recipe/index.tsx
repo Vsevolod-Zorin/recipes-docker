@@ -17,6 +17,7 @@ const Recipe = () => {
 		}
 	}, [categoryId, dispatch]);
 
+	// todo selector
 	const recipe = useMemo(() => {
 		const recipe = data?.find(el => el._id === recipeId);
 		return recipe || null;

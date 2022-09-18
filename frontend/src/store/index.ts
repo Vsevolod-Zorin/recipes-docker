@@ -17,9 +17,7 @@ const logger = createLogger({});
 export const store = configureStore({
 	reducer: rootReducer,
 	middleware: getDefaultMiddleware =>
-		config.getEnv() === Envs.production
-			? getDefaultMiddleware()
-			: getDefaultMiddleware().concat(logger),
+		config.getEnv() === Envs.production ? getDefaultMiddleware() : getDefaultMiddleware().concat(),
 
 	devTools: config.getEnv() !== Envs.production,
 });

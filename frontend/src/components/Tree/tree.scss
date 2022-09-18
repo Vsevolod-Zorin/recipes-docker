@@ -14,15 +14,18 @@
 	&__body {
 		margin-left: 2px;
 	}
+	&__btn--childs {
+		margin-right: 10px;
+	}
 	a {
 		color: lightgray;
 		&:hover {
-			color: rgb(44, 162, 215);
+			color: green;
 			cursor: pointer;
 			transition-delay: 0s;
 		}
 		&.active {
-			color: rgb(44, 162, 215);
+			color: green;
 		}
 	}
 }

@@ -40,7 +40,7 @@ const Cell: React.FC<ICellProps> = ({ cell }) => {
 	const renderIconOpenSub = useCallback(() => {
 		if (haveChilds) {
 			return (
-				<button className="cell__btm--childs" onClick={handleb}>
+				<button className="cell__btn--childs" onClick={handleb}>
 					{cell._isOpen ? '-' : '+'}
 				</button>
 			);
@@ -48,7 +48,7 @@ const Cell: React.FC<ICellProps> = ({ cell }) => {
 	}, [cell._isOpen, haveChilds, handleb]);
 
 	return (
-		<div className="cell ">
+		<div className="cell btn__header ">
 			<div className="cell-wrapper">
 				<div className="cell__body" onClick={handleClick}>
 					{renderIconOpenSub()}

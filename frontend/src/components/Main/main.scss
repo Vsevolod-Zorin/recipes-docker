@@ -1,19 +1,24 @@
 .main {
 	display: flex;
 	justify-content: center;
-	height: calc(100vh - var(--header-height));
+	min-height: calc(100vh - var(--header-height) - var(--footer-height));
 	&-wrapper {
 		display: flex;
-		min-height: calc(100vh - var(--header-height) - var(--header-height));
+		width: 100%;
+		min-height: calc(100vh - var(--header-height) - var(--height));
+		box-sizing: border-box;
+		padding: 0 20px;
 	}
 	&__left-part {
+		width: 10%;
 		height: 100%;
 		width: var(--aside-width);
 		display: flex;
-		justify-content: center;
+		justify-content: flex-start;
 	}
 	&__right-part {
-		width: 100%;
+		width: 90%;
+		height: 100%;
 		box-sizing: border-box;
 		padding: 10px;
 	}

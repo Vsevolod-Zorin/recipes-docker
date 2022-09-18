@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
-import './recipe-item.scss';
+import './recipe-list-item.scss';
+
 interface IRecipeItemProps {
 	recipe: IRecipe;
 }
@@ -16,15 +17,15 @@ const RecipeItem: React.FC<IRecipeItemProps> = ({ recipe }) => {
 	}, [data, categoryId]);
 
 	return (
-		<div className="recipe recipe__item">
-			<div className="recipe__item--title">
+		<div className="recipe__list-item">
+			<div className="recipe__list-item--title">
 				<span>title: </span>
 				{title}
 			</div>
-			<div className="recipe__item--description">
+			<div className="recipe__list-item--description">
 				<span>description: </span> {description}
 			</div>
-			<div className="recipe__item--category">
+			<div className="recipe__list-item--category">
 				<span>category: </span> {categoryName}
 			</div>
 			<div className="recipe__list-item--updated">

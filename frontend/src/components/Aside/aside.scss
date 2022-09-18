@@ -16,12 +16,10 @@
 				div {
 					a {
 						&:hover {
-							color: rgb(44, 162, 215);
 							cursor: pointer;
 							transition-delay: 0s;
 						}
 						&.active {
-							color: var(--accents-light-1);
 						}
 					}
 				}

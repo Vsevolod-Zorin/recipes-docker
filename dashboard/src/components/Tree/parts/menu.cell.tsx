@@ -49,7 +49,7 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 	const renderIconOpenSub = useCallback(() => {
 		if (haveChilds) {
 			return (
-				<button className="cell__btm--childs" onClick={handleb}>
+				<button className="cell__btn--childs" onClick={handleb}>
 					{cell._isOpen ? '-' : '+'}
 				</button>
 			);

@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import RecipeItem from 'src/components/RecipeItem';
+import RecipeItem from 'src/components/RecipelistItem';
 import { useAppDispatch } from 'src/hooks/redux';
 import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
 import { categoryActions } from 'src/store/reducers/category.slice';

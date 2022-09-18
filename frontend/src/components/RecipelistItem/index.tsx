@@ -1,6 +1,6 @@
 import React from 'react';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
-import './recipe-item.scss';
+import './recipe-list-item.scss';
 
 interface IRecipeItemProps {
 	recipe: IRecipe;
@@ -9,15 +9,15 @@ interface IRecipeItemProps {
 const RecipeItem: React.FC<IRecipeItemProps> = ({ recipe }) => {
 	const { description, title, categoryId } = recipe;
 	return (
-		<div className="recipe recipe__item">
-			<div className="recipe__item--title">
+		<div className="recipe__list-item">
+			<div className="recipe__list-item--title">
 				<span>title: </span>
 				{title}
 			</div>
-			<div className="recipe__item--description">
+			<div className="recipe__list-item--description">
 				<span>description: </span> {description}
 			</div>
-			<div className="recipe__item--category">
+			<div className="recipe__list-item--category">
 				<span>category: </span> {categoryId}
 			</div>
 		</div>

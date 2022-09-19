@@ -1,7 +1,7 @@
 import { Ref } from '@typegoose/typegoose';
 import { Category } from 'src/schema/Category';
 
-export interface IQueryRecipeFindOne {
+export interface IQueryPostFindOne {
 	_id?: string;
 	title?: string;
 	description?: string;

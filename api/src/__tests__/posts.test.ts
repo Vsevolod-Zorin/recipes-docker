@@ -249,7 +249,9 @@ describe('Post', () => {
 					body: 'test body',
 					categoryId: testsPost.categoryId,
 				};
-				const { statusCode, body } = await supertest(server).put(`/post`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/post/${testsPost._id}`)
+					.send(payload);
 				const data: IPost = {
 					_id: testsPost._id,
 					title: 'updated post title',
@@ -268,7 +270,9 @@ describe('Post', () => {
 		describe('negative: valid params', () => {
 			it('empty body. should return a 400 ', async () => {
 				const payload = {};
-				const { statusCode, body } = await supertest(server).put(`/post`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/post/${testsPost._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: 'Bad Request',
@@ -287,7 +291,9 @@ describe('Post', () => {
 					description: 'updated post description',
 					categoryId: testsPost.categoryId,
 				};
-				const { statusCode, body } = await supertest(server).put(`/post`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/post/${testsPost._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					code: 400,
@@ -307,7 +313,9 @@ describe('Post', () => {
 					body: 'test body',
 					categoryId: testsCategory._id,
 				};
-				const { statusCode, body } = await supertest(server).put(`/post`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/post/${testsPost._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: 'Bad Request',
@@ -328,7 +336,9 @@ describe('Post', () => {
 					body: 'test body',
 					categoryId: testsCategory._id.toString(),
 				};
-				const { statusCode, body } = await supertest(server).put(`/post`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/post/${testsPost._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -348,7 +358,9 @@ describe('Post', () => {
 					body: 'test body',
 					categoryId: testsCategory._id,
 				};
-				const { statusCode, body } = await supertest(server).put(`/post`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/post/${testsPost._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -368,7 +380,9 @@ describe('Post', () => {
 					body: 'test body',
 					categoryId: false,
 				};
-				const { statusCode, body } = await supertest(server).put(`/post`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/post/${testsPost._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,

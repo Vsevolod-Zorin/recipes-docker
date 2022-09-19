@@ -27,12 +27,14 @@ const DropdownCategories: React.FC<IDropdownCategoriesProps> = ({
 
 	useEffect(() => {
 		if (cells) {
+			setDropdownOptions([])
 			rec(cells);
 		}
 	}, [cells]);
 
 	const rec = (cellsList: ICell[]) => {
 		cellsList.forEach((el, index, arr) => {
+
 			if (el._currentCategory?._id !== category?._id) {
 				const breadcrumbs = el.initBreadcrumbs!()
 					.map(el => el._currentCategory?.name)

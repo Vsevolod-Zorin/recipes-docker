@@ -1,24 +1,15 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import PostItem from 'src/components/PostlistItem';
-import { useAppDispatch } from 'src/hooks/redux';
 import { useFetchAllPostsQuery } from 'src/services/post.api';
-import { categoryActions } from 'src/store/reducers/category.slice';
 import { IPost } from 'src/types/post/post.interface';
 import './posts.scss';
 
 const Posts = () => {
 	const navigate = useNavigate();
-	const dispatch = useAppDispatch();
 	const { categoryId } = useParams();
 	// todo rename method
 	const { data } = useFetchAllPostsQuery(categoryId as string);
-
-	useEffect(() => {
-		if (categoryId) {
-			dispatch(categoryActions.setSelectedCell(categoryId));
-		}
-	}, [categoryId]);
 
 	const handleClick = (el: IPost) => {
 		navigate(`/category/${categoryId}/post/${el._id}`);

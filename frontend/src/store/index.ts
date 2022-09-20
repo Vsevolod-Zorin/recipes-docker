@@ -1,14 +1,14 @@
 import { combineReducers, configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { createLogger } from 'redux-logger';
-import { categoryReducer } from 'src/store/reducers/category.slice';
+import { appReducer } from 'src/store/reducers/app.slice';
 import { categoryApi } from 'src/services/category.api';
 import { config, Envs } from 'src/config';
 import { recipeApi } from 'src/services/recipe.api';
 import { postApi } from 'src/services/post.api';
 
 const rootReducer = combineReducers({
-	categoryReducer,
+	appReducer,
 	[categoryApi.reducerPath]: categoryApi.reducer,
 	[recipeApi.reducerPath]: recipeApi.reducer,
 	[postApi.reducerPath]: postApi.reducer,

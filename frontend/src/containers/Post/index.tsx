@@ -1,21 +1,11 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useParams } from 'react-router';
-import { useAppDispatch } from 'src/hooks/redux';
 import { useFetchAllPostsQuery } from 'src/services/post.api';
-import { categoryActions } from 'src/store/reducers/category.slice';
 import './post.scss';
 
 const Post = () => {
 	const { postId, categoryId } = useParams();
 	const { data } = useFetchAllPostsQuery(categoryId as string);
-	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		if (categoryId) {
-			// open tree on new page
-			dispatch(categoryActions.setSelectedCell(categoryId));
-		}
-	}, [categoryId, dispatch]);
 
 	// todo selector
 	const post = useMemo(() => {

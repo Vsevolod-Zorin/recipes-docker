@@ -5,45 +5,68 @@ import Posts from 'src/containers/Posts';
 import Recipe from 'src/containers/Recipe';
 import Recipes from 'src/containers/Recipes';
 import BreadcrumbsWrapper from 'src/hoc/BreadcrumbsWrapper';
+import NavigationWrapper from 'src/hoc/NavigationWrapper';
 
 export const CustomRouter = () => {
 	return (
 		<Routes>
 			<Route path="/">
 				<Route path="/" element={<Home />} />
-				<Route path="recipes" element={<Recipes />} />
-				<Route path="posts" element={<Posts />} />
+				<Route
+					path="recipes"
+					element={
+						<NavigationWrapper>
+							<Recipes />
+						</NavigationWrapper>
+					}
+				/>
+				<Route
+					path="posts"
+					element={
+						<NavigationWrapper>
+							<Posts />
+						</NavigationWrapper>
+					}
+				/>
 				<Route path="category/:categoryId">
 					<Route
 						path="recipe"
 						element={
-							<BreadcrumbsWrapper>
-								<Recipes />
-							</BreadcrumbsWrapper>
+							<NavigationWrapper>
+								<BreadcrumbsWrapper>
+									<Recipes />
+								</BreadcrumbsWrapper>
+							</NavigationWrapper>
 						}
 					/>
 					<Route
 						path="recipe/:recipeId"
 						element={
-							<BreadcrumbsWrapper>
-								<Recipe />
-							</BreadcrumbsWrapper>
+							<NavigationWrapper>
+								<BreadcrumbsWrapper>
+									<Recipe />
+								</BreadcrumbsWrapper>
+							</NavigationWrapper>
 						}
 					/>
 					<Route
 						path="post"
 						element={
-							<BreadcrumbsWrapper>
-								<Posts />
-							</BreadcrumbsWrapper>
+							<NavigationWrapper>
+								<BreadcrumbsWrapper>
+									<Posts />
+								</BreadcrumbsWrapper>
+							</NavigationWrapper>
 						}
 					/>
 					<Route
 						path="post/:postId"
 						element={
-							<BreadcrumbsWrapper>
-								<Post />
-							</BreadcrumbsWrapper>
+							<NavigationWrapper>
+								<BreadcrumbsWrapper>
+									<Post />
+								</BreadcrumbsWrapper>
+							</NavigationWrapper>
 						}
 					/>
 				</Route>

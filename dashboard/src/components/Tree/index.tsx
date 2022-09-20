@@ -1,12 +1,11 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cell from 'src/components/Tree/parts/menu.cell';
-import appManager from 'src/helpers/app.manager';
-import { openParentCells } from 'src/helpers/open-parent-cells';
-import { ICell } from 'src/helpers/treeBuilder';
+import { openParentCells } from 'src/utils/open-parent-cells';
+import { ICell } from 'src/utils/treeBuilder';
 import { useAppSelector } from 'src/hooks/redux';
 import { useFetchAllCategoriesQuery } from 'src/services/category.api';
-import { selectCategoryId } from 'src/store/selectors';
+import { selectCategoryId, selectResourceType } from 'src/store/selectors';
 import DeleteCategoryForm from '../forms/delete-category.form';
 import EditCategoryForm from '../forms/edit-category.form';
 import ModalForm from '../Modal';
@@ -19,6 +18,7 @@ interface ITreeProps {
 const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	const { data } = useFetchAllCategoriesQuery({});
 	const categoryId = useAppSelector(selectCategoryId);
+	const resourceType = useAppSelector(selectResourceType);
 	const navigate = useNavigate();
 	const [editedCell, setEditedCell] = useState<ICell | null>(null);
 	const [editForm, setEditForm] = useState<boolean>(false);
@@ -45,12 +45,12 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 
 	const handleCloseDeleteForm = useCallback(() => {
 		if (editedCell?._currentCategory?.parentId) {
-			navigate(`/category/${editedCell?._currentCategory?.parentId}/${appManager.resourceType}`);
+			navigate(`/category/${editedCell?._currentCategory?.parentId}/${resourceType}`);
 		} else {
 			navigate(`/`);
 		}
 		setDeleteForm(false);
-	}, [editedCell, navigate]);
+	}, [editedCell, navigate, resourceType]);
 
 	const renderTree = useCallback(() => {
 		return data?.rootCellsList.map((el, index) => (

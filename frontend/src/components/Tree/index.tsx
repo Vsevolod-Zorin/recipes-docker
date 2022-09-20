@@ -10,7 +10,6 @@ interface ITreeProps {}
 
 const Tree: React.FC<ITreeProps> = ({}) => {
 	const { data } = useFetchAllCategoriesQuery({});
-	// todo from params
 	const categoryId = useAppSelector(selectCategoryId);
 
 	useEffect(() => {

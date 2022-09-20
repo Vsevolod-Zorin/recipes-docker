@@ -1,7 +1,6 @@
 import React from 'react';
 import { CustomRouter } from 'src/routes';
 import Aside from 'src/components/Aside';
-import Breadcrumbs from 'src/components/BreadCrumbs';
 import './main.scss';
 
 const Main = () => {
@@ -12,7 +11,6 @@ const Main = () => {
 					<Aside />
 				</section>
 				<section className="main__right-part custom-scroll">
-					{/* <Breadcrumbs /> */}
 					<div className="router-wrapper">
 						<CustomRouter />
 					</div>

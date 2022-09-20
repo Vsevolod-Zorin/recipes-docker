@@ -90,11 +90,6 @@ export class TreeManager {
 			this.rec(this.cellsList);
 		});
 	}
-
-	getBreadcrumbs(cell: ICell) {
-		const list: ICell[] = [];
-		const cursor: ICell = cell;
-	}
 }
 
 export const treeBuilder = (categories: ICategory[]) => {};

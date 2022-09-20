@@ -1,39 +1,42 @@
-import React, { useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router';
-import appManager from 'src/helpers/app.manager';
+import { useAppDispatch, useAppSelector } from 'src/hooks/redux';
+import { appActions } from 'src/store/reducers/app.slice';
+import { selectCategoryId, selectResourceType } from 'src/store/selectors';
 import './header.scss';
 
 const Header = () => {
 	let navigate = useNavigate();
-	const refBtnRecipes = useRef<HTMLDivElement>(null);
-	const refBtnPosts = useRef<HTMLDivElement>(null);
+	const dispatch = useAppDispatch();
+	const categoryId = useAppSelector(selectCategoryId);
+	const resourceType = useAppSelector(selectResourceType);
 
 	const handleClickLogo = () => {
-		appManager.resetSelectedCategory();
+		dispatch(appActions.setSelectedCategoryId(null));
 		navigate(`/`);
 	};
 
-	const handleClickRecipeBtn = () => {
-		refBtnRecipes.current?.classList.add('active');
-		refBtnPosts.current?.classList.remove('active');
-		// todo: redux?
-		appManager.resourceType = 'recipe';
-		if (appManager.selectCategoryId) {
-			navigate(`/category/${appManager.selectCategoryId}/${appManager.resourceType}`);
+	const handleClickRecipeBtn = useCallback(() => {
+		const resourceType = 'recipe';
+		dispatch(appActions.setResourceType(resourceType));
+
+		if (categoryId) {
+			navigate(`/category/${categoryId}/${resourceType}`);
 		} else {
-			navigate(`/category`);
+			navigate(`/recipes`);
 		}
-	};
-	const handleClickPostBtn = () => {
-		refBtnRecipes.current?.classList.remove('active');
-		refBtnPosts.current?.classList.add('active');
-		appManager.resourceType = 'post';
-		if (appManager.selectCategoryId) {
-			navigate(`/category/${appManager.selectCategoryId}/${appManager.resourceType}`);
+	}, [categoryId, dispatch, navigate]);
+
+	const handleClickPostBtn = useCallback(() => {
+		const resourceType = 'post';
+		dispatch(appActions.setResourceType(resourceType));
+
+		if (categoryId) {
+			navigate(`/category/${categoryId}/${resourceType}`);
 		} else {
-			navigate(`/category`);
+			navigate(`/posts`);
 		}
-	};
+	}, [categoryId, dispatch, navigate]);
 
 	return (
 		<header className="header">
@@ -45,19 +48,23 @@ const Header = () => {
 				<div className="header__menu">
 					<nav className="header__nav">
 						<div
-							ref={refBtnRecipes}
-							className="btn btn__header active header__menu--btn"
+							className={`btn btn__header header__menu--btn ${
+								resourceType === 'recipe' ? 'active' : ''
+							}`}
 							onClick={handleClickRecipeBtn}
 						>
 							recipes
 						</div>
-						<div ref={refBtnPosts} className="btn  btn__header header__menu--btn" onClick={handleClickPostBtn}>
+						<div
+							className={`btn  btn__header header__menu--btn ${
+								resourceType === 'post' ? 'active' : ''
+							}`}
+							onClick={handleClickPostBtn}
+						>
 							posts
 						</div>
 					</nav>
 				</div>
-
-				{/* <input type="text" className="header__search" placeholder="search"></input> */}
 			</div>
 		</header>
 	);

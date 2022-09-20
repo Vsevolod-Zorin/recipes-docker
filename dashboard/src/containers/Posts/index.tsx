@@ -7,7 +7,7 @@ import ModalForm from 'src/components/Modal';
 import PostItem from 'src/components/PostItem';
 import { useAppDispatch } from 'src/hooks/redux';
 import { useFetchAllPostsQuery } from 'src/services/post.api';
-import { categoryActions } from 'src/store/reducers/category.slice';
+import { appActions } from 'src/store/reducers/app.slice';
 import { IPost } from 'src/types/post/post.interface';
 import './posts.scss';
 
@@ -23,7 +23,7 @@ const Posts = () => {
 
 	useEffect(() => {
 		if (categoryId) {
-			dispatch(categoryActions.setSelectedCell(categoryId));
+			dispatch(appActions.setSelectedCategoryId(categoryId));
 		}
 		return setSelectedPost(null);
 	}, [categoryId]);

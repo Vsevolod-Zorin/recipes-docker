@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Dropdown, { IDropdownOption } from 'src/components/inputs/dropdown';
-import { ICell } from 'src/helpers/treeBuilder';
+import { ICell } from 'src/utils/treeBuilder';
 import { ICategory } from 'src/types/category/category.interface';
 
 interface IDropdownCategoriesProps {
@@ -27,14 +27,13 @@ const DropdownCategories: React.FC<IDropdownCategoriesProps> = ({
 
 	useEffect(() => {
 		if (cells) {
-			setDropdownOptions([])
+			setDropdownOptions([{ label: 'null', value: '' }]);
 			rec(cells);
 		}
 	}, [cells]);
 
 	const rec = (cellsList: ICell[]) => {
 		cellsList.forEach((el, index, arr) => {
-
 			if (el._currentCategory?._id !== category?._id) {
 				const breadcrumbs = el.initBreadcrumbs!()
 					.map(el => el._currentCategory?.name)

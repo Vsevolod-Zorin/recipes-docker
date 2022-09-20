@@ -7,7 +7,7 @@ import ModalForm from 'src/components/Modal';
 import RecipeItem from 'src/components/RecipeItem';
 import { useAppDispatch } from 'src/hooks/redux';
 import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
-import { categoryActions } from 'src/store/reducers/category.slice';
+import { appActions } from 'src/store/reducers/app.slice';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
 import './recipes.scss';
 
@@ -23,7 +23,7 @@ const Recipes = () => {
 
 	useEffect(() => {
 		if (categoryId) {
-			dispatch(categoryActions.setSelectedCell(categoryId));
+			dispatch(appActions.setSelectedCategoryId(categoryId));
 		}
 		return setSelectedRecipe(null);
 	}, [categoryId]);

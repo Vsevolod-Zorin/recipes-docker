@@ -28,8 +28,6 @@ const Recipes = () => {
 		return setSelectedRecipe(null);
 	}, [categoryId]);
 
-	useEffect(() => {}, [categoryId]);
-
 	const renderList = useCallback(() => {
 		if (data) {
 			return data.map((el, index) => (

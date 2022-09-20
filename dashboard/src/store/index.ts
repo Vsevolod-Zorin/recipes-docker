@@ -5,11 +5,13 @@ import { categoryReducer } from 'src/store/reducers/category.slice';
 import { categoryApi } from 'src/services/category.api';
 import { config, Envs } from 'src/config';
 import { recipeApi } from 'src/services/recipe.api';
+import { postApi } from 'src/services/post.api';
 
 const rootReducer = combineReducers({
 	categoryReducer,
 	[categoryApi.reducerPath]: categoryApi.reducer,
 	[recipeApi.reducerPath]: recipeApi.reducer,
+	[postApi.reducerPath]: postApi.reducer,
 });
 
 const logger = createLogger({});

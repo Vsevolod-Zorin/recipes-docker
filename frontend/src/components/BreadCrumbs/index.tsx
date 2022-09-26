@@ -1,21 +1,40 @@
-import React from 'react';
-import { ICell } from 'src/utils/treeBuilder';
+import React, { useMemo, useCallback } from 'react';
+import { useParams } from 'react-router';
+import { NavLink } from 'react-router-dom';
+import { useAppSelector } from 'src/hooks/redux';
+import { useFetchAllCategoriesQuery } from 'src/services/category.api';
+import { selectResourceType } from 'src/store/selectors';
 import './breadcrumbs.scss';
 
-interface IBreadcrumbsProps {
-	cell: ICell;
-}
+interface IBreadcrumbsProps {}
 
-const Breadcrumbs: React.FC<IBreadcrumbsProps> = ({ cell }) => {
-	const renderBreadcrumbs = () => {
-		const arr = cell.initBreadcrumbs!();
+const Breadcrumbs: React.FC<IBreadcrumbsProps> = () => {
+	const { data } = useFetchAllCategoriesQuery({});
+	const { categoryId } = useParams();
+	const resourceType = useAppSelector(selectResourceType);
 
-		return arr.map((el, index) => (
-			<li className="breadcrumbs__list--element" key={'br' + index}>
-				{el._currentCategory?.name}
-			</li>
-		));
-	};
+	const cell = useMemo(() => {
+		if (data && categoryId) {
+			return data?.cellsList.find(el => el!._currentCategory!._id === categoryId);
+		}
+	}, [data, categoryId]);
+
+	const renderBreadcrumbs = useCallback(() => {
+		if (cell) {
+			const arr = cell.initBreadcrumbs!();
+
+			return arr.map((el, index) => (
+				<li
+					className="breadcrumbs__list--element btn__header"
+					key={'br' + el._currentCategory!._id}
+				>
+					<NavLink to={`/category/${el._currentCategory!._id}/${resourceType}`}>
+						{el._currentCategory!.name}
+					</NavLink>
+				</li>
+			));
+		}
+	}, [cell, resourceType]);
 
 	return (
 		<div className="breadcrumbs breadcrumbs-wrapper">

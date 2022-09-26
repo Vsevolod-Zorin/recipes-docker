@@ -1,8 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { config } from 'src/config';
 import { TreeManager } from 'src/utils/treeBuilder';
-import { ICategoryWrapper } from 'src/store/reducers/category.slice';
-import { ICategory } from 'src/types/category/category.interface';
+import { ICategory, ICategoryWrapper } from 'src/types/category/category.interface';
 
 export const categoryApi = createApi({
 	reducerPath: 'categoryApi',

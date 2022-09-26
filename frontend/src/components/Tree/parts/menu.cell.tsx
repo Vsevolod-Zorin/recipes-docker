@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import appManager from 'src/utils/app.manager';
+import { useAppDispatch, useAppSelector } from 'src/hooks/redux';
+import { appActions } from 'src/store/reducers/app.slice';
+import { selectResourceType } from 'src/store/selectors';
 import { ICell } from 'src/utils/treeBuilder';
 
 interface ICellProps {
@@ -9,9 +10,10 @@ interface ICellProps {
 }
 
 const Cell: React.FC<ICellProps> = ({ cell }) => {
-	const navigate = useNavigate();
-	const haveChilds = cell._next.length > 0;
 	const [renderSub, setRenderSub] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
+	const resourceType = useAppSelector(selectResourceType);
+	const haveChilds = cell._next.length > 0;
 
 	useEffect(() => {
 		if (renderSub !== cell._isOpen) {
@@ -20,8 +22,7 @@ const Cell: React.FC<ICellProps> = ({ cell }) => {
 	}, [cell, renderSub, setRenderSub]);
 
 	const handleClick = () => {
-		appManager.selectCategoryId = cell._currentCategory?._id || '';
-		navigate(`/category/${cell._currentCategory!._id}/${appManager.resourceType}`);
+		dispatch(appActions.setSelectedCategoryId(cell._currentCategory?._id || null));
 	};
 
 	const renderChilds = useCallback(() => {
@@ -52,10 +53,7 @@ const Cell: React.FC<ICellProps> = ({ cell }) => {
 			<div className="cell-wrapper">
 				<div className="cell__body" onClick={handleClick}>
 					{renderIconOpenSub()}
-					<NavLink
-						to={`/category/${cell._currentCategory?._id}/${appManager.resourceType}`}
-						className=""
-					>
+					<NavLink to={`/category/${cell._currentCategory?._id}/${resourceType}`} className="">
 						{cell._currentCategory?.name}
 					</NavLink>
 				</div>

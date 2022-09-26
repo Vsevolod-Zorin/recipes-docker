@@ -2,7 +2,6 @@ import React from 'react';
 import { CustomRouter } from 'src/routes';
 import Aside from 'src/components/Aside';
 import './main.scss';
-import Breadcrumbs from '../BreadCrumbs';
 
 const Main = () => {
 	return (
@@ -12,7 +11,6 @@ const Main = () => {
 					<Aside />
 				</section>
 				<section className="main__right-part custom-scroll">
-					{/* <Breadcrumbs  /> */}
 					<div className="router-wrapper">
 						<CustomRouter />
 					</div>

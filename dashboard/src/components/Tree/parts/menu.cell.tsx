@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import appManager from 'src/helpers/app.manager';
-import { ICell } from 'src/helpers/treeBuilder';
+import { useAppDispatch, useAppSelector } from 'src/hooks/redux';
+import { appActions } from 'src/store/reducers/app.slice';
+import { selectResourceType } from 'src/store/selectors';
+import { ICell } from 'src/utils/treeBuilder';
 
 interface ICellProps {
 	cell: ICell;
@@ -12,9 +13,10 @@ interface ICellProps {
 }
 
 const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClickDelete }) => {
-	const navigate = useNavigate();
 	const haveChilds = cell._next.length > 0;
 	const [renderSub, setRenderSub] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
+	const resourceType = useAppSelector(selectResourceType);
 
 	useEffect(() => {
 		if (renderSub !== cell._isOpen) {
@@ -23,8 +25,7 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 	}, [cell, renderSub, setRenderSub]);
 
 	const handleClick = () => {
-		appManager.selectCategoryId = cell._currentCategory?._id || '';
-		navigate(`/category/${cell._currentCategory!._id}/${appManager.resourceType}`);
+		dispatch(appActions.setSelectedCategoryId(cell._currentCategory?._id || null));
 	};
 
 	const renderChilds = useCallback(() => {
@@ -80,10 +81,7 @@ const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClic
 			<div className="cell-wrapper">
 				<div className="cell__body" onClick={handleClick}>
 					{renderIconOpenSub()}
-					<NavLink
-						to={`/category/${cell._currentCategory?._id}/${appManager.resourceType}`}
-						className=""
-					>
+					<NavLink to={`/category/${cell._currentCategory?._id}/${resourceType}`} className="">
 						{cell._currentCategory?.name}
 					</NavLink>
 				</div>

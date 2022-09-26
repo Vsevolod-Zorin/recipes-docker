@@ -1,7 +1,9 @@
 import { categoryModel } from 'src/models/category.model';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
+import { IPost } from 'src/types/post/post.interface';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
+import { postService } from './post.service';
 import { recipeService } from './recipe.service';
 
 export class CategoryService {
@@ -39,6 +41,12 @@ export class CategoryService {
 		const id = category._id.toString();
 		const recipes: IRecipe[] = await recipeService.find({ categoryid: [id] });
 		return await recipeService.deleteMany(recipes);
+	}
+
+	async deletePosts(category: ICategory) {
+		const id = category._id.toString();
+		const posts: IPost[] = await postService.find({ categoryid: [id] });
+		return await postService.deleteMany(posts);
 	}
 }
 

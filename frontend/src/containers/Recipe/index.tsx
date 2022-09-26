@@ -1,22 +1,13 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useParams } from 'react-router';
-import { useAppDispatch } from 'src/hooks/redux';
 import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
-import { categoryActions } from 'src/store/reducers/category.slice';
 import './recipe.scss';
 
 const Recipe = () => {
 	const { recipeId, categoryId } = useParams();
 	const { data } = useFetchAllRecipesQuery(categoryId as string);
-	const dispatch = useAppDispatch();
 
-	useEffect(() => {
-		if (categoryId) {
-			// open tree on new page
-			dispatch(categoryActions.setSelectedCell(categoryId));
-		}
-	}, [categoryId, dispatch]);
-
+	// todo selector
 	const recipe = useMemo(() => {
 		const recipe = data?.find(el => el._id === recipeId);
 		return recipe || null;

@@ -1,3 +1,11 @@
+import { ICell } from 'src/utils/treeBuilder';
+
+export interface ICategoryWrapper {
+	categoriesList: ICategory[];
+	rootCellsList: ICell[];
+	cellsList: ICell[];
+}
+
 export interface ICategory {
 	_id: string;
 	name: string;
@@ -10,6 +18,7 @@ export interface ICategoryCreate {
 	name: string;
 	parentId: string | null;
 }
+
 export interface ICategoryDelete {
 	id: string;
 	name: string;

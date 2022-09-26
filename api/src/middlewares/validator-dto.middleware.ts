@@ -8,12 +8,16 @@ import { UpdateCategoryDto } from 'src/shared/validation/dto/update-category.dto
 import { CreateRecipeDto } from 'src/shared/validation/dto/create-recipe-dto';
 import { UpdateRecipeDto } from 'src/shared/validation/dto/update-recipe-dto';
 import { StatusCodes } from 'http-status-codes';
+import { CreatePostDto } from 'src/shared/validation/dto/create-post-dto';
+import { UpdatePostDto } from 'src/shared/validation/dto/update-post-dto';
 
 type InputDtoType =
 	| typeof CreateCategoryDto
 	| typeof UpdateCategoryDto
 	| typeof CreateRecipeDto
-	| typeof UpdateRecipeDto;
+	| typeof UpdateRecipeDto
+	| typeof CreatePostDto
+	| typeof UpdatePostDto;
 
 export function validatorDto(DataTransferObject: InputDtoType) {
 	return async function (

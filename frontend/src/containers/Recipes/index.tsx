@@ -1,23 +1,14 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import RecipeItem from 'src/components/RecipelistItem';
-import { useAppDispatch } from 'src/hooks/redux';
 import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
-import { categoryActions } from 'src/store/reducers/category.slice';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
 import './recipes.scss';
 
 const Recipes = () => {
 	const navigate = useNavigate();
-	const dispatch = useAppDispatch();
 	const { categoryId } = useParams();
 	const { data } = useFetchAllRecipesQuery(categoryId as string);
-
-	useEffect(() => {
-		if (categoryId) {
-			dispatch(categoryActions.setSelectedCell(categoryId));
-		}
-	}, [categoryId]);
 
 	const handleClick = (el: IRecipe) => {
 		navigate(`/category/${categoryId}/recipe/${el._id}`);

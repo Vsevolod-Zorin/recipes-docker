@@ -1,8 +1,8 @@
-import { createServer } from 'src/helpers/create-server';
+import { createServer } from 'src/utils/create-server';
 import http from 'http';
 import { Express } from 'express';
 import mongoose, { Types } from 'mongoose';
-import { connectDb } from 'src/helpers/db';
+import { connectDb } from 'src/utils/db';
 import { ICategory, ICategoryCreate } from 'src/types/category/category.interface';
 import { categoryModel } from 'src/models/category.model';
 

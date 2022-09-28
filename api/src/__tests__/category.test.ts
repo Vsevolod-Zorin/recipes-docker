@@ -1,7 +1,7 @@
 import supertest from 'supertest';
 import http from 'http';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
-import testsManager from 'src/helpers/tests-manager';
+import testsManager from 'src/utils/tests-manager';
 import { BackendMessage } from 'src/shared/backend.messages';
 import { IBackendError } from 'src/types/backend/error-template.interface';
 

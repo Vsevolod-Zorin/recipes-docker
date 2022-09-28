@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import http from 'http';
-import testsManager from 'src/helpers/tests-manager';
+import testsManager from 'src/utils/tests-manager';
 import { IRecipe, IRecipeCreate, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import { ICategory, ICategoryCreate } from 'src/types/category/category.interface';
 import { BackendMessage } from 'src/shared/backend.messages';

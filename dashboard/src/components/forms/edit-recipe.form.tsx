@@ -5,6 +5,9 @@ import { useFetchAllRecipesQuery, useUpdateRecipeMutation } from 'src/services/r
 import { IFormDefault } from './form-default.interface';
 import DropdownCategories from './parts/dropdown-categories';
 import { useFetchAllCategoriesQuery } from 'src/services/category.api';
+import FormTextInput from './parts/form-text.input';
+import FormTextAreaInput from './parts/form-textarea.input';
+import { EditRecipeSchema } from './parts/validation';
 import './forms.scss';
 
 interface IEditRecipeFormProps extends IFormDefault {
@@ -12,7 +15,6 @@ interface IEditRecipeFormProps extends IFormDefault {
 }
 
 const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) => {
-	// todo error
 	const [updateRecipe, { isSuccess }] = useUpdateRecipeMutation();
 	const { refetch } = useFetchAllRecipesQuery(recipe!.categoryId as string);
 	const { data } = useFetchAllCategoriesQuery({});
@@ -30,6 +32,7 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) 
 			description: recipe!.description,
 			categoryId: recipe!.categoryId,
 		},
+		validationSchema: EditRecipeSchema,
 		onSubmit: async (values: IRecipeUpdate) => {
 			await updateRecipe(values);
 			refetch();
@@ -52,31 +55,26 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) 
 					onChange={formik.handleChange}
 				/>
 			</div>
-			<div className="form__input--wrapper">
-				<label className="form__input--label" htmlFor="title">
-					title
-				</label>
-				<input
-					className="form__input--input"
-					id="title"
-					type="text"
-					name="title"
-					value={formik.values.title}
-					onChange={formik.handleChange}
-				/>
-			</div>
-			<div className="form__input--wrapper">
-				<label className="form__input--label" htmlFor="description">
-					description
-				</label>
-				<textarea
-					className="form__input--input"
-					id="description"
-					name="description"
-					value={formik.values.description}
-					onChange={formik.handleChange}
-				/>
-			</div>
+			<FormTextInput
+				label="title"
+				name="title"
+				placeholder="title"
+				onChange={formik.handleChange}
+				value={formik.values.title as string}
+				errorMessage={formik.errors.title}
+				touched={formik.touched.title}
+				required={true}
+			/>
+			<FormTextAreaInput
+				label="description"
+				name="description"
+				placeholder="description"
+				onChange={formik.handleChange}
+				value={formik.values.description as string}
+				errorMessage={formik.errors.description}
+				touched={formik.touched.description}
+				required={true}
+			/>
 			<div className="form__input--wrapper">
 				<label className="form__input--label" htmlFor="parentId">
 					category

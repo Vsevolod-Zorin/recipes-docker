@@ -35,18 +35,16 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({ closeModal }) 
 
 	return (
 		<form className="form form-wrapper" onSubmit={formik.handleSubmit}>
-			<div className="form__input--wrapper">
-				<FormTextInput
-					label="name"
-					name="name"
-					placeholder="name"
-					onChange={formik.handleChange}
-					value={formik.values.name}
-					errorMessage={formik.errors.name}
-					touched={formik.touched.name}
-					required={true}
-				/>
-			</div>
+			<FormTextInput
+				label="name"
+				name="name"
+				placeholder="name"
+				onChange={formik.handleChange}
+				value={formik.values.name}
+				errorMessage={formik.errors.name}
+				touched={formik.touched.name}
+				required={true}
+			/>
 			<div className="form__input--wrapper">
 				<label className="form__input--label" htmlFor="parentId">
 					parentId

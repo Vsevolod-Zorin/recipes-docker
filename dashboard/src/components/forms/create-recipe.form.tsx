@@ -3,6 +3,9 @@ import { useFormik } from 'formik';
 import { IRecipeCreate } from 'src/types/recipe/recipe.interface';
 import { useCreateRecipeMutation, useFetchAllRecipesQuery } from 'src/services/recipe.api';
 import { IFormDefault } from './form-default.interface';
+import FormTextInput from './parts/form-text.input';
+import FormTextAreaInput from './parts/form-textarea.input';
+import { CreateRecipeSchema } from './parts/validation';
 import './forms.scss';
 
 interface ICreateRecipeFormProps extends IFormDefault {
@@ -25,6 +28,7 @@ const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = ({ closeModal, catego
 			description: '',
 			categoryId: categoryId!,
 		},
+		validationSchema: CreateRecipeSchema,
 		onSubmit: async (values: IRecipeCreate) => {
 			await createRecipe(values);
 			refetch();
@@ -33,31 +37,26 @@ const CreateRecipeForm: React.FC<ICreateRecipeFormProps> = ({ closeModal, catego
 
 	return (
 		<form className="form form-wrapper" onSubmit={formik.handleSubmit}>
-			<div className="form__input--wrapper">
-				<label className="form__input--label" htmlFor="title">
-					title
-				</label>
-				<input
-					className="form__input--input"
-					id="title"
-					type="text"
-					name="title"
-					value={formik.values.title}
-					onChange={formik.handleChange}
-				/>
-			</div>
-			<div className="form__input--wrapper">
-				<label className="form__input--label" htmlFor="description">
-					description
-				</label>
-				<textarea
-					className="form__input--input"
-					id="description"
-					name="description"
-					value={formik.values.description}
-					onChange={formik.handleChange}
-				/>
-			</div>
+			<FormTextInput
+				label="title"
+				name="title"
+				placeholder="title"
+				onChange={formik.handleChange}
+				value={formik.values.title}
+				errorMessage={formik.errors.title}
+				touched={formik.touched.title}
+				required={true}
+			/>
+			<FormTextAreaInput
+				label="description"
+				name="description"
+				placeholder="description"
+				onChange={formik.handleChange}
+				value={formik.values.description}
+				errorMessage={formik.errors.description}
+				touched={formik.touched.description}
+				required={true}
+			/>
 			<div className="form__input--wrapper">
 				<label className="form__input--label" htmlFor="categoryId">
 					category Id

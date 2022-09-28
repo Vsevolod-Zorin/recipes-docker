@@ -39,13 +39,13 @@ export class CategoryService {
 
 	async deleteRecipes(category: ICategory) {
 		const id = category._id.toString();
-		const recipes: IRecipe[] = await recipeService.find({ categoryid: [id] });
+		const recipes: IRecipe[] = await recipeService.find({ categoryId: [id] });
 		return await recipeService.deleteMany(recipes);
 	}
 
 	async deletePosts(category: ICategory) {
 		const id = category._id.toString();
-		const posts: IPost[] = await postService.find({ categoryid: [id] });
+		const posts: IPost[] = await postService.find({ categoryId: [id] });
 		return await postService.deleteMany(posts);
 	}
 }

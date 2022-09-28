@@ -6,5 +6,5 @@ export interface IQueryPostFindOne {
 	title?: string;
 	description?: string;
 	body?: string;
-	categoryid?: Ref<typeof Category, string>;
+	categoryId?: Ref<typeof Category, string>;
 }

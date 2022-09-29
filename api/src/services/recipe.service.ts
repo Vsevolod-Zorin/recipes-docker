@@ -8,12 +8,16 @@ export class RecipeService {
 		return recipeModel.find(query);
 	}
 
+	findOne(query: IQueryRecipeFindOne): Promise<IRecipe> {
+		return recipeModel.findOne(query);
+	}
+
 	findByCategoryId(id: string) {
 		return recipeModel.findByCategoryId(id);
 	}
 
-	findOne(query: IQueryRecipeFindOne): Promise<IRecipe> {
-		return recipeModel.findOne(query);
+	paginationByCategoryId(categoryId: string, skip: number, limit: number): Promise<IRecipe[]> {
+		return recipeModel.paginationByCategoryId(categoryId, skip, limit);
 	}
 
 	create(dto: IRecipeCreate): Promise<IRecipe> {

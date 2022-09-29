@@ -14,11 +14,23 @@ class PostController {
 		const { post } = req;
 		res.status(StatusCodes.OK).json(post);
 	}
+
 	async getByCategoryId(req: ExpressPostRequest, res: Response) {
 		const { id } = req.params;
 		await validateCategoryById(id as string);
 		const posts = await postService.findByCategoryId(id as string);
 		res.status(StatusCodes.OK).json(posts);
+	}
+
+	async paginationByCategoryId(req: Request, res: Response) {
+		const { categoryId, skip, limit } = req.query;
+
+		const recipes = await postService.paginationByCategoryId(
+			categoryId as string,
+			Number(skip),
+			Number(limit)
+		);
+		res.status(200).json(recipes);
 	}
 
 	async create(req: Request, res: Response) {

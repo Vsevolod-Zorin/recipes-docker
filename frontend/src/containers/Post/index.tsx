@@ -1,17 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
-import { useFetchAllPostsQuery } from 'src/services/post.api';
+import { useFetchPostByIdQuery } from 'src/services/post.api';
 import './post.scss';
 
 const Post = () => {
 	const { postId, categoryId } = useParams();
-	const { data } = useFetchAllPostsQuery(categoryId as string);
-
-	// todo selector
-	const post = useMemo(() => {
-		const post = data?.find(el => el._id === postId);
-		return post || null;
-	}, [data, postId]);
+	const { data: post } = useFetchPostByIdQuery(postId as string);
 
 	const renderPost = useCallback(() => {
 		if (post && categoryId && postId) {

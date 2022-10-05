@@ -91,17 +91,17 @@ const Posts = () => {
 					</div>
 				</div>
 			</section>
-			{createForm && (
+			{createForm && createForm && (
 				<ModalForm modalTitle="Create Post" active={createForm} setActive={setCreateForm}>
 					<CreatePostForm closeModal={handleCloseCreateModal} categoryId={categoryId!} />
 				</ModalForm>
 			)}
-			{selectedPost && (
+			{selectedPost && editForm && (
 				<ModalForm modalTitle="Edit Post" active={editForm} setActive={setEditForm}>
 					<EditPostForm closeModal={handleCloseEditModal} post={selectedPost} />
 				</ModalForm>
 			)}
-			{selectedPost && (
+			{selectedPost && deleteForm && (
 				<ModalForm modalTitle="Delete Post" active={deleteForm} setActive={setDeleteForm}>
 					<DeletePostForm closeModal={handleCloseDeleteModal} post={selectedPost} />
 				</ModalForm>

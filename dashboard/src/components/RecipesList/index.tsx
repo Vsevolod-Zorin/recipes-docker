@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router';
+import { useInView } from 'react-hook-inview';
 import { useLazyFetchRecipesPaginationQuery } from 'src/services/recipe.api';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
 import RecipeItem from '../RecipeItem';
-import { useInView } from 'react-hook-inview';
 
 interface IRecipeList {
 	setSelectedRecipe: (el: IRecipe) => void;
@@ -27,7 +27,7 @@ const RecipesList: React.FC<IRecipeList> = ({
 	useEffect(() => {
 		const firstInit = async () => {
 			if (categoryId) {
-				const result = await fetchPagination({ categoryId: categoryId as string, skip, limit });
+				const result = await fetchPagination({ categoryId: categoryId as string, skip: 0, limit });
 				if (result.data) {
 					setRecipes(result.data);
 					setSkip(limit);
@@ -35,7 +35,11 @@ const RecipesList: React.FC<IRecipeList> = ({
 			}
 		};
 		firstInit();
-	}, []);
+		return () => {
+			setSkip(0);
+			setRecipes([]);
+		};
+	}, [categoryId, limit]);
 
 	// add to recipesList
 	useEffect(() => {

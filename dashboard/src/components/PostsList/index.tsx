@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router';
+import { useInView } from 'react-hook-inview';
 import { useLazyFetchPostsPaginationQuery } from 'src/services/post.api';
 import { IPost } from 'src/types/post/post.interface';
 import PostItem from '../PostItem';
-import { useInView } from 'react-hook-inview';
 
 interface IPostsList {
 	setSelectedPost: (el: IPost) => void;
@@ -31,7 +31,11 @@ const PostsList: React.FC<IPostsList> = ({ setSelectedPost, isRefreshList, setIs
 			}
 		};
 		firstInit();
-	}, [categoryId]);
+		return () => {
+			setSkip(0);
+			setPosts([]);
+		};
+	}, [categoryId, limit]);
 
 	// add to postsList
 	useEffect(() => {

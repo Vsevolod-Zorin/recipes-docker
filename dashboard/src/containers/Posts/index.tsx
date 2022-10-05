@@ -5,6 +5,7 @@ import DeletePostForm from 'src/components/forms/delete-post.form';
 import EditPostForm from 'src/components/forms/edit-post.form';
 import ModalForm from 'src/components/Modal';
 import PostItem from 'src/components/PostItem';
+import PostsList from 'src/components/PostsList';
 import { useAppDispatch } from 'src/hooks/redux';
 import { useFetchAllPostsQuery } from 'src/services/post.api';
 import { appActions } from 'src/store/reducers/app.slice';
@@ -13,12 +14,11 @@ import './posts.scss';
 
 const Posts = () => {
 	const { categoryId } = useParams();
-	const { data } = useFetchAllPostsQuery(categoryId as string);
-
-	const [selectedPost, setSelectedPost] = useState<IPost | null>(null);
+	const [selectedPost, s] = useState<IPost | null>(null);
 	const [createForm, setCreateForm] = useState<boolean>(false);
 	const [editForm, setEditForm] = useState<boolean>(false);
 	const [deleteForm, setDeleteForm] = useState<boolean>(false);
+	const [isRefreshList, setIsRefreshList] = useState<boolean>(false);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -28,37 +28,48 @@ const Posts = () => {
 		return setSelectedPost(null);
 	}, [categoryId]);
 
-	const renderList = useCallback(() => {
-		if (data) {
-			return data.map((el, index) => (
-				<li
-					className="posts__list--item"
-					key={`postListItem-${index}`}
-					onClick={() => setSelectedPost(el)}
-				>
-					<PostItem post={el} />
-				</li>
-			));
-		}
-	}, [data]);
+	const setSelectedPost = useCallback((el: IPost | null) => {
+		s(null);
+		s(el);
+	}, []);
 
 	const handleClickCreate = () => {
 		setCreateForm(true);
+	};
+
+	const handleCloseCreateModal = () => {
+		setCreateForm(false);
+		setIsRefreshList(true);
 	};
 
 	const handleClickEdit = () => {
 		setEditForm(true);
 	};
 
+	const handleCloseEditModal = () => {
+		setEditForm(false);
+		setIsRefreshList(true);
+	};
+
 	const handleClickDelete = () => {
 		setDeleteForm(true);
+	};
+
+	const handleCloseDeleteModal = () => {
+		setDeleteForm(false);
+		setIsRefreshList(true);
 	};
 
 	return (
 		<div className="posts posts-wrapper ">
 			<section className="posts__left-part custom-scroll">
 				<h1>posts List: </h1>
-				<ul className="posts__list">{renderList()}</ul>
+				{/* <ul className="posts__list">{renderList()}</ul> */}
+				<PostsList
+					setSelectedPost={setSelectedPost}
+					isRefreshList={isRefreshList}
+					setIsRefreshList={setIsRefreshList}
+				/>
 			</section>
 			<section className="posts__right-part">
 				<div className="right-part__wrapper">
@@ -82,17 +93,17 @@ const Posts = () => {
 			</section>
 			{createForm && (
 				<ModalForm modalTitle="Create Post" active={createForm} setActive={setCreateForm}>
-					<CreatePostForm closeModal={() => setCreateForm(false)} categoryId={categoryId!} />
+					<CreatePostForm closeModal={handleCloseCreateModal} categoryId={categoryId!} />
 				</ModalForm>
 			)}
 			{selectedPost && (
 				<ModalForm modalTitle="Edit Post" active={editForm} setActive={setEditForm}>
-					<EditPostForm closeModal={() => setEditForm(false)} post={selectedPost} />
+					<EditPostForm closeModal={handleCloseEditModal} post={selectedPost} />
 				</ModalForm>
 			)}
 			{selectedPost && (
 				<ModalForm modalTitle="Delete Post" active={deleteForm} setActive={setDeleteForm}>
-					<DeletePostForm closeModal={() => setDeleteForm(false)} post={selectedPost} />
+					<DeletePostForm closeModal={handleCloseDeleteModal} post={selectedPost} />
 				</ModalForm>
 			)}
 		</div>

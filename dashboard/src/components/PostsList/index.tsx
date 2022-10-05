@@ -1,24 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router';
-import { useLazyFetchRecipesPaginationQuery } from 'src/services/recipe.api';
-import { IRecipe } from 'src/types/recipe/recipe.interface';
-import RecipeItem from '../RecipeItem';
+import { useLazyFetchPostsPaginationQuery } from 'src/services/post.api';
+import { IPost } from 'src/types/post/post.interface';
+import PostItem from '../PostItem';
 import { useInView } from 'react-hook-inview';
 
-interface IRecipeList {
-	setSelectedRecipe: (el: IRecipe) => void;
+interface IPostsList {
+	setSelectedPost: (el: IPost) => void;
 	isRefreshList?: boolean;
 	setIsRefreshList?: (value: boolean) => void;
 }
 
-const RecipesList: React.FC<IRecipeList> = ({
-	setSelectedRecipe,
-	isRefreshList,
-	setIsRefreshList,
-}) => {
+const PostsList: React.FC<IPostsList> = ({ setSelectedPost, isRefreshList, setIsRefreshList }) => {
 	const { categoryId } = useParams();
-	const [fetchPagination, { data: fetchedData }] = useLazyFetchRecipesPaginationQuery();
-	const [recipes, setRecipes] = useState<IRecipe[]>([]);
+	const [fetchPagination, { data: fetchedData }] = useLazyFetchPostsPaginationQuery();
+	const [posts, setPosts] = useState<IPost[]>([]);
 	const [skip, setSkip] = useState<number>(0);
 	const [limit, setLimit] = useState<number>(50);
 	const [hasMore, setHasMore] = useState<boolean>(true);
@@ -29,18 +25,18 @@ const RecipesList: React.FC<IRecipeList> = ({
 			if (categoryId) {
 				const result = await fetchPagination({ categoryId: categoryId as string, skip, limit });
 				if (result.data) {
-					setRecipes(result.data);
+					setPosts(result.data);
 					setSkip(limit);
 				}
 			}
 		};
 		firstInit();
-	}, []);
+	}, [categoryId]);
 
-	// add to recipesList
+	// add to postsList
 	useEffect(() => {
 		if (fetchedData) {
-			setRecipes(prev => [...prev, ...fetchedData]);
+			setPosts(prev => [...prev, ...fetchedData]);
 		}
 	}, [fetchedData]);
 
@@ -62,10 +58,11 @@ const RecipesList: React.FC<IRecipeList> = ({
 				const result = await fetchPagination({
 					categoryId: categoryId as string,
 					skip: 0,
-					limit: recipes.length + 1,
+					// todo fix
+					limit: posts.length + 1,
 				});
 				if (result.data) {
-					setRecipes(result.data);
+					setPosts(result.data);
 					setSkip(result.data.length);
 				}
 			}
@@ -74,26 +71,26 @@ const RecipesList: React.FC<IRecipeList> = ({
 			refresh();
 			setIsRefreshList(false);
 		}
-	}, [isRefreshList, categoryId, recipes, skip, limit]);
+	}, [isRefreshList, categoryId, posts, skip, limit]);
 
 	const loadMore = useCallback(() => {
 		if (categoryId) {
 			fetchPagination({ categoryId, skip, limit });
-			setSkip(recipes.length + limit);
+			setSkip(posts.length + limit);
 		}
-	}, [categoryId, skip, limit, recipes]);
+	}, [categoryId, skip, limit, posts]);
 
 	const renderList = useCallback(() => {
-		return recipes.map((el, index) => (
+		return posts.map((el, index) => (
 			<li
-				className="recipes__list--item"
-				key={`recipeListItem-${index}`}
-				onClick={() => setSelectedRecipe(el)}
+				className="posts__list--item"
+				key={`postListItem-${index}`}
+				onClick={() => setSelectedPost(el)}
 			>
-				<RecipeItem recipe={el} />
+				<PostItem post={el} />
 			</li>
 		));
-	}, [recipes, setSelectedRecipe]);
+	}, [posts, setSelectedPost]);
 
 	return (
 		<>
@@ -107,4 +104,4 @@ const RecipesList: React.FC<IRecipeList> = ({
 	);
 };
 
-export default RecipesList;
+export default PostsList;

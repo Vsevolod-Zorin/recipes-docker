@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import CreateRecipeForm from 'src/components/forms/create-recipe.form';
 import DeleteRecipeForm from 'src/components/forms/delete-recipe.form';
@@ -70,7 +70,6 @@ const Recipes = () => {
 						<button className="btn" onClick={handleClickCreate}>
 							add
 						</button>
-
 						<button className="btn" onClick={handleClickEdit} disabled={!selectedRecipe}>
 							edit
 						</button>

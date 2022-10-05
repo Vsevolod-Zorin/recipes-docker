@@ -16,7 +16,7 @@ interface IEditRecipeFormProps extends IFormDefault {
 
 const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) => {
 	const [updateRecipe, { isSuccess }] = useUpdateRecipeMutation();
-	const { refetch } = useFetchAllRecipesQuery(recipe!.categoryId as string);
+	// const { refetch } = useFetchAllRecipesQuery(recipe!.categoryId as string);
 	const { data } = useFetchAllCategoriesQuery({});
 
 	useEffect(() => {
@@ -35,7 +35,7 @@ const EditRecipeForm: React.FC<IEditRecipeFormProps> = ({ recipe, closeModal }) 
 		validationSchema: EditRecipeSchema,
 		onSubmit: async (values: IRecipeUpdate) => {
 			await updateRecipe(values);
-			refetch();
+			// refetch();
 		},
 	});
 

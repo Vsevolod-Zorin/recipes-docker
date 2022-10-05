@@ -19,7 +19,6 @@ export const recipeApi = createApi({
 			query: (id: string) => ({
 				url: `/recipe/category/${id}`,
 			}),
-			// providesTags: result => ['Recipe'],
 		}),
 
 		fetchRecipesPagination: build.query<IRecipe[], IPagination>({
@@ -31,6 +30,7 @@ export const recipeApi = createApi({
 					limit,
 				},
 			}),
+			providesTags: result => ['Recipe'],
 		}),
 
 		createRecipe: build.mutation<IRecipe, IRecipeCreate>({

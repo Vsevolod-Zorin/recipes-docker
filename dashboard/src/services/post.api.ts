@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { config } from 'src/config';
+import { IPagination } from 'src/types/pagination.interface';
 import { IPost, IPostCreate, IPostUpdate } from 'src/types/post/post.interface';
 
 export const postApi = createApi({
@@ -12,6 +13,17 @@ export const postApi = createApi({
 		fetchAllPosts: build.query<IPost[], string>({
 			query: (id: string) => ({
 				url: `/post/category/${id}`,
+			}),
+		}),
+
+		fetchPostsPagination: build.query<IPost[], IPagination>({
+			query: ({ categoryId, skip, limit }) => ({
+				url: `/post/pagination`,
+				params: {
+					categoryId,
+					skip,
+					limit,
+				},
 			}),
 			providesTags: result => ['Post'],
 		}),
@@ -47,4 +59,6 @@ export const {
 	useFetchAllPostsQuery,
 	useUpdatePostMutation,
 	useDeletePostMutation,
+	useFetchPostsPaginationQuery,
+	useLazyFetchPostsPaginationQuery,
 } = postApi;

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useInView } from 'react-hook-inview';
 import { useLazyFetchRecipesPaginationQuery } from 'src/services/recipe.api';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
-import RecipeItem from '../RecipeItem';
+import RecipeItem from '../RecipelistItem';
 
 interface IRecipeList {}
 

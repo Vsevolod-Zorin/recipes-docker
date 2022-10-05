@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import CreatePostForm from 'src/components/forms/create-post.form';
 import DeletePostForm from 'src/components/forms/delete-post.form';
@@ -14,7 +14,7 @@ import './posts.scss';
 
 const Posts = () => {
 	const { categoryId } = useParams();
-	const [selectedPost, s] = useState<IPost | null>(null);
+	const [selectedPost, setSelectedPost] = useState<IPost | null>(null);
 	const [createForm, setCreateForm] = useState<boolean>(false);
 	const [editForm, setEditForm] = useState<boolean>(false);
 	const [deleteForm, setDeleteForm] = useState<boolean>(false);
@@ -27,11 +27,6 @@ const Posts = () => {
 		}
 		return setSelectedPost(null);
 	}, [categoryId]);
-
-	const setSelectedPost = useCallback((el: IPost | null) => {
-		s(null);
-		s(el);
-	}, []);
 
 	const handleClickCreate = () => {
 		setCreateForm(true);
@@ -64,7 +59,6 @@ const Posts = () => {
 		<div className="posts posts-wrapper ">
 			<section className="posts__left-part custom-scroll">
 				<h1>posts List: </h1>
-				{/* <ul className="posts__list">{renderList()}</ul> */}
 				<PostsList
 					setSelectedPost={setSelectedPost}
 					isRefreshList={isRefreshList}

@@ -5,16 +5,11 @@ import { ResourceType } from 'src/types/resource.type';
 export interface IAppState {
 	categoryId: string | null;
 	resourceType: ResourceType;
-
-	postsSkip: number;
-	postsLimit: number;
 }
 
 const initialState: IAppState = {
 	categoryId: null,
 	resourceType: 'recipe',
-	postsSkip: 0,
-	postsLimit: 10,
 };
 
 export const AppSlice = createSlice({
@@ -26,12 +21,6 @@ export const AppSlice = createSlice({
 		},
 		setResourceType(state, action: PayloadAction<ResourceType>) {
 			state.resourceType = action.payload;
-		},
-		setPostsSkip(state, action: PayloadAction<number>) {
-			state.postsSkip = action.payload;
-		},
-		setPostsLimit(state, action: PayloadAction<number>) {
-			state.postsLimit = action.payload;
 		},
 	},
 	extraReducers: {},

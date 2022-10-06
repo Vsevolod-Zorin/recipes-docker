@@ -210,7 +210,9 @@ describe('category', () => {
 					name: 'updated category',
 					parentId: null,
 				};
-				const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/category/${categoryForTest._id}`)
+					.send(payload);
 				const data: ICategory = {
 					_id: expect.any(String),
 					name: 'updated category',
@@ -227,7 +229,9 @@ describe('category', () => {
 
 		describe('negative: uncorrect params', () => {
 			it('empty body. should return a 400 ', async () => {
-				const { statusCode, body } = await supertest(server).put(`/category`).send({});
+				const { statusCode, body } = await supertest(server)
+					.put(`/category/${categoryForTest._id}`)
+					.send({});
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -242,7 +246,9 @@ describe('category', () => {
 					name: 'updated category',
 					parentId: null,
 				};
-				const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/category/${categoryForTest._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -258,7 +264,9 @@ describe('category', () => {
 					name: 'updated category',
 					parentId: null,
 				};
-				const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/category/${categoryForTest._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -274,7 +282,9 @@ describe('category', () => {
 					name: 'updated category',
 					parentId: null,
 				};
-				const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/category/${categoryForTest._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -292,7 +302,9 @@ describe('category', () => {
 					name: true,
 					parentId: null,
 				};
-				const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/category/${categoryForTest._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -310,7 +322,9 @@ describe('category', () => {
 					name: 'updated category',
 					parentId: false,
 				};
-				const { statusCode, body } = await supertest(server).put(`/category`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/category/${categoryForTest._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: 'Bad Request',

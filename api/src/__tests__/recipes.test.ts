@@ -216,7 +216,7 @@ describe('Recipe', () => {
 					description: 'updated recipe description',
 					categoryId: testsRecipe.categoryId,
 				};
-				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
+				const { statusCode, body } = await supertest(server).put(`/recipe/${testsRecipe._id}`).send(payload);
 				const data: IRecipe = {
 					_id: testsRecipe._id,
 					title: 'updated recipe title',
@@ -234,7 +234,9 @@ describe('Recipe', () => {
 		describe('negative: valid params', () => {
 			it('empty body. should return a 400 ', async () => {
 				const payload = {};
-				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/recipe/${testsRecipe._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: 'Bad Request',
@@ -252,7 +254,9 @@ describe('Recipe', () => {
 					description: 'updated recipe description',
 					categoryId: testsRecipe.categoryId,
 				};
-				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/recipe/${testsRecipe._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					message: BackendMessage.BAD_REQUEST,
 					code: 400,
@@ -271,7 +275,9 @@ describe('Recipe', () => {
 					description: 'updated recipe description',
 					categoryId: testsCategory._id,
 				};
-				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/recipe/${testsRecipe._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: 'Bad Request',
@@ -291,7 +297,9 @@ describe('Recipe', () => {
 					description: 'updated recipe description',
 					categoryId: testsCategory._id.toString(),
 				};
-				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/recipe/${testsRecipe._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -310,7 +318,9 @@ describe('Recipe', () => {
 					description: 'tests description',
 					categoryId: testsCategory._id,
 				};
-				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/recipe/${testsRecipe._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,
@@ -329,7 +339,9 @@ describe('Recipe', () => {
 					description: 'updated description',
 					categoryId: false,
 				};
-				const { statusCode, body } = await supertest(server).put(`/recipe`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/recipe/${testsRecipe._id}`)
+					.send(payload);
 				const data: IBackendError = {
 					code: 400,
 					message: BackendMessage.BAD_REQUEST,

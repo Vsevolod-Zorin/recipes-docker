@@ -6,7 +6,6 @@ import {
 	ICategoryUpdate,
 	ICategoryUpdateMany,
 } from 'src/types/category/category.interface';
-import { IQueryCategoryFindMany } from 'src/types/category/query-category-find-many.interface';
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
 
 class CategoryModel {

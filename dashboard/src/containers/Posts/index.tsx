@@ -7,7 +7,6 @@ import ModalForm from 'src/components/Modal';
 import PostItem from 'src/components/PostItem';
 import PostsList from 'src/components/PostsList';
 import { useAppDispatch } from 'src/hooks/redux';
-import { useFetchAllPostsQuery } from 'src/services/post.api';
 import { appActions } from 'src/store/reducers/app.slice';
 import { IPost } from 'src/types/post/post.interface';
 import './posts.scss';

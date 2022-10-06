@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipe, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
-import { useFetchAllRecipesQuery, useUpdateRecipeMutation } from 'src/services/recipe.api';
+import { useUpdateRecipeMutation } from 'src/services/recipe.api';
 import { IFormDefault } from './form-default.interface';
 import DropdownCategories from './parts/dropdown-categories';
 import { useFetchAllCategoriesQuery } from 'src/services/category.api';

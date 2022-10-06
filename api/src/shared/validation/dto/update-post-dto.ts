@@ -5,7 +5,6 @@ import { IPostUpdate } from 'src/types/post/post.interface';
 import { IsMongoIdString } from '../decorators/is-mongodb-id-string';
 
 export class UpdatePostDto implements IPostUpdate {
-	// @IsMongoId()
 	@IsMongoIdString()
 	readonly id: string;
 

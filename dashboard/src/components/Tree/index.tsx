@@ -19,10 +19,10 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 	const { data } = useFetchAllCategoriesQuery({});
 	const categoryId = useAppSelector(selectCategoryId);
 	const resourceType = useAppSelector(selectResourceType);
-	const navigate = useNavigate();
 	const [editedCell, setEditedCell] = useState<ICell | null>(null);
 	const [editForm, setEditForm] = useState<boolean>(false);
 	const [deleteForm, setDeleteForm] = useState<boolean>(false);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (categoryId && data?.cellsList) {
@@ -34,6 +34,7 @@ const Tree: React.FC<ITreeProps> = ({ isAdmin }) => {
 		setEditedCell(cell);
 		setEditForm(true);
 	};
+
 	const handleClickDelete = (cell: ICell) => {
 		setEditedCell(cell);
 		setDeleteForm(true);

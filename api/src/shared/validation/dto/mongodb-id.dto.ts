@@ -1,4 +1,3 @@
-import { IsMongoId } from 'class-validator';
 import { IId } from 'src/types/id.interface';
 import { IsMongoIdString } from '../decorators/is-mongodb-id-string';
 

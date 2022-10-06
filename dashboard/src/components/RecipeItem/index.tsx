@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useFetchAllCategoriesQuery } from 'src/services/category.api';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
 import './recipe-item.scss';
+
 interface IRecipeItemProps {
 	recipe: IRecipe;
 }

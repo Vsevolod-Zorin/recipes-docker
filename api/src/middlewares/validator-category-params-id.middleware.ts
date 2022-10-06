@@ -1,10 +1,10 @@
 import { NextFunction, Response } from 'express';
 import { OutgoingMessage } from 'http';
+import { StatusCodes } from 'http-status-codes';
 import { validate, ValidationError } from 'class-validator';
 import { MongodbIdDto } from 'src/shared/validation/dto/mongodb-id.dto';
 import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
-import { StatusCodes } from 'http-status-codes';
 import { ExpressCategoryRequest } from 'src/types/express/expressCategoryRequest.interface';
 import { categoryService } from 'src/services/category.service';
 

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IRecipe } from 'src/types/recipe/recipe.interface';
 import { ResourceType } from 'src/types/resource.type';
 
 export interface IAppState {

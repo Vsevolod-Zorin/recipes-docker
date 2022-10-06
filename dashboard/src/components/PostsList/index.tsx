@@ -62,7 +62,7 @@ const PostsList: React.FC<IPostsList> = ({ setSelectedPost, isRefreshList, setIs
 				const result = await fetchPagination({
 					categoryId: categoryId as string,
 					skip: 0,
-					// todo fix
+					// + 1 if create
 					limit: posts.length + 1,
 				});
 				if (result.data) {

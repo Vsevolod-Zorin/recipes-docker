@@ -36,6 +36,7 @@ export const postApi = createApi({
 			}),
 			invalidatesTags: ['Post'],
 		}),
+
 		updatePost: build.mutation<IPost, IPostUpdate>({
 			query: (update: IPostUpdate) => ({
 				url: `/post/${update.id}`,
@@ -44,6 +45,7 @@ export const postApi = createApi({
 			}),
 			invalidatesTags: ['Post'],
 		}),
+
 		deletePost: build.mutation<null, {}>({
 			query: (id: string) => ({
 				url: `/post/${id}`,

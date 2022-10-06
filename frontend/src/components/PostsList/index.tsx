@@ -23,7 +23,7 @@ const PostsList: React.FC<IPostsList> = () => {
 				const result = await fetchPagination({ categoryId: categoryId as string, skip, limit });
 				if (result.data) {
 					setPosts(result.data);
-					setSkip(0);
+					setSkip(limit);
 				}
 			}
 		};

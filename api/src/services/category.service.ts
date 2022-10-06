@@ -32,21 +32,7 @@ export class CategoryService {
 	}
 
 	async moveChildsCategoryUp(category: ICategory) {
-		const categories: ICategory[] = await this.getByParentId(category._id);
-		const ids = categories.map(el => el._id.toString());
-		return await categoryModel.updateMany(ids, { parentId: category.parentId });
-	}
-
-	async deleteRecipes(category: ICategory) {
-		const id = category._id.toString();
-		const recipes: IRecipe[] = await recipeService.find({ categoryId: [id] });
-		return await recipeService.deleteMany(recipes);
-	}
-
-	async deletePosts(category: ICategory) {
-		const id = category._id.toString();
-		const posts: IPost[] = await postService.find({ categoryId: [id] });
-		return await postService.deleteMany(posts);
+		return categoryModel.updateManyByParentId(category._id, { parentId: category.parentId });
 	}
 }
 

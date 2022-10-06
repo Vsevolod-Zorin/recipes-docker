@@ -37,6 +37,10 @@ export class RecipeService {
 		const ids: string[] = recipes.map(el => el._id);
 		return recipeModel.deleteMany(ids);
 	}
+
+	deleteManyByCategoryId(categoryId: string) {
+		return recipeModel.deleteManyByCategoryId(categoryId);
+	}
 }
 
 export const recipeService = new RecipeService();

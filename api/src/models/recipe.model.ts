@@ -38,6 +38,10 @@ class RecipeModel {
 		return Recipe.deleteMany({ id: { $in: ids } });
 	}
 
+	deleteManyByCategoryId(categoryId: string) {
+		return Recipe.deleteMany({ categoryId });
+	}
+
 	delete(id: string): Promise<IRecipe> {
 		return Recipe.findByIdAndDelete(id).exec();
 	}

@@ -30,6 +30,13 @@ class CategoryModel {
 		return Category.updateMany({ _id: { $in: ids } }, update).exec();
 	}
 
+	updateManyByParentId(
+		parentId: string,
+		update: ICategoryUpdateMany
+	): Promise<UpdateWriteOpResult> {
+		return Category.updateMany({ parentId }, update).exec();
+	}
+
 	delete(id: string): Promise<ICategory> {
 		return Category.findByIdAndDelete(id).exec();
 	}

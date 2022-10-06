@@ -10,6 +10,7 @@ import { postController } from 'src/controllers/post.controller';
 const postRouter = Router();
 
 postRouter
+	.get('/pagination', errorHandler(postController.paginationByCategoryId))
 	.get('/', errorHandler(postController.findAll))
 	.get('/category/:id', validatorCategoryParamsId(), errorHandler(postController.getByCategoryId))
 	.get('/:id', validatorPostParamsId(), errorHandler(postController.getById))

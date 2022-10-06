@@ -4,6 +4,8 @@ import { useCreateCategoryMutation, useFetchAllCategoriesQuery } from 'src/servi
 import { ICategoryCreate } from 'src/types/category/category.interface';
 import { IFormDefault } from './form-default.interface';
 import DropdownCategories from './parts/dropdown-categories';
+import { CreateCategorySchema } from './parts/validation';
+import FormTextInput from './parts/form-text.input';
 import './forms.scss';
 
 interface ICreateCategoryFormProps extends IFormDefault {}
@@ -23,6 +25,7 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({ closeModal }) 
 			name: '',
 			parentId: '',
 		},
+		validationSchema: CreateCategorySchema,
 		onSubmit: async (values: ICategoryCreate) => {
 			if (values.parentId === '') values.parentId = null;
 			await createCategory(values);
@@ -32,19 +35,16 @@ const CreateCategoryForm: React.FC<ICreateCategoryFormProps> = ({ closeModal }) 
 
 	return (
 		<form className="form form-wrapper" onSubmit={formik.handleSubmit}>
-			<div className="form__input--wrapper">
-				<label className="form__input--label" htmlFor="name">
-					name
-				</label>
-				<input
-					className="form__input--input"
-					id="name"
-					type="text"
-					name="name"
-					value={formik.values.name}
-					onChange={formik.handleChange}
-				/>
-			</div>
+			<FormTextInput
+				label="name"
+				name="name"
+				placeholder="name"
+				onChange={formik.handleChange}
+				value={formik.values.name}
+				errorMessage={formik.errors.name}
+				touched={formik.touched.name}
+				required={true}
+			/>
 			<div className="form__input--wrapper">
 				<label className="form__input--label" htmlFor="parentId">
 					parentId

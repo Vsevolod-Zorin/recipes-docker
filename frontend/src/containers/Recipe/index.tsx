@@ -1,17 +1,11 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useParams } from 'react-router';
-import { useFetchAllRecipesQuery } from 'src/services/recipe.api';
+import { useFetchRecipeByIdQuery } from 'src/services/recipe.api';
 import './recipe.scss';
 
 const Recipe = () => {
 	const { recipeId, categoryId } = useParams();
-	const { data } = useFetchAllRecipesQuery(categoryId as string);
-
-	// todo selector
-	const recipe = useMemo(() => {
-		const recipe = data?.find(el => el._id === recipeId);
-		return recipe || null;
-	}, [data, recipeId]);
+	const { data: recipe } = useFetchRecipeByIdQuery(recipeId as string);
 
 	const renderRecipe = useCallback(() => {
 		if (recipe && categoryId && recipeId) {

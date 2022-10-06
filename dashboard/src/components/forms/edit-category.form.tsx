@@ -4,6 +4,8 @@ import { useFetchAllCategoriesQuery, useUpdateCategoryMutation } from 'src/servi
 import { ICategory, ICategoryUpdate } from 'src/types/category/category.interface';
 import { IFormDefault } from './form-default.interface';
 import DropdownCategories from './parts/dropdown-categories';
+import FormTextInput from './parts/form-text.input';
+import { EditCategorySchema } from './parts/validation';
 import './forms.scss';
 
 interface IUpdateCategoryFormProps extends IFormDefault {
@@ -26,6 +28,7 @@ const EditCategoryForm: React.FC<IUpdateCategoryFormProps> = ({ category, closeM
 			name: category!.name,
 			parentId: category!.parentId,
 		},
+		validationSchema: EditCategorySchema,
 		onSubmit: async (values: ICategoryUpdate) => {
 			const data: ICategoryUpdate = { ...values };
 			if (values.parentId === '') data.parentId = null;
@@ -46,23 +49,19 @@ const EditCategoryForm: React.FC<IUpdateCategoryFormProps> = ({ category, closeM
 					type="text"
 					name="id"
 					value={formik.values.id}
-					onChange={formik.handleChange}
 					disabled
 				/>
 			</div>
-			<div className="form__input--wrapper">
-				<label className="form__input--label" htmlFor="name">
-					name
-				</label>
-				<input
-					className="form__input--input"
-					id="name"
-					type="text"
-					name="name"
-					value={formik.values.name}
-					onChange={formik.handleChange}
-				/>
-			</div>
+			<FormTextInput
+				label="name"
+				name="name"
+				placeholder="name"
+				onChange={formik.handleChange}
+				value={formik.values.name}
+				errorMessage={formik.errors.name}
+				touched={formik.touched.name}
+				required={true}
+			/>
 			<div className="form__input--wrapper">
 				<label className="form__input--label" htmlFor="parentId">
 					parentId

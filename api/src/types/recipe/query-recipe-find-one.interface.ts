@@ -5,5 +5,5 @@ export interface IQueryRecipeFindOne {
 	_id?: string;
 	title?: string;
 	description?: string;
-	categoryid?: Ref<typeof Category, string>;
+	categoryId?: Ref<typeof Category, string>;
 }

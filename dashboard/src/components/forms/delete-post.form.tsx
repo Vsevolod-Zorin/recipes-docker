@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IPost, IPostDelete } from 'src/types/post/post.interface';
 import { useDeletePostMutation, useFetchAllPostsQuery } from 'src/services/post.api';
-import './forms.scss';
 import { IFormDefault } from './form-default.interface';
+import './forms.scss';
 
 interface IDeletePostFormProps extends IFormDefault {
 	post: IPost;

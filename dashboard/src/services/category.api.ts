@@ -41,6 +41,7 @@ export const categoryApi = createApi({
 			}),
 			invalidatesTags: ['Category'],
 		}),
+
 		updateCategory: build.mutation<ICategory, ICategoryUpdate>({
 			query: (update: ICategoryUpdate) => ({
 				url: `/category/${update.id}`,
@@ -49,6 +50,7 @@ export const categoryApi = createApi({
 			}),
 			invalidatesTags: ['Category'],
 		}),
+
 		deleteCategory: build.mutation<null, {}>({
 			query: (id: string) => ({
 				url: `/category/${id}`,

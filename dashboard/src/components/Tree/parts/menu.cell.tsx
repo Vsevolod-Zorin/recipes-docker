@@ -13,10 +13,10 @@ interface ICellProps {
 }
 
 const Cell: React.FC<ICellProps> = ({ isAdmin, cell, handleClickEdit, handleClickDelete }) => {
-	const haveChilds = cell._next.length > 0;
 	const [renderSub, setRenderSub] = useState<boolean>(false);
 	const dispatch = useAppDispatch();
 	const resourceType = useAppSelector(selectResourceType);
+	const haveChilds = cell._next.length > 0;
 
 	useEffect(() => {
 		if (renderSub !== cell._isOpen) {

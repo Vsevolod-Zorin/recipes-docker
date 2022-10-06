@@ -5,7 +5,6 @@ import { IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import { IsMongoIdString } from '../decorators/is-mongodb-id-string';
 
 export class UpdateRecipeDto implements IRecipeUpdate {
-	// @IsMongoId()
 	@IsMongoIdString()
 	readonly id: string;
 

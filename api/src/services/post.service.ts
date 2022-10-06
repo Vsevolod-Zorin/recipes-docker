@@ -8,12 +8,16 @@ export class PostService {
 		return postModel.find(query);
 	}
 
+	findOne(query: IQueryPostFindOne): Promise<IPost> {
+		return postModel.findOne(query);
+	}
+
 	findByCategoryId(id: string) {
 		return postModel.findByCategoryId(id);
 	}
 
-	findOne(query: IQueryPostFindOne): Promise<IPost> {
-		return postModel.findOne(query);
+	paginationByCategoryId(categoryId: string, skip: number, limit: number): Promise<IPost[]> {
+		return postModel.paginationByCategoryId(categoryId, skip, limit);
 	}
 
 	create(dto: IPostCreate): Promise<IPost> {

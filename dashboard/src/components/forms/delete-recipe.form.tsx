@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import { IRecipe, IRecipeDelete } from 'src/types/recipe/recipe.interface';
 import { useDeleteRecipeMutation, useFetchAllRecipesQuery } from 'src/services/recipe.api';
-import './forms.scss';
 import { IFormDefault } from './form-default.interface';
+import './forms.scss';
 
 interface IDeleteRecipeFormProps extends IFormDefault {
 	recipe: IRecipe;

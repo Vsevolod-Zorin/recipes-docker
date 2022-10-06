@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createEntityAdapter, EntityState } from '@reduxjs/toolkit';
 import { config } from 'src/config';
+import { IPagination } from 'src/types/pagination.interface';
 import { IRecipe, IRecipeCreate, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
+
+export const recipesAdapter = createEntityAdapter<IRecipe>({
+	selectId: recipe => recipe._id,
+});
 
 export const recipeApi = createApi({
 	reducerPath: 'recipeApi',
@@ -13,7 +19,18 @@ export const recipeApi = createApi({
 			query: (id: string) => ({
 				url: `/recipe/category/${id}`,
 			}),
-			// providesTags: result => ['Recipe'],
+		}),
+
+		fetchRecipesPagination: build.query<IRecipe[], IPagination>({
+			query: ({ categoryId, skip, limit }) => ({
+				url: `/recipe/pagination`,
+				params: {
+					categoryId,
+					skip,
+					limit,
+				},
+			}),
+			providesTags: result => ['Recipe'],
 		}),
 
 		createRecipe: build.mutation<IRecipe, IRecipeCreate>({
@@ -24,6 +41,7 @@ export const recipeApi = createApi({
 			}),
 			invalidatesTags: ['Recipe'],
 		}),
+
 		updateRecipe: build.mutation<IRecipe, IRecipeUpdate>({
 			query: (update: IRecipeUpdate) => ({
 				url: `/recipe/${update.id}`,
@@ -32,6 +50,7 @@ export const recipeApi = createApi({
 			}),
 			invalidatesTags: ['Recipe'],
 		}),
+
 		deleteRecipe: build.mutation<null, {}>({
 			query: (id: string) => ({
 				url: `/recipe/${id}`,
@@ -42,9 +61,13 @@ export const recipeApi = createApi({
 	}),
 });
 
+export const recipesSelectors = recipesAdapter.getSelectors<EntityState<IRecipe>>(state => state);
+
 export const {
 	useCreateRecipeMutation,
 	useFetchAllRecipesQuery,
 	useUpdateRecipeMutation,
 	useDeleteRecipeMutation,
+	useFetchRecipesPaginationQuery,
+	useLazyFetchRecipesPaginationQuery,
 } = recipeApi;

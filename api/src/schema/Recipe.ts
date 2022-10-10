@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import { IRecipe } from 'src/types/recipe/recipe.interface';
 import { Category } from './Category';
 
-// todo add index
 @modelOptions({
 	options: { customName: 'recipe' },
 	schemaOptions: { versionKey: false, timestamps: true },
@@ -17,7 +16,7 @@ export class RecipeSchema implements IRecipe {
 	@Prop({ required: true, trim: true })
 	public description: string;
 
-	@Prop({ ref: Category, type: mongoose.Types.ObjectId })
+	@Prop({ index: true, ref: Category, type: mongoose.Types.ObjectId })
 	public categoryId: Ref<typeof Category, string>;
 
 	@Prop()

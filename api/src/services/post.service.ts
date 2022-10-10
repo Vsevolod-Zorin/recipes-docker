@@ -37,6 +37,10 @@ export class PostService {
 		const ids: string[] = posts.map(el => el._id);
 		return postModel.deleteMany(ids);
 	}
+
+	deleteManyByCategoryId(categoryId: string) {
+		return postModel.deleteManyByCategoryId(categoryId);
+	}
 }
 
 export const postService = new PostService();

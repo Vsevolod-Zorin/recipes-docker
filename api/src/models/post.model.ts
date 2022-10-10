@@ -38,6 +38,10 @@ class PostModel {
 		return Post.deleteMany({ id: { $in: ids } });
 	}
 
+	deleteManyByCategoryId(categoryId: string) {
+		return Post.deleteMany({ categoryId });
+	}
+
 	delete(id: string): Promise<IPost> {
 		return Post.findByIdAndDelete(id).exec();
 	}

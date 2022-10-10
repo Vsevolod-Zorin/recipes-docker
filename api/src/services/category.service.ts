@@ -1,10 +1,7 @@
 import { categoryModel } from 'src/models/category.model';
 import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/category.interface';
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
-import { IPost } from 'src/types/post/post.interface';
-import { IRecipe } from 'src/types/recipe/recipe.interface';
-import { postService } from './post.service';
-import { recipeService } from './recipe.service';
+import { EntityStatusEnum } from 'src/types/entity-status.enum';
 
 export class CategoryService {
 	getAll(): Promise<ICategory[]> {
@@ -15,20 +12,24 @@ export class CategoryService {
 		return categoryModel.findOne(query);
 	}
 
-	getByParentId(parentId: string): Promise<ICategory[]> {
-		return categoryModel.find({ parentId });
+	getByParentId(parentId: string): Promise<ICategory> {
+		return categoryModel.findOne({ parentId });
 	}
 
 	create(dto: ICategoryCreate): Promise<ICategory> {
 		return categoryModel.create(dto);
 	}
 
-	update(id: string, dto: ICategoryUpdate): Promise<ICategory> {
-		return categoryModel.update(id, dto);
+	update(categoryId: string, dto: ICategoryUpdate): Promise<ICategory> {
+		return categoryModel.update(categoryId, dto);
 	}
 
-	delete(id: string): Promise<ICategory> {
-		return categoryModel.delete(id);
+	delete(categoryId: string): Promise<ICategory> {
+		return categoryModel.delete(categoryId);
+	}
+
+	changeStatus(categoryId: string, status: EntityStatusEnum): Promise<ICategory> {
+		return categoryModel.changeStatus(categoryId, status);
 	}
 
 	async moveChildsCategoryUp(category: ICategory) {

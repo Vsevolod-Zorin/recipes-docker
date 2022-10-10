@@ -4,6 +4,7 @@ import { ICategory, ICategoryCreate, ICategoryUpdate } from 'src/types/category/
 import testsManager from 'src/utils/tests-manager';
 import { BackendMessage } from 'src/shared/backend.messages';
 import { IBackendError } from 'src/types/backend/error-template.interface';
+import { EntityStatusEnum } from 'src/types/entity-status.enum';
 
 describe('category', () => {
 	let server: http.Server = testsManager.httpServer;
@@ -31,6 +32,7 @@ describe('category', () => {
 					_id: expect.any(String),
 					name: 'tests category',
 					parentId: null,
+					status: EntityStatusEnum.ACTIVE,
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
 				};
@@ -47,6 +49,7 @@ describe('category', () => {
 					_id: expect.any(String),
 					name: 'test',
 					parentId: null,
+					status: EntityStatusEnum.ACTIVE,
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
 				};
@@ -64,6 +67,7 @@ describe('category', () => {
 					_id: expect.any(String),
 					name: 'subCategory1',
 					parentId: categoryForTest._id,
+					status: EntityStatusEnum.ACTIVE,
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
 				};
@@ -82,6 +86,7 @@ describe('category', () => {
 					_id: expect.any(String),
 					name: 'subCategory2',
 					parentId: categoryForTest._id,
+					status: EntityStatusEnum.ACTIVE,
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
 				};
@@ -217,6 +222,7 @@ describe('category', () => {
 					_id: expect.any(String),
 					name: 'updated category',
 					parentId: null,
+					status: EntityStatusEnum.ACTIVE,
 					createdAt: expect.any(String),
 					updatedAt: expect.any(String),
 				};
@@ -356,6 +362,7 @@ describe('category', () => {
 						_id: id,
 						name: 'subCategory1',
 						parentId: null,
+						status: EntityStatusEnum.ACTIVE,
 						createdAt: expect.any(String),
 						updatedAt: expect.any(String),
 					};
@@ -370,6 +377,7 @@ describe('category', () => {
 						_id: id,
 						name: 'subCategory2',
 						parentId: null,
+						status: EntityStatusEnum.ACTIVE,
 						createdAt: expect.any(String),
 						updatedAt: expect.any(String),
 					};

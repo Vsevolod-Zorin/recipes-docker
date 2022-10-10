@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import { IPost } from 'src/types/post/post.interface';
 import { Category } from './Category';
 
-// todo add index
 @modelOptions({
 	options: { customName: 'post' },
 	schemaOptions: { versionKey: false, timestamps: true },
@@ -20,7 +19,7 @@ export class PostSchema implements IPost {
 	@Prop({ required: true, trim: true })
 	public body: string;
 
-	@Prop({ ref: Category, type: mongoose.Types.ObjectId })
+	@Prop({ index: true, ref: Category, type: mongoose.Types.ObjectId })
 	public categoryId: Ref<typeof Category, string>;
 
 	@Prop()

@@ -6,6 +6,12 @@ export const config: IConfig = {
 		httpsPort: 443,
 	},
 	db: {
-		mongoUrl: process.env.MONGO_URL as string,
+		mongoUrl: (process.env.MONGO_URL as string) || 'mongodb://127.0.0.1:27017',
+	},
+	redis: {
+		port: 6379,
+		host: 'redis://redis',
+		// todo config params
+		ttl: 60 * 60 * 24,
 	},
 };

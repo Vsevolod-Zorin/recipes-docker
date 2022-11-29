@@ -13,8 +13,8 @@ services:
       - apiBaseUrl=http://localhost:4000
     restart: unless-stopped
     command: serve -s build -l 3000
-    networks:
-      - testnetwort
+    # networks:
+    #   - testnetwort
 
   dashboard:
     build:
@@ -29,8 +29,8 @@ services:
       - PORT=3020
     restart: unless-stopped
     command: serve -s build -l 3020
-    networks:
-      - testnetwort
+    # networks:
+    #   - testnetwort
 
   api:
     build: ./api
@@ -44,10 +44,10 @@ services:
       - MONGO_URL=mongodb://api_db:27017/testDB
     depends_on:
       - api_db
-    networks:
-      - testnetwort
+      - redis
+    # networks:
+    #   - testnetwort
 
-  
   api_db:
     image: mongo:latest
     container_name: recipes-docker-api-db
@@ -55,9 +55,14 @@ services:
       driver: none
     volumes:
       - mongodb_api:/data/db
-    networks:
-      - testnetwort
-   
+    # networks:
+    #   - testnetwort
+    
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
+
   # nginx:
   #   image: nginx:stable-alpine
   #   container_name: recipes-docker-nginx
@@ -67,6 +72,7 @@ services:
   #     - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
   #   depends_on:
   #     - frontend
+  #     - dashboard
   #     - api
   #   networks:
   #     - testnetwort

@@ -55,7 +55,7 @@ class CacheManager implements ICacheManager {
 		await this._redisClient.ping();
 	}
 
-	public async create(key: string, value: CreateCacheType) {
+	public async createAsync(key: string, value: CreateCacheType) {
 		await this.setAsync(key, JSON.stringify(value));
 	}
 

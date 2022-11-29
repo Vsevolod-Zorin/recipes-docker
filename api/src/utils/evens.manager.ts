@@ -53,11 +53,13 @@ class EventsManager {
 		await Promise.all([
 			recipeService.deleteManyByCategoryId(categoryId),
 			postService.deleteManyByCategoryId(categoryId),
+			// todo: delete recipes and posts cache
 		]);
-
-		await categoryService.delete(categoryId);
-		await cacheManager.delAsync(`${CacheResourceType.CATEGORY}`);
-		await cacheManager.delAsync(`${CacheResourceType.CATEGORY}.${categoryId}`);
+		await Promise.all([
+			categoryService.delete(categoryId),
+			cacheManager.delAsync(`${CacheResourceType.CATEGORY}.${categoryId}`),
+			cacheManager.delAsync(`${CacheResourceType.CATEGORY}`),
+		]);
 	}
 }
 

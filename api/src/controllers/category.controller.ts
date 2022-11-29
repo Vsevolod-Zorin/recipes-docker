@@ -32,11 +32,13 @@ class CategoryController {
 		const createdCategory = await categoryService.create(req.body);
 		res.status(StatusCodes.CREATED).json(createdCategory);
 		// todo new event?
-		await cacheManager.create(
-			`${CacheResourceType.CATEGORY}.${createdCategory._id}`,
-			createdCategory
-		);
-		await cacheManager.delAsync(`${CacheResourceType.CATEGORY}`);
+		await Promise.all([
+			cacheManager.createAsync(
+				`${CacheResourceType.CATEGORY}.${createdCategory._id}`,
+				createdCategory
+			),
+			cacheManager.delAsync(`${CacheResourceType.CATEGORY}`),
+		]);
 		// CQRS command query responsobility segrigation
 	}
 
@@ -47,12 +49,14 @@ class CategoryController {
 		const updatedCategory = await categoryService.update(category._id, req.body);
 		res.status(StatusCodes.OK).json(updatedCategory);
 
-		// todo: new event or actions on memory without called additional functionals
-		await cacheManager.create(
-			`${CacheResourceType.CATEGORY}.${updatedCategory._id}`,
-			updatedCategory
-		);
-		await cacheManager.delAsync(`${CacheResourceType.CATEGORY}`);
+		// todo: new event or actions on memory without called additional functionals / events
+		await Promise.all([
+			cacheManager.createAsync(
+				`${CacheResourceType.CATEGORY}.${updatedCategory._id}`,
+				updatedCategory
+			),
+			cacheManager.delAsync(`${CacheResourceType.CATEGORY}`),
+		]);
 	}
 
 	async delete(req: ExpressCategoryRequest, res: Response) {

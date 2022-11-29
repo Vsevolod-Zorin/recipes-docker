@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import http from 'http';
-import testsManager from 'src/utils/tests-manager';
+import testsManager from 'src/utils/tests.manager';
 
 describe('server', () => {
 	let server: http.Server = testsManager.httpServer;

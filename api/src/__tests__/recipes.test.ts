@@ -1,6 +1,6 @@
 import supertest from 'supertest';
 import http from 'http';
-import testsManager from 'src/utils/tests-manager';
+import testsManager from 'src/utils/tests.manager';
 import { IRecipe, IRecipeCreate, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import { ICategory, ICategoryCreate } from 'src/types/category/category.interface';
 import { BackendMessage } from 'src/shared/backend.messages';
@@ -216,7 +216,9 @@ describe('Recipe', () => {
 					description: 'updated recipe description',
 					categoryId: testsRecipe.categoryId,
 				};
-				const { statusCode, body } = await supertest(server).put(`/recipe/${testsRecipe._id}`).send(payload);
+				const { statusCode, body } = await supertest(server)
+					.put(`/recipe/${testsRecipe._id}`)
+					.send(payload);
 				const data: IRecipe = {
 					_id: testsRecipe._id,
 					title: 'updated recipe title',

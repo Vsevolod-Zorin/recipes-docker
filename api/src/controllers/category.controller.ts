@@ -8,7 +8,7 @@ import { EntityStatusEnum } from 'src/types/entity-status.enum';
 import { ExpressCategoriesRequest } from 'src/types/express/expressCategoriesRequest.interface';
 import { ExpressCategoryRequest } from 'src/types/express/expressCategoryRequest.interface';
 import cacheManager, { CacheResourceType } from 'src/utils/cache.manager';
-import eventsManager from 'src/utils/evens-manager';
+import eventsManager from 'src/utils/evens.manager';
 
 class CategoryController {
 	async findAll(req: ExpressCategoriesRequest, res: Response) {

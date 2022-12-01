@@ -14,9 +14,7 @@ class CategoryController {
 	async findAll(req: ExpressCategoriesRequest, res: Response) {
 		let categories = await cacheManager.getOrFetch<ICategory[]>(
 			`${CacheResourceType.CATEGORY}`,
-			() => {
-				return categoryService.getAll();
-			}
+			() => categoryService.getAll()
 		);
 		res.status(StatusCodes.OK).json(categories);
 	}
@@ -30,33 +28,21 @@ class CategoryController {
 		// todo: check name exist in one branch
 		await validateCategoryByName(req.body.name, req.body.parentId);
 		const createdCategory = await categoryService.create(req.body);
+
 		res.status(StatusCodes.CREATED).json(createdCategory);
-		// todo new event?
-		await Promise.all([
-			cacheManager.createAsync(
-				`${CacheResourceType.CATEGORY}.${createdCategory._id}`,
-				createdCategory
-			),
-			cacheManager.delAsync(`${CacheResourceType.CATEGORY}`),
-		]);
+		eventsManager.emit('SET_CATEGORY', { data: createdCategory }); // with cache
 		// CQRS command query responsobility segrigation
 	}
 
 	async update(req: ExpressCategoryRequest, res: Response) {
 		// todo: check name exist in one b634005cb742b0fa30a0c74ebranch
 		const { category } = req;
+
 		await validateCategoryByParentId(category, req.body);
 		const updatedCategory = await categoryService.update(category._id, req.body);
-		res.status(StatusCodes.OK).json(updatedCategory);
 
-		// todo: new event or actions on memory without called additional functionals / events
-		await Promise.all([
-			cacheManager.createAsync(
-				`${CacheResourceType.CATEGORY}.${updatedCategory._id}`,
-				updatedCategory
-			),
-			cacheManager.delAsync(`${CacheResourceType.CATEGORY}`),
-		]);
+		res.status(StatusCodes.OK).json(updatedCategory);
+		eventsManager.emit('SET_CATEGORY', { data: updatedCategory }); // with cache
 	}
 
 	async delete(req: ExpressCategoryRequest, res: Response) {
@@ -64,9 +50,9 @@ class CategoryController {
 
 		await categoryService.moveChildsCategoryUp(category);
 		await categoryService.changeStatus(category._id, EntityStatusEnum.ARCHIVED);
-		eventsManager.emit('DELETE_CATEGORY', { data: category._id.toString() }); // with cache
 
 		res.status(StatusCodes.OK).send();
+		eventsManager.emit('DELETE_CATEGORY', { data: category._id.toString() }); // with cache
 	}
 }
 

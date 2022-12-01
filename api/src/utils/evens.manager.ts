@@ -3,8 +3,10 @@ import { postService } from 'src/services/post.service';
 import { recipeService } from 'src/services/recipe.service';
 import { EventEmitter } from 'events';
 import cacheManager, { CacheResourceType } from './cache.manager';
+import { ICategory } from 'src/types/category/category.interface';
 
 interface IEventData {
+	SET_CATEGORY: ICategory;
 	DELETE_CATEGORY: string;
 }
 
@@ -25,6 +27,7 @@ class EventsManager {
 	}
 
 	init() {
+		this.on('SET_CATEGORY', this.setCategory);
 		this.on('DELETE_CATEGORY', this.deleteCategory);
 		console.log('EventsManager initialized');
 	}
@@ -46,7 +49,23 @@ class EventsManager {
 			}
 		};
 	}
-
+	// todo
+	/**
+	 *@description set new cache "category.id" and del cache "category"(all)
+	 */
+	private async setCategory(data: { data: ICategory }) {
+		const { data: createdCategory } = data;
+		await Promise.all([
+			cacheManager.createAsync(
+				`${CacheResourceType.CATEGORY}.${createdCategory._id}`,
+				createdCategory
+			),
+			cacheManager.delAsync(`${CacheResourceType.CATEGORY}`),
+		]);
+	}
+	/**
+	 *@description set new cache "category.id" and del cache "category"(all)
+	 */
 	private async deleteCategory(data: { data: string }) {
 		const { data: categoryId } = data;
 

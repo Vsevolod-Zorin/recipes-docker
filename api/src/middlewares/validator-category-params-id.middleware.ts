@@ -31,11 +31,11 @@ export function validatorCategoryParamsId() {
 				throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.BAD_REQUEST, errorMessage);
 			}
 
-			// const category = await categoryService.findOne({ _id: id });
 			let category = await cacheManager.getOrFetch<ICategory>(
-				`${CacheResourceType.CATEGORY}.${id}`,
-				async () => await categoryService.findOne({ _id: id })
+				cacheManager.generateKey(CacheResourceType.CATEGORY, id),
+				() => categoryService.findOne({ _id: id })
 			);
+
 			if (!category) {
 				throw new BackendError(StatusCodes.NOT_FOUND, BackendMessage.NOT_FOUND);
 			}

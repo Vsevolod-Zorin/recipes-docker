@@ -13,7 +13,7 @@ import eventsManager from 'src/utils/evens.manager';
 class CategoryController {
 	async findAll(req: ExpressCategoriesRequest, res: Response) {
 		let categories = await cacheManager.getOrFetch<ICategory[]>(
-			`${CacheResourceType.CATEGORY}`,
+			cacheManager.generateKey(CacheResourceType.CATEGORY), // 'category'
 			() => categoryService.getAll()
 		);
 		res.status(StatusCodes.OK).json(categories);
@@ -26,12 +26,13 @@ class CategoryController {
 
 	async create(req: Request, res: Response) {
 		// todo: check name exist in one branch
+		// todo: add cache
 		await validateCategoryByName(req.body.name, req.body.parentId);
 		const createdCategory = await categoryService.create(req.body);
 
 		res.status(StatusCodes.CREATED).json(createdCategory);
 		eventsManager.emit('SET_CATEGORY', { data: createdCategory }); // with cache
-		// CQRS command query responsobility segrigation
+		// CQRS command query responsibility segregation
 	}
 
 	async update(req: ExpressCategoryRequest, res: Response) {
@@ -52,7 +53,7 @@ class CategoryController {
 		await categoryService.changeStatus(category._id, EntityStatusEnum.ARCHIVED);
 
 		res.status(StatusCodes.OK).send();
-		eventsManager.emit('DELETE_CATEGORY', { data: category._id.toString() }); // with cache
+		eventsManager.emit('DELETE_CATEGORY', { data: category }); // with cache
 	}
 }
 

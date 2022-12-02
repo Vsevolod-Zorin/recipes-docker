@@ -8,23 +8,25 @@ import { promisify } from 'util';
 interface ICacheManager {
 	init: () => void;
 }
+// todo: short db key. category = cat?
 export enum CacheResourceType {
 	CATEGORY = 'category',
 	RECIPE = 'recipe',
 	POST = 'post',
 }
 
-type CreateCacheType = ICategory | ICategory[] | IRecipe | IRecipe[] | IPost | IPost[];
+type CreateCacheValueType = ICategory | ICategory[] | IRecipe | IRecipe[] | IPost | IPost[];
 
-class CacheManager implements ICacheManager {
+export class CacheManager implements ICacheManager {
 	// todo check correct ttl value
 	private _redisClient;
+	private readonly _ttl: number;
 	public getAsync;
 	public setAsync;
 	public delAsync;
 
-	constructor() {
-		this.init = this.init.bind(this);
+	constructor(ttl: number = 100) {
+		this._ttl = ttl;
 	}
 
 	public async init() {
@@ -55,8 +57,8 @@ class CacheManager implements ICacheManager {
 		await this._redisClient.ping();
 	}
 
-	public async createAsync(key: string, value: CreateCacheType) {
-		await this.setAsync(key, JSON.stringify(value));
+	public async createAsync(key: string, value: CreateCacheValueType) {
+		this.setAsync(key, JSON.stringify(value));
 	}
 
 	/**
@@ -77,14 +79,15 @@ class CacheManager implements ICacheManager {
 				}
 				if (cachedData) {
 					// if value is found in cache, return it
-					return resolve(JSON.parse(cachedData));
+					return resolve(JSON.parse(cachedData) as T);
 				}
 
 				// if value is not in cache, fetch it and return it
 				const fetchedData = await fetcher();
 
 				// this.redisManager.set(key, JSON.stringify(result), 'EX', this.ttl, (err, reply) => {
-				await this._redisClient.set(key, JSON.stringify(fetchedData), (err, reply) => {
+				// todo : await ?
+				this._redisClient.set(key, JSON.stringify(fetchedData), (err, reply) => {
 					// todo: redis-errors
 					if (err) {
 						return reject(err);
@@ -95,10 +98,54 @@ class CacheManager implements ICacheManager {
 		});
 	}
 
-	flush() {
-		this._redisClient.flushall();
+	flushAll() {
+		this._redisClient.flushAll();
+	}
+	// todo: add expire
+
+	// todo: test
+	// todo create new keygen
+	/**
+	 * @description generate string as breadcrumbs.
+	 * @default ! generateKey(null, null,null) => 'category'
+	 * @return "sourceType" = sourceType[]
+	 * @return "sourceType.id" = sourceType
+	 * @return "sourceType.id.resourceType" = resourceType[]
+	 * @return "sourceType.id.resourceType.id" = resourceType
+	 */
+	public generateKey(
+		sourceType: CacheResourceType | null = null,
+		sourceId: string | null = null,
+		resourceType: CacheResourceType | null = null,
+		resourceId: string | null = null
+	): string {
+		// category = []
+		// category.id = category
+		// category.id.recipe = []
+		// category.id.recipe.id = post
+		// category.id.post = []
+		// category.id.post.id = post
+
+		// category
+		let key: string = '';
+		if (sourceType) {
+			key += sourceType;
+		}
+
+		if (sourceId) {
+			key += `.${sourceId}`;
+		}
+		if (resourceType) {
+			key += `.${resourceType}`;
+		}
+		if (resourceId) {
+			key += `.${resourceId}`;
+		}
+		console.log('---key', key);
+
+		return key;
 	}
 }
 
-const cacheManager = new CacheManager();
+const cacheManager = new CacheManager(5);
 export default cacheManager;

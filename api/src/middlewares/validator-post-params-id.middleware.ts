@@ -7,6 +7,8 @@ import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
 import { ExpressPostRequest } from 'src/types/express/expressPostRequest.interface';
 import { postService } from 'src/services/post.service';
+import cacheManager, { CacheResourceType } from 'src/utils/cache.manager';
+import { IPost } from 'src/types/post/post.interface';
 
 export function validatorPostParamsId() {
 	return async function (
@@ -29,7 +31,10 @@ export function validatorPostParamsId() {
 				throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.BAD_REQUEST, errorMessage);
 			}
 
-			const post = await postService.findOne({ _id: id });
+			const post = await cacheManager.getOrFetch<IPost>(
+				cacheManager.generateKey(CacheResourceType.RECIPE, id),
+				() => postService.findOne({ _id: id })
+			);
 
 			if (!post) {
 				throw new BackendError(StatusCodes.NOT_FOUND, BackendMessage.NOT_FOUND);

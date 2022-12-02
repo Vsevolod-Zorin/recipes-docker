@@ -16,12 +16,11 @@ export const validateCategoryByParentId = async (
 		// 	_id: dto.parentId.toString(),
 		// });
 		let checkedCategory: ICategory = await cacheManager.getOrFetch<ICategory>(
-			`${CacheResourceType.CATEGORY}.${dto.parentId}`,
-			async () => {
-				return await categoryService.findOne({
+			cacheManager.generateKey(CacheResourceType.CATEGORY, dto.parentId.toString()),
+			() =>
+				categoryService.findOne({
 					_id: dto.parentId.toString(),
-				});
-			}
+				})
 		);
 		// todo think about array
 		while (checkedCategory && checkedCategory.parentId !== null) {
@@ -29,9 +28,9 @@ export const validateCategoryByParentId = async (
 				throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.UNCORRECT_PARENT_ID);
 			}
 			checkedCategory = await cacheManager.getOrFetch<ICategory>(
-				`${CacheResourceType.CATEGORY}.${checkedCategory.parentId}`,
+				cacheManager.generateKey(CacheResourceType.CATEGORY, checkedCategory.parentId),
 				async () => {
-					return await categoryService.findOne({ _id: checkedCategory.parentId });
+					return await categoryService.findOne({ _id: checkedCategory.parentId.toString() });
 				}
 			);
 		}

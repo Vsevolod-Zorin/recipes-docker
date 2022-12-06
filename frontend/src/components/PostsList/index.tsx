@@ -24,7 +24,6 @@ const PostsList: React.FC<IPostList> = () => {
 				if (result.data) {
 					setPosts(result.data);
 					setSkip(result.data.length);
-					setHasMore(true);
 				}
 			}
 		};

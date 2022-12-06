@@ -30,7 +30,7 @@ const RecipesList: React.FC<IRecipeList> = ({
 				const result = await fetchPagination({ categoryId: categoryId as string, skip: 0, limit });
 				if (result.data) {
 					setRecipes(result.data);
-					setSkip(limit);
+					setSkip(result.data.length);
 				}
 			}
 		};
@@ -83,7 +83,7 @@ const RecipesList: React.FC<IRecipeList> = ({
 	const loadMore = useCallback(() => {
 		if (categoryId) {
 			fetchPagination({ categoryId, skip, limit });
-			setSkip(recipes.length + limit);
+			setSkip(recipes.length);
 		}
 	}, [categoryId, skip, limit, recipes]);
 

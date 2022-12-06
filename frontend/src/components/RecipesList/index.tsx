@@ -24,7 +24,6 @@ const RecipesList: React.FC<IRecipeList> = () => {
 				if (result.data) {
 					setRecipes(result.data);
 					setSkip(result.data.length);
-					setHasMore(true);
 				}
 			}
 		};

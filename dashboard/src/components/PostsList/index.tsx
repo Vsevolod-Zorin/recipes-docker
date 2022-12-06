@@ -26,7 +26,7 @@ const PostsList: React.FC<IPostsList> = ({ setSelectedPost, isRefreshList, setIs
 				const result = await fetchPagination({ categoryId: categoryId as string, skip: 0, limit });
 				if (result.data) {
 					setPosts(result.data);
-					setSkip(limit);
+					setSkip(result.data.length);
 				}
 			}
 		};

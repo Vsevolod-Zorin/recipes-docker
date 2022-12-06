@@ -8,26 +8,20 @@ import cacheManager from 'src/utils/cache.manager';
 class RecipeModel {
 	find(query: IQueryRecipeFindMany): Promise<IRecipe[]> {
 		return cacheManager.recipe.find<IRecipe[]>(query, () => Recipe.find(query).exec());
-
-		// return Recipe.find(query).exec();
 	}
 
 	findOne(query: IQueryRecipeFindOne): Promise<IRecipe> {
 		return cacheManager.recipe.findOne<IRecipe>(query, () => Recipe.findOne(query).exec());
-
-		// return Recipe.findOne(query).exec();
 	}
 
-	findByCategoryId(categoryId: string) {
+	findByCategoryId(categoryId: string): Promise<IRecipe[]> {
 		return this.find({ categoryId: [categoryId] });
-		// return Recipe.find({ categoryId: id }).exec();
 	}
 
 	paginationByCategoryId(categoryId: string, skip: number, limit: number): Promise<IRecipe[]> {
 		return cacheManager.recipe.find<IRecipe[]>({ categoryId, skip, limit }, () =>
 			Recipe.find({ categoryId }).skip(skip).limit(limit).exec()
 		);
-		// return Recipe.find({ categoryId }).skip(skip).limit(limit).exec();
 	}
 
 	create(dto: IRecipeCreate): Promise<IRecipe> {

@@ -26,10 +26,9 @@ class CacheResourceTemplate {
 		return this._redisClient.getOrFetch<T>(this.findOneKey(query), fetcher);
 	}
 	private findOneKey(query: unknown): string {
-		return this.generateKey(true, this.resourceType, JSON.stringify(query));
+		return this.generateKey(false, this.resourceType, query);
 	}
 
-	// todo: test
 	public generateKey(
 		isArray: boolean = false,
 		resourceType: CacheResourceType | null = null,

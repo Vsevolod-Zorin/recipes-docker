@@ -1,17 +1,12 @@
 import * as Redis from 'redis';
-import * as Util from 'util';
 import { config } from 'src/config';
 
 class RedisManager {
 	public _redisClient;
-	public getAsync;
-	public setAsync;
-	public delAsync;
-	public flushAllAsync;
 
 	constructor() {
 		this._redisClient = Redis.createClient({
-			url: `${config.redis.host}:${6379}`,
+			url: `${config.redis.host}:${config.redis.port}`,
 		});
 
 		this._redisClient.on('connect', () => {
@@ -25,10 +20,6 @@ class RedisManager {
 		});
 
 		this.init = this.init.bind(this);
-		this.getAsync = Util.promisify(this._redisClient.get).bind(this._redisClient);
-		this.setAsync = Util.promisify(this._redisClient.set).bind(this._redisClient);
-		this.delAsync = Util.promisify(this._redisClient.del).bind(this._redisClient);
-		this.flushAllAsync = Util.promisify(this._redisClient.flushAll).bind(this._redisClient);
 	}
 
 	public async init() {
@@ -36,19 +27,47 @@ class RedisManager {
 	}
 
 	/**
+	 * @description parce inside.
+	 */
+	async getAsync<T>(key: string): Promise<T> {
+		const fetchedData = await Promise.resolve(this._redisClient.get(key));
+		// todo: parce here or outside this function?
+		if (fetchedData) {
+			return JSON.parse(fetchedData);
+		}
+		return null;
+	}
+
+	/**
+	 * @description stringify inside.
+	 */
+	async setAsync(key: string, value: unknown) {
+		return Promise.resolve(this._redisClient.set(key, JSON.stringify(value)));
+	}
+
+	async flushAll(): Promise<void> {
+		return this._redisClient.flushAll();
+	}
+
+	// todo: await or new thread?
+	async flushAllAsync(): Promise<void> {
+		return Promise.resolve(this._redisClient.flushAll());
+	}
+
+	/**
 	 * @description generic function, takes `fetcher` argument which is meant to refresh the cache
 	 * */
 	public async getOrFetch<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
-		const cachedData = await this._redisClient.get(key);
+		const cachedData = await this.getAsync<T>(key);
+
 		if (cachedData) {
-			// console.log('--- cachedData', { cachedData });
-			return JSON.parse(cachedData);
+			return cachedData;
 		}
+
 		const fetchedData = await fetcher();
-		// console.log('-- fetched data', { fetchedData });
-		await this._redisClient.set(key, JSON.stringify(fetchedData));
+		await this.setAsync(key, fetchedData);
+
 		return fetchedData;
 	}
 }
-// export const redisManager = new RedisManager(collectionName);
 export default RedisManager;

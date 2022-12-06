@@ -8,34 +8,29 @@ import cacheManager from 'src/utils/cache.manager';
 class PostModel {
 	find(query: IQueryPostFindMany): Promise<IPost[]> {
 		return cacheManager.post.find<IPost[]>(query, () => Post.find(query).exec());
-		// return Post.find(query).exec();
 	}
 
 	findOne(query: IQueryPostFindOne): Promise<IPost> {
 		return cacheManager.post.findOne<IPost>(query, () => Post.findOne(query).exec());
-		// return Post.findOne(query).exec();
 	}
 
-	findByCategoryId(categoryId: string) {
-		// todo: check
+	findByCategoryId(categoryId: string): Promise<IPost[]> {
 		return this.find({ categoryId: [categoryId] });
-		// return Post.find({ categoryId }).exec();
 	}
 
 	paginationByCategoryId(categoryId: string, skip: number, limit: number): Promise<IPost[]> {
 		return cacheManager.post.find<IPost[]>({ categoryId, skip, limit }, () =>
 			Post.find({ categoryId }).skip(skip).limit(limit).exec()
 		);
-		// return Post.find({ categoryId }).skip(skip).limit(limit).exec();
 	}
 
 	create(dto: IPostCreate): Promise<IPost> {
+		// todo: await? new event?
 		cacheManager.flushAll();
 		return new Post(dto).save();
 	}
 
 	update(id: string, dto: IPostUpdate): Promise<IPost> {
-		// todo:
 		cacheManager.flushAll();
 		return Post.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
 	}
@@ -45,7 +40,6 @@ class PostModel {
 		return Post.updateMany({ id: { $in: ids } }, update).exec();
 	}
 
-	// todo type
 	deleteMany(ids: string[]) {
 		cacheManager.flushAll();
 		return Post.deleteMany({ id: { $in: ids } });

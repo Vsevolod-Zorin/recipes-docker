@@ -1,9 +1,12 @@
 import { postService } from 'src/services/post.service';
 import { recipeService } from 'src/services/recipe.service';
 import { EventEmitter } from 'events';
+import cacheManager from './cache.manager';
 
 interface IEventData {
 	DELETE_CATEGORY: string;
+	// todo: new event or async?
+	CLEAN_CACHE: void;
 }
 
 export type EventType = keyof IEventData;
@@ -53,7 +56,11 @@ class EventsManager {
 			postService.deleteManyByCategoryId(categoryId),
 			// todo: delete recipes and posts cache
 		]);
+	}
 
+	private async clearCache() {
+		// todo think about await
+		cacheManager.flushAll();
 	}
 }
 

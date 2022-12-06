@@ -3,19 +3,14 @@ import { StatusCodes } from 'http-status-codes';
 import { categoryService } from 'src/services/category.service';
 import { validateCategoryByName } from 'src/shared/validation/category/category-check-name.validation';
 import { validateCategoryByParentId } from 'src/shared/validation/category/category-check-parent-id.validation';
-import { ICategory } from 'src/types/category/category.interface';
 import { EntityStatusEnum } from 'src/types/entity-status.enum';
 import { ExpressCategoriesRequest } from 'src/types/express/expressCategoriesRequest.interface';
 import { ExpressCategoryRequest } from 'src/types/express/expressCategoryRequest.interface';
-import cacheManager, { CacheResourceType } from 'src/utils/cache.manager';
 import eventsManager from 'src/utils/evens.manager';
 
 class CategoryController {
 	async findAll(req: ExpressCategoriesRequest, res: Response) {
-		let categories = await cacheManager.getOrFetch<ICategory[]>(
-			cacheManager.generateKey(CacheResourceType.CATEGORY), // 'category'
-			() => categoryService.getAll()
-		);
+		const categories = await categoryService.getAll();
 		res.status(StatusCodes.OK).json(categories);
 	}
 
@@ -26,12 +21,11 @@ class CategoryController {
 
 	async create(req: Request, res: Response) {
 		// todo: check name exist in one branch
-		// todo: add cache
 		await validateCategoryByName(req.body.name, req.body.parentId);
 		const createdCategory = await categoryService.create(req.body);
 
 		res.status(StatusCodes.CREATED).json(createdCategory);
-		eventsManager.emit('SET_CATEGORY', { data: createdCategory }); // with cache
+		// todo: update events
 		// CQRS command query responsibility segregation
 	}
 
@@ -43,7 +37,6 @@ class CategoryController {
 		const updatedCategory = await categoryService.update(category._id, req.body);
 
 		res.status(StatusCodes.OK).json(updatedCategory);
-		eventsManager.emit('SET_CATEGORY', { data: updatedCategory }); // with cache
 	}
 
 	async delete(req: ExpressCategoryRequest, res: Response) {
@@ -53,7 +46,7 @@ class CategoryController {
 		await categoryService.changeStatus(category._id, EntityStatusEnum.ARCHIVED);
 
 		res.status(StatusCodes.OK).send();
-		eventsManager.emit('DELETE_CATEGORY', { data: category }); // with cache
+		eventsManager.emit('DELETE_CATEGORY', { data: category._id.toString() }); // with cache
 	}
 }
 

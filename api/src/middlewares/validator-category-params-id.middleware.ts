@@ -7,8 +7,6 @@ import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
 import { ExpressCategoryRequest } from 'src/types/express/expressCategoryRequest.interface';
 import { categoryService } from 'src/services/category.service';
-import cacheManager, { CacheResourceType } from 'src/utils/cache.manager';
-import { ICategory } from 'src/types/category/category.interface';
 
 export function validatorCategoryParamsId() {
 	return async function (
@@ -31,10 +29,7 @@ export function validatorCategoryParamsId() {
 				throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.BAD_REQUEST, errorMessage);
 			}
 
-			let category = await cacheManager.getOrFetch<ICategory>(
-				cacheManager.generateKey(CacheResourceType.CATEGORY, id),
-				() => categoryService.findOne({ _id: id })
-			);
+			let category = await categoryService.findOne({ _id: id });
 
 			if (!category) {
 				throw new BackendError(StatusCodes.NOT_FOUND, BackendMessage.NOT_FOUND);

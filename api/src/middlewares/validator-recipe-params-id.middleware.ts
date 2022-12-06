@@ -7,8 +7,6 @@ import { BackendError } from 'src/shared/backend.error';
 import { BackendMessage } from 'src/shared/backend.messages';
 import { ExpressRecipeRequest } from 'src/types/express/expressRecipeRequest.interface';
 import { recipeService } from 'src/services/recipe.service';
-import cacheManager, { CacheResourceType } from 'src/utils/cache.manager';
-import { IRecipe } from 'src/types/recipe/recipe.interface';
 
 export function validatorRecipeParamsId() {
 	return async function (
@@ -31,11 +29,7 @@ export function validatorRecipeParamsId() {
 				throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.BAD_REQUEST, errorMessage);
 			}
 
-			const recipe = await cacheManager.getOrFetch<IRecipe>(
-				cacheManager.generateKey(CacheResourceType.RECIPE, id),
-				() => recipeService.findOne({ _id: id })
-			);
-
+			const recipe = await recipeService.findOne({ _id: id });
 			if (!recipe) {
 				throw new BackendError(StatusCodes.NOT_FOUND, BackendMessage.NOT_FOUND);
 			}

@@ -11,7 +11,7 @@ export const config: IConfig = {
 	redis: {
 		port: 6379,
 		host: 'redis://redis',
-		// todo config params
-		ttl: 60 * 60 * 24,
+		// todo: ex, px
+		ttl: 10000, // 10s
 	},
 };

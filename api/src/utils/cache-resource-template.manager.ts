@@ -1,0 +1,104 @@
+import { config } from 'src/config';
+import * as Redis from 'redis';
+import * as Util from 'util';
+import { CacheResourceType } from './cache.manager';
+
+interface ICacheQuery {
+	[key: string]: string;
+}
+
+class CacheResourceTemplate {
+	private _redisClient;
+	public readonly name: string;
+	public readonly resourceType: CacheResourceType;
+
+	public getAsync;
+	public setAsync;
+	public delAsync;
+	public flushAllAsync;
+
+	constructor(resourceType: CacheResourceType) {
+		this.name = resourceType;
+		this.resourceType = resourceType;
+		this._redisClient = Redis.createClient({
+			name: this.name,
+			url: `${config.redis.host}:${6379}`,
+		});
+
+		this._redisClient.on('connect', () => {
+			console.log('Connected to Redis');
+		});
+		this._redisClient.on('ready', () => {
+			console.log('Redis is ready');
+		});
+		this._redisClient.on('error', err => {
+			console.log('Error occured while connecting or accessing redis server', { err });
+		});
+		this.init = this.init.bind(this);
+		this.getAsync = Util.promisify(this._redisClient.get).bind(this._redisClient);
+		this.setAsync = Util.promisify(this._redisClient.set).bind(this._redisClient);
+		this.delAsync = Util.promisify(this._redisClient.del).bind(this._redisClient);
+		this.flushAllAsync = Util.promisify(this._redisClient.flushAll).bind(this._redisClient);
+	}
+
+	public async init() {
+		await this._redisClient.connect();
+	}
+
+	async find<T>(query: unknown, fetcher: () => Promise<T>) {
+		return this.getOrFetch<T>(this.findKey(query), fetcher);
+	}
+	private findKey(query: unknown): string {
+		return this.generateKey(true, this.resourceType, query);
+	}
+	async findOne<T>(query: unknown, fetcher: () => Promise<T>): Promise<T> {
+		return this.getOrFetch<T>(this.findOneKey(query), fetcher);
+	}
+	private findOneKey(query: unknown): string {
+		return this.generateKey(true, this.resourceType, JSON.stringify(query));
+	}
+
+	async flushAll() {
+		return this._redisClient.flushAll();
+	}
+
+	/**
+	 * @description generic function, takes `fetcher` argument which is meant to refresh the cache
+	 * */
+	public async getOrFetch<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
+		const cachedData = await this._redisClient.get(key);
+		if (cachedData) {
+			// console.log('--- cachedData', { cachedData });
+			return JSON.parse(cachedData);
+		}
+		const fetchedData = await fetcher();
+		// console.log('-- fetched data', { fetchedData });
+		await this._redisClient.set(key, JSON.stringify(fetchedData));
+		return fetchedData;
+	}
+	// todo: test
+
+	public generateKey(
+		isArray: boolean = false,
+		resourceType: CacheResourceType | null = null,
+		query: unknown = {}
+	): string {
+		let key: string = '';
+
+		if (isArray) {
+			key += 'arr.';
+		} else {
+			key += 'single.';
+		}
+
+		if (resourceType) {
+			key += resourceType;
+		}
+
+		key += JSON.stringify({ ...(query as ICacheQuery) });
+
+		return key;
+	}
+}
+
+export default CacheResourceTemplate;

@@ -12,7 +12,7 @@ export enum CacheResourceType {
 }
 
 export class CacheManager implements ICacheManager {
-	private _redisClient: RedisManager;
+	private _redisManager: RedisManager;
 	public category: CacheResourceTemplate;
 	public recipe: CacheResourceTemplate;
 	public post: CacheResourceTemplate;
@@ -20,10 +20,10 @@ export class CacheManager implements ICacheManager {
 
 	constructor() {
 		// todo: ttl?
-		this._redisClient = new RedisManager();
-		this.category = new CacheResourceTemplate(this._redisClient, CacheResourceType.CATEGORY);
-		this.recipe = new CacheResourceTemplate(this._redisClient, CacheResourceType.RECIPE);
-		this.post = new CacheResourceTemplate(this._redisClient, CacheResourceType.POST);
+		this._redisManager = new RedisManager();
+		this.category = new CacheResourceTemplate(this._redisManager, CacheResourceType.CATEGORY);
+		this.recipe = new CacheResourceTemplate(this._redisManager, CacheResourceType.RECIPE);
+		this.post = new CacheResourceTemplate(this._redisManager, CacheResourceType.POST);
 
 		this.init = this.init.bind(this);
 		// this.flushAll = this.flushAll.bind(this);
@@ -31,12 +31,12 @@ export class CacheManager implements ICacheManager {
 
 	// todo:
 	public async init() {
-		await this._redisClient.init();
+		await this._redisManager.init();
 	}
 
 	// todo: refactor
 	public async flushAll() {
-		await this._redisClient._redisClient.flushAll();
+		await this._redisManager._redisClient.flushAll();
 	}
 }
 

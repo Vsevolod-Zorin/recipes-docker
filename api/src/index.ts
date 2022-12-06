@@ -17,6 +17,7 @@ const run = async () => {
 		.on('disconnected', async () => await appManager.connectToDb());
 
 	await cacheManager.init();
+	cacheManager.flushAll();
 	eventsManager.init();
 
 	startServer();

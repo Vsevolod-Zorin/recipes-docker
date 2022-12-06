@@ -10,11 +10,6 @@ class CacheResourceTemplate {
 	public readonly name: string;
 	public readonly resourceType: CacheResourceType;
 
-	public getAsync;
-	public setAsync;
-	public delAsync;
-	public flushAllAsync;
-
 	constructor(redisClient: RedisManager, resourceType: CacheResourceType) {
 		this.name = resourceType;
 		this.resourceType = resourceType;
@@ -35,7 +30,6 @@ class CacheResourceTemplate {
 	}
 
 	// todo: test
-
 	public generateKey(
 		isArray: boolean = false,
 		resourceType: CacheResourceType | null = null,

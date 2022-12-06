@@ -15,14 +15,12 @@ class CategoryModel {
 		return cacheManager.category.find<ICategory[]>(query, () =>
 			Category.find({ ...query, status: EntityStatusEnum.ACTIVE }).exec()
 		);
-		// return Category.find({ ...query, status: EntityStatusEnum.ACTIVE }).exec();
 	}
 
 	findOne(query: IQueryCategoryFindOne = {}): Promise<ICategory> {
 		return cacheManager.category.findOne<ICategory>(query, () =>
 			Category.findOne({ ...query, status: EntityStatusEnum.ACTIVE }).exec()
 		);
-		// return Category.findOne({ ...query, status: EntityStatusEnum.ACTIVE }).exec();
 	}
 
 	create(createCategoryDto: ICategoryCreate): Promise<ICategory> {

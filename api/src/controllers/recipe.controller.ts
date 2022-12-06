@@ -5,11 +5,6 @@ import { validateCategoryById } from 'src/shared/validation/category/category-ge
 import { ExpressRecipeRequest } from 'src/types/express/expressRecipeRequest.interface';
 
 class RecipeController {
-	async findAll(req: Request, res: Response) {
-		const recipes = await recipeService.find();
-		res.status(StatusCodes.OK).json(recipes);
-	}
-
 	async getById(req: ExpressRecipeRequest, res: Response) {
 		const { recipe } = req;
 		res.status(StatusCodes.OK).json(recipe);

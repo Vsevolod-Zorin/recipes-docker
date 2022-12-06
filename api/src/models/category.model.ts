@@ -26,12 +26,12 @@ class CategoryModel {
 	}
 
 	create(createCategoryDto: ICategoryCreate): Promise<ICategory> {
-		cacheManager.category.flushAll();
+		cacheManager.flushAll();
 		return new Category(createCategoryDto).save();
 	}
 
 	update(id: string, dto: ICategoryUpdate): Promise<ICategory> {
-		cacheManager.category.flushAll();
+		cacheManager.flushAll();
 
 		return Category.findOneAndUpdate(
 			{ _id: id, status: EntityStatusEnum.ACTIVE },
@@ -50,7 +50,7 @@ class CategoryModel {
 
 	// todo check tests after change type Object to ICategoryUpdate
 	updateMany(ids: string[], update: ICategoryUpdateMany): Promise<UpdateWriteOpResult> {
-		cacheManager.category.flushAll();
+		cacheManager.flushAll();
 
 		return Category.updateMany(
 			{ _id: { $in: ids }, status: EntityStatusEnum.ACTIVE },
@@ -62,20 +62,20 @@ class CategoryModel {
 		parentId: string,
 		update: ICategoryUpdateMany
 	): Promise<UpdateWriteOpResult> {
-		cacheManager.category.flushAll();
+		cacheManager.flushAll();
 
 		return Category.updateMany({ parentId, status: EntityStatusEnum.ACTIVE }, update).exec();
 	}
 
 	delete(id: string): Promise<ICategory> {
 		// todo: refacrot cache manager
-		cacheManager.category.flushAll();
+		cacheManager.flushAll();
 
 		return Category.findByIdAndDelete(id).exec();
 	}
 
 	deleteAll() {
-		cacheManager.category.flushAll();
+		cacheManager.flushAll();
 
 		return Category.deleteMany();
 	}

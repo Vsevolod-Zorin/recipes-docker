@@ -30,34 +30,34 @@ class PostModel {
 	}
 
 	create(dto: IPostCreate): Promise<IPost> {
-		cacheManager.post.flushAll();
+		cacheManager.flushAll();
 		return new Post(dto).save();
 	}
 
 	update(id: string, dto: IPostUpdate): Promise<IPost> {
 		// todo:
-		cacheManager.post.flushAll();
+		cacheManager.flushAll();
 		return Post.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
 	}
 
 	updateMany(ids: string[], update: IPostUpdate): Promise<UpdateWriteOpResult> {
-		cacheManager.post.flushAll();
+		cacheManager.flushAll();
 		return Post.updateMany({ id: { $in: ids } }, update).exec();
 	}
 
 	// todo type
 	deleteMany(ids: string[]) {
-		cacheManager.post.flushAll();
+		cacheManager.flushAll();
 		return Post.deleteMany({ id: { $in: ids } });
 	}
 
 	deleteManyByCategoryId(categoryId: string) {
-		cacheManager.post.flushAll();
+		cacheManager.flushAll();
 		return Post.deleteMany({ categoryId });
 	}
 
 	delete(id: string): Promise<IPost> {
-		cacheManager.post.flushAll();
+		cacheManager.flushAll();
 		return Post.findByIdAndDelete(id).exec();
 	}
 }

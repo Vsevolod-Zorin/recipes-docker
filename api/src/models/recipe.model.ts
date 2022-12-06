@@ -31,14 +31,12 @@ class RecipeModel {
 	}
 
 	create(dto: IRecipeCreate): Promise<IRecipe> {
-		cacheManager.recipe.flushAll();
-
+		cacheManager.flushAll();
 		return new Recipe(dto).save();
 	}
 
 	update(id: string, dto: IRecipeUpdate): Promise<IRecipe> {
-		cacheManager.recipe.flushAll();
-
+		cacheManager.flushAll();
 		return Recipe.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
 	}
 
@@ -48,17 +46,17 @@ class RecipeModel {
 
 	// todo type
 	deleteMany(ids: string[]) {
-		cacheManager.recipe.flushAll();
+		cacheManager.flushAll();
 		return Recipe.deleteMany({ id: { $in: ids } });
 	}
 
 	deleteManyByCategoryId(categoryId: string) {
-		cacheManager.recipe.flushAll();
+		cacheManager.flushAll();
 		return Recipe.deleteMany({ categoryId });
 	}
 
 	delete(id: string): Promise<IRecipe> {
-		cacheManager.recipe.flushAll();
+		cacheManager.flushAll();
 		return Recipe.findByIdAndDelete(id).exec();
 	}
 }

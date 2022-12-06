@@ -5,14 +5,14 @@ import { useLazyFetchPostsPaginationQuery } from 'src/services/post.api';
 import { IPost } from 'src/types/post/post.interface';
 import PostItem from '../PostlistItem';
 
-interface IPostsList {}
+interface IPostList {}
 
-const PostsList: React.FC<IPostsList> = () => {
+const PostsList: React.FC<IPostList> = () => {
 	const { categoryId } = useParams();
 	const [fetchPagination, { data: fetchedData }] = useLazyFetchPostsPaginationQuery();
 	const [posts, setPosts] = useState<IPost[]>([]);
 	const [skip, setSkip] = useState<number>(0);
-	const [limit, setLimit] = useState<number>(2);
+	const [limit, setLimit] = useState<number>(50);
 	const [hasMore, setHasMore] = useState<boolean>(true);
 	const [ref, inView] = useInView();
 	const navigate = useNavigate();
@@ -20,13 +20,15 @@ const PostsList: React.FC<IPostsList> = () => {
 	useEffect(() => {
 		const firstInit = async () => {
 			if (categoryId) {
-				const result = await fetchPagination({ categoryId: categoryId as string, skip, limit });
+				const result = await fetchPagination({ categoryId: categoryId as string, skip: 0, limit });
 				if (result.data) {
 					setPosts(result.data);
-					setSkip(limit);
+					setSkip(result.data.length);
+					setHasMore(true);
 				}
 			}
 		};
+
 		firstInit();
 		return () => {
 			setSkip(0);
@@ -58,7 +60,7 @@ const PostsList: React.FC<IPostsList> = () => {
 			fetchPagination({ categoryId, skip, limit });
 			setSkip(posts.length + limit);
 		}
-	}, [categoryId, skip, limit, posts]);
+	}, [categoryId, skip, limit, posts, fetchPagination]);
 
 	const handleClick = (el: IPost) => {
 		navigate(`/category/${categoryId}/post/${el._id}`);
@@ -79,7 +81,11 @@ const PostsList: React.FC<IPostsList> = () => {
 	return (
 		<>
 			<ul className="posts__list">{renderList()}</ul>
-			{hasMore && <div ref={ref}></div>}
+			{hasMore && (
+				<button ref={ref} className="btn" onClick={loadMore}>
+					loadMore
+				</button>
+			)}
 		</>
 	);
 };

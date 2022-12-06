@@ -49,7 +49,6 @@ class RedisManager {
 		return this._redisClient.flushAll();
 	}
 
-	// todo: await or new thread?
 	async flushAllAsync(): Promise<void> {
 		return Promise.resolve(this._redisClient.flushAll());
 	}

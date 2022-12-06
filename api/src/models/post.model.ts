@@ -4,6 +4,7 @@ import { IPost, IPostCreate, IPostUpdate } from 'src/types/post/post.interface';
 import { IQueryPostFindMany } from 'src/types/post/query-post-find-many.interface';
 import { IQueryPostFindOne } from 'src/types/post/query-post-find-one.interface';
 import cacheManager from 'src/utils/cache.manager';
+import eventsManager from 'src/utils/evens.manager';
 
 class PostModel {
 	find(query: IQueryPostFindMany): Promise<IPost[]> {
@@ -25,33 +26,32 @@ class PostModel {
 	}
 
 	create(dto: IPostCreate): Promise<IPost> {
-		// todo: await? new event?
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return new Post(dto).save();
 	}
 
 	update(id: string, dto: IPostUpdate): Promise<IPost> {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Post.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
 	}
 
 	updateMany(ids: string[], update: IPostUpdate): Promise<UpdateWriteOpResult> {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Post.updateMany({ id: { $in: ids } }, update).exec();
 	}
 
 	deleteMany(ids: string[]) {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Post.deleteMany({ id: { $in: ids } });
 	}
 
 	deleteManyByCategoryId(categoryId: string) {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Post.deleteMany({ categoryId });
 	}
 
 	delete(id: string): Promise<IPost> {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Post.findByIdAndDelete(id).exec();
 	}
 }

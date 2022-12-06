@@ -9,6 +9,7 @@ import {
 import { IQueryCategoryFindOne } from 'src/types/category/query-category-find-one.interface';
 import { EntityStatusEnum } from 'src/types/entity-status.enum';
 import cacheManager from 'src/utils/cache.manager';
+import eventsManager from 'src/utils/evens.manager';
 
 class CategoryModel {
 	find(query = {}): Promise<ICategory[]> {
@@ -24,13 +25,12 @@ class CategoryModel {
 	}
 
 	create(createCategoryDto: ICategoryCreate): Promise<ICategory> {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return new Category(createCategoryDto).save();
 	}
 
 	update(id: string, dto: ICategoryUpdate): Promise<ICategory> {
-		cacheManager.flushAll();
-
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Category.findOneAndUpdate(
 			{ _id: id, status: EntityStatusEnum.ACTIVE },
 			{ $set: { ...dto } },
@@ -48,8 +48,7 @@ class CategoryModel {
 
 	// todo check tests after change type Object to ICategoryUpdate
 	updateMany(ids: string[], update: ICategoryUpdateMany): Promise<UpdateWriteOpResult> {
-		cacheManager.flushAll();
-
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Category.updateMany(
 			{ _id: { $in: ids }, status: EntityStatusEnum.ACTIVE },
 			update
@@ -60,21 +59,17 @@ class CategoryModel {
 		parentId: string,
 		update: ICategoryUpdateMany
 	): Promise<UpdateWriteOpResult> {
-		cacheManager.flushAll();
-
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Category.updateMany({ parentId, status: EntityStatusEnum.ACTIVE }, update).exec();
 	}
 
 	delete(id: string): Promise<ICategory> {
-		// todo: refacrot cache manager
-		cacheManager.flushAll();
-
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Category.findByIdAndDelete(id).exec();
 	}
 
 	deleteAll() {
-		cacheManager.flushAll();
-
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Category.deleteMany();
 	}
 }

@@ -4,6 +4,7 @@ import { IQueryRecipeFindMany } from 'src/types/recipe/query-recipe-find-many.in
 import { IQueryRecipeFindOne } from 'src/types/recipe/query-recipe-find-one.interface';
 import { IRecipe, IRecipeCreate, IRecipeUpdate } from 'src/types/recipe/recipe.interface';
 import cacheManager from 'src/utils/cache.manager';
+import eventsManager from 'src/utils/evens.manager';
 
 class RecipeModel {
 	find(query: IQueryRecipeFindMany): Promise<IRecipe[]> {
@@ -25,12 +26,12 @@ class RecipeModel {
 	}
 
 	create(dto: IRecipeCreate): Promise<IRecipe> {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return new Recipe(dto).save();
 	}
 
 	update(id: string, dto: IRecipeUpdate): Promise<IRecipe> {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Recipe.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
 	}
 
@@ -38,19 +39,18 @@ class RecipeModel {
 		return Recipe.updateMany({ id: { $in: ids } }, update).exec();
 	}
 
-	// todo type
 	deleteMany(ids: string[]) {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Recipe.deleteMany({ id: { $in: ids } });
 	}
 
 	deleteManyByCategoryId(categoryId: string) {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Recipe.deleteMany({ categoryId });
 	}
 
 	delete(id: string): Promise<IRecipe> {
-		cacheManager.flushAll();
+		eventsManager.emit('CLEAN_CACHE', { data: '' });
 		return Recipe.findByIdAndDelete(id).exec();
 	}
 }

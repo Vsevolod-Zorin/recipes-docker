@@ -26,17 +26,18 @@ export class CacheManager implements ICacheManager {
 		this.post = new CacheResourceTemplate(this._redisManager, CacheResourceType.POST);
 
 		this.init = this.init.bind(this);
-		// this.flushAll = this.flushAll.bind(this);
 	}
 
-	// todo:
 	public async init() {
 		await this._redisManager.init();
 	}
 
-	// todo: refactor
-	public async flushAll() {
-		await this._redisManager._redisClient.flushAll();
+	public flushAll() {
+		this._redisManager.flushAll();
+	}
+
+	public async flushAllAsync(): Promise<void> {
+		await this._redisManager.flushAllAsync();
 	}
 }
 

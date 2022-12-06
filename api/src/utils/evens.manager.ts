@@ -5,7 +5,6 @@ import cacheManager from './cache.manager';
 
 interface IEventData {
 	DELETE_CATEGORY: string;
-	// todo: new event or async?
 	CLEAN_CACHE: void;
 }
 
@@ -27,6 +26,7 @@ class EventsManager {
 
 	init() {
 		this.on('DELETE_CATEGORY', this.deleteCategory);
+		this.on('CLEAN_CACHE', this.cleanCache);
 		console.log('EventsManager initialized');
 	}
 
@@ -58,9 +58,8 @@ class EventsManager {
 		]);
 	}
 
-	private async clearCache() {
-		// todo think about await
-		cacheManager.flushAll();
+	private async cleanCache(): Promise<void> {
+		await cacheManager.flushAllAsync();
 	}
 }
 

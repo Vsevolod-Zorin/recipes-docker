@@ -1,52 +1,72 @@
 import * as Redis from 'redis';
 import { config } from 'src/config';
-import { promisify } from 'util';
 
 class RedisManager {
-	private redisClient;
-	public get;
-	public set;
-	public hset;
-	public hget;
-	public hdel;
-	public del;
-	public flushall;
-	public connected;
+	public _redisClient;
+
+	constructor() {
+		this._redisClient = Redis.createClient({
+			url: `${config.redis.host}:${config.redis.port}`,
+		});
+
+		this._redisClient.on('connect', () => {
+			console.log('Connected to Redis');
+		});
+		this._redisClient.on('ready', () => {
+			console.log('Redis is ready');
+		});
+		this._redisClient.on('error', err => {
+			console.log('Error occured while connecting or accessing redis server', { err });
+		});
+
+		this.init = this.init.bind(this);
+	}
 
 	public async init() {
-		await new Promise(resolve => {
-			this.redisClient = Redis.createClient({
-				// todo: database name
-				// todo: collection name
-				legacyMode: true,
-				url: `${config.redis.host}:${6379}`,
-			});
+		await this._redisClient.connect();
+	}
 
-			this.redisClient.on('connect', () => {
-				console.log('Connected to Redis');
-			});
-			this.redisClient.on('ready', () => {
-				console.log('Redis is ready');
-			});
-			this.redisClient.on('error', err => {
-				console.log('Error occured while connecting or accessing redis server', { err });
-			});
-			resolve(this.redisClient);
-		});
-		// //@ts-ignore
-		this.get = promisify(this.redisClient.get).bind(this.redisClient);
-		this.set = promisify(this.redisClient.set).bind(this.redisClient);
-		this.hset = promisify(this.redisClient.hset).bind(this.redisClient);
-		this.hget = promisify(this.redisClient.hget).bind(this.redisClient);
-		this.hdel = promisify(this.redisClient.hdel).bind(this.redisClient);
-		this.del = promisify(this.redisClient.del).bind(this.redisClient);
-		this.flushall = promisify(this.redisClient.flushall).bind(this.redisClient);
-		// todo: check
-		// this.connected = promisify(this.redisClient.connected).bin11d(this.redisClient);
+	/**
+	 * @description parce inside.
+	 */
+	async getAsync<T>(key: string): Promise<T> {
+		const fetchedData = await Promise.resolve(this._redisClient.get(key));
+		// todo: parce here or outside this function?
+		if (fetchedData) {
+			return JSON.parse(fetchedData);
+		}
+		return null;
+	}
 
-		await this.redisClient.connect();
-		await this.redisClient.ping();
+	/**
+	 * @description stringify inside.
+	 */
+	async setAsync(key: string, value: unknown) {
+		return Promise.resolve(this._redisClient.set(key, JSON.stringify(value)));
+	}
+
+	async flushAll(): Promise<void> {
+		return this._redisClient.flushAll();
+	}
+
+	async flushAllAsync(): Promise<void> {
+		return Promise.resolve(this._redisClient.flushAll());
+	}
+
+	/**
+	 * @description generic function, takes `fetcher` argument which is meant to refresh the cache
+	 * */
+	public async getOrFetch<T>(key: string, fetcher: () => Promise<T>): Promise<T> {
+		const cachedData = await this.getAsync<T>(key);
+
+		if (cachedData) {
+			return cachedData;
+		}
+
+		const fetchedData = await fetcher();
+		await this.setAsync(key, fetchedData);
+
+		return fetchedData;
 	}
 }
-// export const redisManager = new RedisManager(collectionName);
 export default RedisManager;

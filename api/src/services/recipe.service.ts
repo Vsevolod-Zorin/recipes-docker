@@ -32,12 +32,6 @@ export class RecipeService {
 		return recipeModel.delete(id);
 	}
 
-	// todo: delete type
-	deleteMany(recipes: IRecipe[]) {
-		const ids: string[] = recipes.map(el => el._id);
-		return recipeModel.deleteMany(ids);
-	}
-
 	deleteManyByCategoryId(categoryId: string) {
 		return recipeModel.deleteManyByCategoryId(categoryId);
 	}

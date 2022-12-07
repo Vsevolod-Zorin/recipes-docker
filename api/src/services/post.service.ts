@@ -32,12 +32,6 @@ export class PostService {
 		return postModel.delete(id);
 	}
 
-	// todo: delete type
-	deleteMany(posts: IPost[]) {
-		const ids: string[] = posts.map(el => el._id);
-		return postModel.deleteMany(ids);
-	}
-
 	deleteManyByCategoryId(categoryId: string) {
 		return postModel.deleteManyByCategoryId(categoryId);
 	}

@@ -12,7 +12,6 @@ const recipeRouter = Router();
 // todo add pagination validation
 recipeRouter
 	.get('/pagination', errorHandler(recipeController.paginationByCategoryId))
-	.get('/', errorHandler(recipeController.findAll))
 	.get('/category/:id', validatorCategoryParamsId(), errorHandler(recipeController.getByCategoryId))
 	.get('/:id', validatorRecipeParamsId(), errorHandler(recipeController.getById))
 	.post('/', validatorDto(CreateRecipeDto), errorHandler(recipeController.create))

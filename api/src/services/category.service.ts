@@ -12,10 +12,6 @@ export class CategoryService {
 		return categoryModel.findOne(query);
 	}
 
-	getByParentId(parentId: string): Promise<ICategory> {
-		return categoryModel.findOne({ parentId });
-	}
-
 	create(dto: ICategoryCreate): Promise<ICategory> {
 		return categoryModel.create(dto);
 	}

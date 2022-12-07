@@ -30,7 +30,6 @@ export function validatorRecipeParamsId() {
 			}
 
 			const recipe = await recipeService.findOne({ _id: id });
-
 			if (!recipe) {
 				throw new BackendError(StatusCodes.NOT_FOUND, BackendMessage.NOT_FOUND);
 			}

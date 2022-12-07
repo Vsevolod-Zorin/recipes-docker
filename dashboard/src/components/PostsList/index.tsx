@@ -23,10 +23,10 @@ const PostsList: React.FC<IPostsList> = ({ setSelectedPost, isRefreshList, setIs
 	useEffect(() => {
 		const firstInit = async () => {
 			if (categoryId) {
-				const result = await fetchPagination({ categoryId: categoryId as string, skip, limit });
+				const result = await fetchPagination({ categoryId: categoryId as string, skip: 0, limit });
 				if (result.data) {
 					setPosts(result.data);
-					setSkip(limit);
+					setSkip(result.data.length);
 				}
 			}
 		};

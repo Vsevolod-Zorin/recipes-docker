@@ -5,11 +5,6 @@ import { validateCategoryById } from 'src/shared/validation/category/category-ge
 import { ExpressPostRequest } from 'src/types/express/expressPostRequest.interface';
 
 class PostController {
-	async findAll(req: Request, res: Response) {
-		const posts = await postService.find();
-		res.status(StatusCodes.OK).json(posts);
-	}
-
 	async getById(req: ExpressPostRequest, res: Response) {
 		const { post } = req;
 		res.status(StatusCodes.OK).json(post);

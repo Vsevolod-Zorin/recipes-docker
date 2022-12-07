@@ -10,16 +10,17 @@ export const validateCategoryByParentId = async (
 	dto: UpdateCategoryDto
 ): Promise<Boolean> => {
 	// todo from arr
+	const categories = await categoryService.getAll();
+
 	if (dto.parentId && dto.parentId !== null) {
-		let checkedCategory: ICategory = await categoryService.findOne({
-			_id: dto.parentId.toString(),
-		});
+		let checkedCategory: ICategory = categories.find(el => el._id === dto.parentId.toString());
 
 		while (checkedCategory && checkedCategory.parentId !== null) {
 			if (checkedCategory.parentId.toString() === category._id.toString()) {
 				throw new BackendError(StatusCodes.BAD_REQUEST, BackendMessage.UNCORRECT_PARENT_ID);
 			}
-			checkedCategory = await categoryService.findOne({ _id: checkedCategory.parentId });
+
+			checkedCategory = categories.find(el => el._id === checkedCategory.parentId);
 		}
 	}
 	return true;

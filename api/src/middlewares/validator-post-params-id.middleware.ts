@@ -30,7 +30,6 @@ export function validatorPostParamsId() {
 			}
 
 			const post = await postService.findOne({ _id: id });
-
 			if (!post) {
 				throw new BackendError(StatusCodes.NOT_FOUND, BackendMessage.NOT_FOUND);
 			}

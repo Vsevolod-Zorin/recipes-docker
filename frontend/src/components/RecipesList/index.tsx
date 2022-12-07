@@ -23,10 +23,11 @@ const RecipesList: React.FC<IRecipeList> = () => {
 				const result = await fetchPagination({ categoryId: categoryId as string, skip: 0, limit });
 				if (result.data) {
 					setRecipes(result.data);
-					setSkip(limit);
+					setSkip(result.data.length);
 				}
 			}
 		};
+
 		firstInit();
 		return () => {
 			setSkip(0);
@@ -58,7 +59,7 @@ const RecipesList: React.FC<IRecipeList> = () => {
 			fetchPagination({ categoryId, skip, limit });
 			setSkip(recipes.length + limit);
 		}
-	}, [categoryId, skip, limit, recipes]);
+	}, [categoryId, skip, limit, recipes, fetchPagination]);
 
 	const handleClick = (el: IRecipe) => {
 		navigate(`/category/${categoryId}/recipe/${el._id}`);

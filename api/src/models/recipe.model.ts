@@ -31,12 +31,15 @@ class RecipeModel {
 	}
 
 	update(id: string, dto: IRecipeUpdate): Promise<IRecipe> {
-		eventsManager.emit('CLEAN_CACHE', { data: '' });
-		return Recipe.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
+		return cacheManager.flushAllWithFetcher<IRecipe>(() =>
+			Recipe.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec()
+		);
 	}
 
 	updateMany(ids: string[], update: IRecipeUpdate): Promise<UpdateWriteOpResult> {
-		return Recipe.updateMany({ id: { $in: ids } }, update).exec();
+		return cacheManager.flushAllWithFetcher<UpdateWriteOpResult>(() =>
+			Recipe.updateMany({ id: { $in: ids } }, update).exec()
+		);
 	}
 
 	deleteMany(ids: string[]) {

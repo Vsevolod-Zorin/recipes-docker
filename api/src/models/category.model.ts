@@ -48,19 +48,18 @@ class CategoryModel {
 
 	// todo check tests after change type Object to ICategoryUpdate
 	updateMany(ids: string[], update: ICategoryUpdateMany): Promise<UpdateWriteOpResult> {
-		eventsManager.emit('CLEAN_CACHE', { data: '' });
-		return Category.updateMany(
-			{ _id: { $in: ids }, status: EntityStatusEnum.ACTIVE },
-			update
-		).exec();
+		return cacheManager.flushAllWithFetcher<UpdateWriteOpResult>(() =>
+			Category.updateMany({ _id: { $in: ids }, status: EntityStatusEnum.ACTIVE }, update).exec()
+		);
 	}
 
 	updateManyByParentId(
 		parentId: string,
 		update: ICategoryUpdateMany
 	): Promise<UpdateWriteOpResult> {
-		eventsManager.emit('CLEAN_CACHE', { data: '' });
-		return Category.updateMany({ parentId, status: EntityStatusEnum.ACTIVE }, update).exec();
+		return cacheManager.flushAllWithFetcher<UpdateWriteOpResult>(() =>
+			Category.updateMany({ parentId, status: EntityStatusEnum.ACTIVE }, update).exec()
+		);
 	}
 
 	delete(id: string): Promise<ICategory> {

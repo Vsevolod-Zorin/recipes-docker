@@ -39,6 +39,10 @@ export class CacheManager implements ICacheManager {
 	public async flushAllAsync(): Promise<void> {
 		await this._redisManager.flushAllAsync();
 	}
+
+	public async flushAllWithFetcher<T>(fetcher: () => Promise<T>): Promise<T> {
+		return Promise.all([this.flushAllAsync(), fetcher()])[1];
+	}
 }
 
 const cacheManager = new CacheManager();

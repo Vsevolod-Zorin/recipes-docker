@@ -31,13 +31,15 @@ class PostModel {
 	}
 
 	update(id: string, dto: IPostUpdate): Promise<IPost> {
-		eventsManager.emit('CLEAN_CACHE', { data: '' });
-		return Post.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec();
+		return cacheManager.flushAllWithFetcher<IPost>(() =>
+			Post.findOneAndUpdate({ _id: id }, { $set: { ...dto } }, { new: true }).exec()
+		);
 	}
 
 	updateMany(ids: string[], update: IPostUpdate): Promise<UpdateWriteOpResult> {
-		eventsManager.emit('CLEAN_CACHE', { data: '' });
-		return Post.updateMany({ id: { $in: ids } }, update).exec();
+		return cacheManager.flushAllWithFetcher<UpdateWriteOpResult>(() =>
+			Post.updateMany({ id: { $in: ids } }, update).exec()
+		);
 	}
 
 	deleteMany(ids: string[]) {

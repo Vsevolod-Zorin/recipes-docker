@@ -1,4 +1,4 @@
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+docker-compose -f docker-compose.yml -f docker-compose.development.yml up --build
 
 ребования к выполнению тестового задания:
 
